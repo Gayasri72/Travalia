@@ -1,0 +1,25 @@
+{
+  "name": "travalia",
+  "version": "1.0.0",
+  "description": "Tour guide web application with advance features",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start:dev": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gayasri72/Travalia.git"
+  },
+  "author": "Y3S2-WE-84",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gayasri72/Travalia/issues"
+  },
+  "homepage": "https://github.com/Gayasri72/Travalia#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
