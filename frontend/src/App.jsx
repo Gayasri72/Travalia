@@ -3,13 +3,15 @@ import Home from '../pages/Home'
 import Info from '../pages/Info'
 import SignIn from '../pages/SignIn'
 import SignUp from '../pages/SignUp'
+import Header from '../components/Header'
 
 
-function App() {
+export default function App() {
  
 
   return (
     <BrowserRouter>
+    <Header/>
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/info" element={<Info/>} />
@@ -20,4 +22,4 @@ function App() {
   )
 }
 
-export default App
+
