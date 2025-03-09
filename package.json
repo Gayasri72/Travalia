@@ -19,8 +19,20 @@
   "homepage": "https://github.com/Gayasri72/Travalia#readme",
   "dependencies": {
     "dotenv": "^16.4.7",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "express": "^4.21.2",
     "mongoose": "^8.12.1",
-    "nodemon": "^3.1.9"
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3"
   }
 }
