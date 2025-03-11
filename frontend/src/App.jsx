@@ -18,7 +18,8 @@ export default function App() {
   return (
     <BrowserRouter>
     <Header/>
-      <Routes >
+    <div className='gap-2 m-1'>
+    <Routes >
         <Route path="/" element={<Home/>} />
         <Route path="/info" element={<Info/>} />
         <Route path="/sign-in" element={<SignIn/>} />
@@ -30,6 +31,8 @@ export default function App() {
         <Route path="*" element={<Notfound/>} />
 
       </Routes>
+    </div>
+      
       <Footer/>
     </BrowserRouter>
   )
