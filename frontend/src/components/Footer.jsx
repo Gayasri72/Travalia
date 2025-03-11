@@ -37,10 +37,10 @@ function Footer() {
           <h6 className="font-bold text-[#41A4FF]">Support</h6>
           <ul className="mt-2 font-light">
             <li className="py-2 text-sm">
-              <Link to="/ContactUs">Contact us</Link>
+              <Link to="/Contact">Contact us</Link>
             </li>
             <li className="py-2 text-sm">
-              <Link to="/aboutus">About us</Link>
+              <Link to="/info">About us</Link>
             </li>
           </ul>
         </div>

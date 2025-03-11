@@ -22,13 +22,13 @@ export default function Header() {
       </div>
       <Navbar.Collapse>
         <Navbar.Link>
-          <Link to="/">Home</Link>
+          <Link to="/tours">Tours</Link>
         </Navbar.Link>
         <Navbar.Link>
-          <Link to="/contact">Contact Us</Link>
+          <Link to="/hires">Hires</Link>
         </Navbar.Link>
         <Navbar.Link>
-          <Link to="/info">Galley</Link>
+          <Link to="/gallery">Gallery</Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

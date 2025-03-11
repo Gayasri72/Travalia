@@ -7,6 +7,9 @@ import ContactUs from './pages/ContactUs'
 import Header from './components/Header'
 import Notfound from './pages/Notfound'
 import Footer from './components/Footer'
+import Tours from './pages/Tours'
+import Hires from './pages/Hires'
+import Gallery from './pages/Gallery'
 
 
 export default function App() {
@@ -21,6 +24,9 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn/>} />
         <Route path="/sign-up" element={<SignUp/>} />
         <Route path="/contact" element={<ContactUs/>} />
+        <Route path="/tours" element={<Tours/>} />
+        <Route path="/hires" element={<Hires/>} />
+        <Route path="/gallery" element={<Gallery/>} />
         <Route path="*" element={<Notfound/>} />
 
       </Routes>
