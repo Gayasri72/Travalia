@@ -28,9 +28,9 @@ function Footer() {
         <div>
           <h6 className="font-bold text-[#41a3ff]">Reservations</h6>
           <ul className="mt-2 font-light">
-            <li className="py-2 text-sm">Spaces</li>
-            <li className="py-2 text-sm">Listing</li>
-            <li className="py-2 text-sm">Events</li>
+            <li><Link to='/tours' className="py-2 text-sm">Tours</Link></li>
+            <li><Link to='/hires' className="py-2 text-sm">Hires</Link></li>
+           
           </ul>
         </div>
         <div className="ml-[8rem]">
