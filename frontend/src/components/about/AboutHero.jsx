@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as ScrollLink } from 'react-scroll';
-import aboutImg from '../../assets/about.jpg'
+import aboutImg from '../../assets/about.jpg';
 
 export default function AboutHero() {
   return (
@@ -25,7 +25,7 @@ export default function AboutHero() {
                   About Travalia
                 </ScrollLink>
                 <ScrollLink
-                  to="services-section"
+                  to="team-section"
                   smooth={true}
                   duration={500}
                   className="cursor-pointer hover:text-blue-600 font-semibold"
@@ -33,7 +33,7 @@ export default function AboutHero() {
                   Our Team
                 </ScrollLink>
                 <ScrollLink
-                  to="team-section"
+                  to="services-section"
                   smooth={true}
                   duration={500}
                   className="cursor-pointer hover:text-blue-600 font-semibold"
@@ -48,7 +48,7 @@ export default function AboutHero() {
             <img
               src={aboutImg}
               alt="heroimg"
-              className="rounded-3xl h-[100%]"
+              className="rounded-2xl w-[900px] h-[500px] object-cover"
             />
           </div>
         </div>
