@@ -5,7 +5,7 @@ import aboutImg from '../../assets/about.jpg';
 export default function AboutHero() {
   return (
     <>
-      <div className="md:px-36 px-8 md:py-28 py-5">
+      <div className="md:px-30 px-8 md:py-28 py-5">
         <div className="flex lg:flex-row flex-col gap-10">
           <div className="flex flex-col gap-5 justify-center p-5">
             <h1 className="text-4xl md:text-5xl font-bold">Media Center</h1>
@@ -48,7 +48,7 @@ export default function AboutHero() {
             <img
               src={aboutImg}
               alt="heroimg"
-              className="rounded-2xl w-[900px] h-[500px] object-cover"
+              className="rounded-2xl w-[1100px] h-[500px] object-cover"
             />
           </div>
         </div>
