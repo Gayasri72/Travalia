@@ -1,4 +1,4 @@
-import { Button, Navbar, TextInput } from 'flowbite-react';
+import { Button, Navbar, } from 'flowbite-react';
 import React from 'react';
 import { Link,useLocation } from 'react-router-dom';
 import { FaMoon } from 'react-icons/fa';
