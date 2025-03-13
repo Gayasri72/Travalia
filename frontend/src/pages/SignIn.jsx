@@ -7,6 +7,8 @@ import lock from '../assets/userManagement/lock.png';
 import email from '../assets/userManagement/email.png';
 import google from '../assets/userManagement/google.png';
 import fingerprintIcon from '../assets/userManagement/fingerprint.png';
+import { Button } from 'flowbite-react';
+import { Link } from 'react-router-dom';
 
 export default function SignIn() {
   return (
@@ -72,9 +74,9 @@ export default function SignIn() {
             Forgot your password?
           </div>
 
-          <button className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          <Button gradientDuoTone="purpleToBlue" className="w-full mt-4 h-11">
             LOGIN
-          </button>
+          </Button>
         </form>
         <div className="flex items-center w-full my-6 ">
           <hr className="flex-grow border-gray-300" />
@@ -95,7 +97,9 @@ export default function SignIn() {
 
         <p className="mt-4 text-gray-600">
           Don't have an account?{' '}
-          <span className="text-blue-600 cursor-pointer">Register Now</span>
+          <Link to="/sign-up" className="text-blue-600">
+            Register Now
+          </Link>
         </p>
 
         <img
