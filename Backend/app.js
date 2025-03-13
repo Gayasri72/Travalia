@@ -1,8 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
 import userRoutes from './routes/user.route.js';
+import authRoutes from './routes/auth.route.js';
 
 const app = express();
+app.use(express.json());
 
 // MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
@@ -14,3 +16,4 @@ export default app;
 console.log('app.js is running');
 
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
