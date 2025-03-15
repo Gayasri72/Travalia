@@ -1,68 +1,89 @@
 import React from 'react';
-import { useState } from 'react';
+import { toast, ToastContainer} from 'react-toastify';
 
 export default function ContactUs() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [result, setResult] = React.useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult('Sending....');
+    const formData = new FormData(event.target);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for contacting us!');
-    setFormData({ name: '', email: '', message: '' });
+    formData.append('access_key', 'fbc30ede-f871-4e5d-a1bd-8c42ea312b69');
+
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult('');
+      toast.success('Message sent successfully');
+      event.target.reset();
+    } else {
+      console.log('Error', data);
+      toast.error('Error sending message');
+      setResult('');
+    }
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
-      <h2 className="text-2xl font-bold mb-4 text-center">Contact Us</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1"
-            required
-          />
+    <div className="text-center p-6 py-20 lg:px-32 w-full overflow-hidden">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-2 text-center">
+        Contact{' '}
+        <span className="underline underline-offset-4 decoration-1 under font-light">
+          With us
+        </span>
+      </h1>
+      <p className="text-center text-gray-500 mb-12 max-w-80 mx-auto">
+        Ready to Make a Move? Let’s Build Your Future Together
+      </p>
+
+      <form
+        onSubmit={onSubmit}
+        className="max-w-2xl mx-auto text-gray-600 pt-8"
+      >
+        <div className="flex flex-wrap">
+          <div className="w-full md:w-1/2 text-left">
+            Name
+            <input
+              className="w-full border border-gray-300 rounded py px-4 mt-2"
+              type="text"
+              placeholder="Name"
+              name="Name"
+              required
+            />
+          </div>
+
+          <div className="w-full md:w-1/2 text-left md:pl-4">
+            E-mail
+            <input
+              className="w-full border border-gray-300 rounded py px-4 mt-2"
+              type="email"
+              placeholder="E-mail"
+              name="Email"
+              required
+            />
+          </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Message</label>
+        <div className="my-6 text-left">
+          Message
           <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1"
-            rows="4"
+            className="w-full border border-gray-300 rounded py-3 px-4 mt-2 h-48 resize-none"
+            placeholder="Message"
+            name="Message"
             required
           ></textarea>
         </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Send Message
+        <button className="bg-blue-600 text-white py-2 px-12 mb-10 rounded">
+          {result ? result : 'Send Message'}
         </button>
       </form>
+      <ToastContainer />
     </div>
+    
+
   );
 }
