@@ -2,10 +2,17 @@ import React from 'react';
 
 export default function Privacy() {
   return (
-    <div id="services-section"
-    className=" bg-gray-100 m-4 p-14 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-center">Privacy Policy</h2>
-      <p className='p-4'>
+    <div
+      id="services-section"
+      className=" bg-gray-100 m-4 p-14 rounded-lg shadow-lg"
+    >
+      <h2 className="text-2xl sm:text-4xl font-bold mb-2 text-center">
+        Privacy{' '}
+        <span className="underline underline-offset-4 decoration-1 under font-light">
+          Policy
+        </span>{' '}
+      </h2>
+      <p className="p-4">
         The oldest classical British and Latin writings had little or no space
         between words and could be written in boustrophedon (alternating
         directions). Over time, text direction (left to right) became
@@ -15,7 +22,7 @@ export default function Privacy() {
         parágraphos evolved into the pilcrow (¶), which in English manuscripts
         in the Middle Ages can be seen inserted inline between sentences.
       </p>
-      <p  className='p-4'>
+      <p className="p-4">
         Ancient manuscripts also divided sentences into paragraphs with line
         breaks (newline) followed by an initial at the beginning of the next
         paragraph. An initial is an oversized capital letter, sometimes
@@ -28,7 +35,7 @@ export default function Privacy() {
         other symbol can be added to the inter-paragraph white space, or put in
         the indentation space.
       </p>
-      <p  className='p-4'>
+      <p className="p-4">
         A second common modern English style is to use no indenting, but add
         vertical white space to create "block paragraphs." On a typewriter, a
         double carriage return produces a blank line for this purpose;
