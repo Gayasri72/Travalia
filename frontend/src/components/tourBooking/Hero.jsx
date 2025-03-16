@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
-    <div className="bg-green-400 p-6 md:p-10 rounded-lg flex flex-col md:flex-row items-center justify-between">
+    <div className="bg-blue-300 p-6 md:p-10 rounded-lg flex flex-col md:flex-row items-center justify-between">
       <div className="relative flex gap-4">
         <div className="absolute inset-0 -z-10 opacity-40 flex space-x-2">
           <img
