@@ -7,9 +7,9 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // Import your images
-import image1 from '../assets/images1.jpg';
-import image2 from '../assets/images1.jpg';
-import image3 from '../assets/images1.jpg';
+import image1 from '../assets/Home/images1.jpg';
+import image2 from '../assets/Home/images2.jpg';
+import image3 from '../assets/Home/images3.jpg';
 
 const images = [image1, image2, image3];
 
