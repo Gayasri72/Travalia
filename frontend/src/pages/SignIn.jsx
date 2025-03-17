@@ -9,11 +9,17 @@ import google from '../assets/userManagement/google.png';
 import fingerprintIcon from '../assets/userManagement/fingerprint.png';
 import { Button, Spinner, Alert } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from '../redux/user/userSlice';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [errorMessages, setErrorMessages] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error: errorMessages } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,11 +29,10 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMessages('Please fill in all fields');
+      return dispatch(signInFailure('Please fill in all fields'));
     }
     try {
-      setLoading(true);
-      setErrorMessages(null);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -37,17 +42,10 @@ export default function SignIn() {
 
       if (!res.ok) throw new Error(data.message || 'Something went wrong');
 
-      if (data.success === false) {
-        return setErrorMessages(data.message);
-      }
-      setLoading(false);
-
-      if (res.ok) {
-        navigate('/');
-      }
+      dispatch(signInSuccess(data));
+      navigate('/');
     } catch (error) {
-      setErrorMessages(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -69,13 +67,15 @@ export default function SignIn() {
 
       {/* Right Side - Login Form */}
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-8 md:p-16 bg-white shadow-lg relative">
-        <img
-          src={icon1}
-          alt="Plane Icon"
-          className="absolute top-4 right-0 w-80 h-20 mt-1"
-        />
-        <h2 className="text-5xl font-bold text-blue-600 -mt-20">Welcome</h2>
-        <p className="mt-2 text-gray-500">Login with Email</p>
+        <div className="flex flex-col items-center justify-center w-full">
+          <img
+            src={icon1}
+            alt="Plane Icon"
+            className="absolute top-4 right-0 w-80 h-20 mt-1"
+          />
+          <h2 className="text-5xl font-bold text-blue-600 -mt-20">Welcome</h2>
+          <p className="mt-2 text-gray-500">Login with Email</p>
+        </div>
 
         <form className="w-full mt-6" onSubmit={handleSubmit}>
           <div className="mb-4 relative">
@@ -134,11 +134,13 @@ export default function SignIn() {
             )}
           </Button>
 
-          {errorMessages && (
-            <Alert className="mt-5" color="failure">
-              {errorMessages}
-            </Alert>
-          )}
+          <div className="relative w-full">
+            {errorMessages && (
+              <Alert className="absolute top-2 left-0 w-full" color="failure">
+                {errorMessages}
+              </Alert>
+            )}
+          </div>
         </form>
 
         <div className="flex items-center w-full my-6 ">
