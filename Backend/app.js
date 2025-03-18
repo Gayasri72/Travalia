@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
+import tourRoutes from './routes/tour.route.js';
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ console.log('app.js is running');
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/tours', tourRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
