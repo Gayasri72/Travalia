@@ -3,18 +3,18 @@ import login from '../assets/userManagement/login.png';
 import icon1 from '../assets/userManagement/icon1.png';
 import icon2 from '../assets/userManagement/icon2.png';
 import icon3 from '../assets/userManagement/icon3.png';
-import lock from '../assets/userManagement/lock.png';
-import email from '../assets/userManagement/email.png';
-import google from '../assets/userManagement/google.png';
+
 import fingerprintIcon from '../assets/userManagement/fingerprint.png';
 import { Button, Spinner, Alert } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 import {
   signInStart,
   signInSuccess,
   signInFailure,
 } from '../redux/user/userSlice';
+import OAuth from '../components/User/OAuth';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -81,11 +81,7 @@ export default function SignIn() {
           <div className="mb-4 relative">
             <label className="block text-gray-700">Email</label>
             <div className="relative">
-              <img
-                src={email}
-                alt="Email Icon"
-                className="absolute left-3 top-3 w-5 h-5"
-              />
+              <AiOutlineMail className="absolute left-3 top-3 w-5 h-5" />
               <input
                 id="email"
                 type="email"
@@ -99,11 +95,7 @@ export default function SignIn() {
           <div className="mb-4 relative">
             <label className="block text-gray-700">Password</label>
             <div className="relative">
-              <img
-                src={lock}
-                alt="Password Icon"
-                className="absolute left-3 top-3 w-5 h-5"
-              />
+              <AiOutlineLock className="absolute left-3 top-3 w-5 h-5" />
               <input
                 id="password"
                 type="password"
@@ -150,10 +142,7 @@ export default function SignIn() {
         </div>
 
         <div className="w-full flex justify-center gap-4">
-          <button className="flex items-center justify-center bg-white border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition w-1/2">
-            <img src={google} alt="Google" className="w-6 mr-2" />
-            Google
-          </button>
+          <OAuth />
           <button className="flex items-center justify-center bg-white border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition w-1/2">
             <img src={fingerprintIcon} alt="Fingerprint" className="w-6 mr-2" />
             Fingerprint
