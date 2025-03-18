@@ -3,12 +3,10 @@ import login from '../assets/userManagement/login.png';
 import icon1 from '../assets/userManagement/icon1.png';
 import icon2 from '../assets/userManagement/icon2.png';
 import icon3 from '../assets/userManagement/icon3.png';
-import lock from '../assets/userManagement/lock.png';
-import email from '../assets/userManagement/email.png';
-import google from '../assets/userManagement/google.png';
-import user from '../assets/userManagement/user.png';
 import { Alert, Button, Spinner } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
+import OAuth from '../components/User/OAuth';
+import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -82,11 +80,7 @@ export default function SignUp() {
           <div className="mb-4 relative">
             <label className="block text-gray-700">Full Name</label>
             <div className="relative">
-              <img
-                src={user}
-                alt="User Icon"
-                className="absolute left-3 top-3 w-5 h-5"
-              />
+              <AiOutlineUser className="absolute left-3 top-3 w-5 h-5" />
               <input
                 type="text"
                 className="w-full pl-10 px-4 py-2 mt-1 border border-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -100,11 +94,7 @@ export default function SignUp() {
           <div className="mb-4 relative">
             <label className="block text-gray-700">Email</label>
             <div className="relative">
-              <img
-                src={email}
-                alt="Email Icon"
-                className="absolute left-3 top-3 w-5 h-5"
-              />
+              <AiOutlineMail className="absolute left-3 top-3 w-5 h-5" />
               <input
                 type="email"
                 className="w-full pl-10 px-4 py-2 mt-1 border border-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -118,11 +108,7 @@ export default function SignUp() {
           <div className="mb-4 relative">
             <label className="block text-gray-700">Password</label>
             <div className="relative">
-              <img
-                src={lock}
-                alt="Password Icon"
-                className="absolute left-3 top-3 w-5 h-5"
-              />
+              <AiOutlineLock className="absolute left-3 top-3 w-5 h-5" />
               <input
                 type="password"
                 className="w-full pl-10 px-4 py-2 mt-1 border border-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -161,10 +147,7 @@ export default function SignUp() {
         </div>
 
         <div className="w-full flex justify-center gap-4">
-          <button className="flex items-center justify-center bg-white border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition w-1/2">
-            <img src={google} alt="Google" className="w-6 mr-2" />
-            Google
-          </button>
+          <OAuth />
         </div>
 
         <p className="mt-4 text-gray-600">
