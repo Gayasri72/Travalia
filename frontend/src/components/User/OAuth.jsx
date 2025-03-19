@@ -37,7 +37,7 @@ function OAuth() {
   return (
     <Button
       type="button"
-      gradientDuoTone="purpleToBlue"
+      gradientDuoTone="purpleToPink"
       className="w-1/2 flex items-center gap-2"
       outline
       onClick={handleGoogleClick}
