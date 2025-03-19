@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
+import Tour from './pages/Tour';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/tours" element={<Tours />} />
+          <Route path='/tour:id' elemet={<Tour/>}/>
           <Route path="/hires" element={<Hires />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="*" element={<Notfound />} />
