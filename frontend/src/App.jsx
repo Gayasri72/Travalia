@@ -10,6 +10,8 @@ import Footer from './components/Footer';
 import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
+import PrivateRoute from './components/PrivateRoute';
+import Dashboard from './pages/Dashboard';
 
 export default function App() {
   return (
@@ -22,6 +24,13 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route
+            element={
+              <PrivateRoute>
+                <Route path="/dashboard" element={<Dashboard />} />
+              </PrivateRoute>
+            }
+          />
           <Route path="/tours" element={<Tours />} />
           <Route path="/hires" element={<Hires />} />
           <Route path="/gallery" element={<Gallery />} />
