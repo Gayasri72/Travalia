@@ -1,3 +1,4 @@
+
 import React from 'react'
 import Hero from '../components/home/Hero'
 import Latest from '../components/home/Latest'
@@ -17,4 +18,6 @@ export default function Home() {
     <NewsLetterBox/>
     </div>
   )
+
+
 }
