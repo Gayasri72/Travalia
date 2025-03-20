@@ -1,9 +1,3 @@
-import React from 'react';
-
 export default function Dashboard() {
-  return (
-    <div>
-      <h1dashboard></h1dashboard>
-    </div>
-  );
+  return <div>Dashboard console.log("Hello World")</div>;
 }

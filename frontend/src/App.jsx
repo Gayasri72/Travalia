@@ -24,13 +24,12 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/contact" element={<ContactUs />} />
-          <Route
-            element={
-              <PrivateRoute>
-                <Route path="/dashboard" element={<Dashboard />} />
-              </PrivateRoute>
-            }
-          />
+
+          <Route element={<PrivateRoute />}>
+            <>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </>
+          </Route>
           <Route path="/tours" element={<Tours />} />
           <Route path="/hires" element={<Hires />} />
           <Route path="/gallery" element={<Gallery />} />
