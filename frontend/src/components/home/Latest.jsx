@@ -9,13 +9,11 @@ import 'swiper/css/navigation';
 import { Link } from 'react-router-dom';
 
 const fetchTopTours = async () => {
-  const response = await fetch('http://localhost:3000/api/tours');
+  const response = await fetch('http://localhost:3000/api/tours/top-5-cheap');
   const data = await response.json();
   if (!data.success) throw new Error('Failed to fetch tours');
 
-  return data.data.tours
-    .sort((a, b) => b.ratingsAverage - a.ratingsAverage)
-    .slice(0, 3); // Fetch only the top 3 tours
+  return data.data.tours;
 };
 
 const Latest = () => {
@@ -76,9 +74,7 @@ const Latest = () => {
               {/* Tour Image */}
               <Link to={`/tours/${tour._id}`}>
                 <img
-                  src={
-                    'https://img.freepik.com/free-photo/young-shirtless-male-with-backpack-standing-mountain-taking-picture-cloudy-sky_181624-44076.jpg'
-                  }
+                   src={`src/assets/tours/${tour.imageCover}`}
                   alt={tour.name || 'Tour Image'}
                   className="w-full h-72 object-cover rounded-t-lg"
                 />
