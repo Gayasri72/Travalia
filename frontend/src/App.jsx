@@ -10,8 +10,12 @@ import Footer from './components/Footer';
 import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
+
+import Tour from './pages/Tour';
+
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
+
 
 export default function App() {
   return (
@@ -31,6 +35,7 @@ export default function App() {
             </>
           </Route>
           <Route path="/tours" element={<Tours />} />
+          <Route path="/tour/:id" elemet={<Tour/>}/>
           <Route path="/hires" element={<Hires />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="*" element={<Notfound />} />

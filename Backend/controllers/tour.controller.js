@@ -1,8 +1,26 @@
 import Tour from '../models/tour.model.js';
+import APIFeatures from '../utills/apiFeatures.js';
+
+export const aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name, imageCover';
+  next();
+};
+
+
 
 export const getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    //execute query
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limiting()
+      .pagination();
+    const tours = await features.query;
+
+    //send response
     res.status(200).json({
       success: true,
       results: tours.length,
@@ -86,4 +104,3 @@ export const deleteTour = async (req, res) => {
     });
   }
 };
-
