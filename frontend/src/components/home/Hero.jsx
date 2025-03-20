@@ -1,64 +1,51 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
-    <section className="relative w-full bg-gray-100 py-16 px-6 lg:px-20 flex flex-col-reverse lg:flex-row items-center justify-between">
-      {/* Left Side - Text Section */}
-      <div className="lg:w-1/2 text-center lg:text-left space-y-6">
-      <h1 className='bg-cyan-500 '>Know before you go</h1>
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900">
-          Traveling open the door to creating{' '}
-          <span className="text-blue-500">memories</span>
-        </h1>
-        <p className="text-lg text-gray-600">
-          Discover breathtaking locations, unique cultures, and unforgettable
-          experiences.
+    <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-16 bg-gray-200">
+      {/* Left Side: Text Content */}
+      <div className="max-w-xl text-center md:text-left">
+        <p className="flex items-center justify-center md:justify-start gap-2 text-blue-500 font-semibold text-lg">
+          Know Before You Go <span>🌍</span>
         </p>
-        <Link to='/tours' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ">
-          Explore Now
-        </Link>
+        <h1 className="text-4xl md:text-5xl font-bold mt-3 leading-tight">
+          Traveling opens the door <br />
+          to creating <span className="text-blue-500">memories</span>
+        </h1>
+        <p className="text-gray-600 mt-4 leading-relaxed">
+          Lorem ipsum dolor sit amet consectetur, adipiscing elit. Ullam ipsum
+          nobis asperiores soluta voluptas quas voluptates. Molestiae tempora
+          dignissimos, animi praesentium molestias perferendis porro expedita
+          delectus. Soluta natus porro.
+        </p>
       </div>
 
-      {/* Right Side - Image & Video Section */}
-      <div className="lg:w-1/2 grid grid-cols-2 gap-4 lg:gap-6">
-        {/* Image Panel 1 */}
-        <div className="relative">
+      {/* Right Side: Images */}
+      <div className="mt-8 md:mt-0 flex flex-col md:flex-row gap-4">
+        {/* Image 1 */}
+        <div className="w-32 md:w-40 lg:w-48 h-56 md:h-72 rounded-3xl shadow-lg overflow-hidden ">
           <img
-            src="https://img.freepik.com/free-photo/beautiful-girl-sitting-viewpoint-koh-nangyuan-island-near-koh-tao-island-surat-thani-thailand_335224-1093.jpg?ga=GA1.1.1305975420.1709091022&semt=ais_hybrid"
+            src="/src/assets/Home/images1.jpg"
             alt="Travel 1"
-            className="rounded-lg shadow-lg object-cover w-60 h-72"
+            className="w-full h-full object-cover"
           />
         </div>
 
-        {/* Image Panel 2 & Video Panel */}
-        <div className="flex flex-col space-y-4">
-          {/* Image Panel 2 */}
-          <img
-            src="https://img.freepik.com/premium-photo/asian-woman-travel-relax-view-map-travel-explore_36074-72.jpg?ga=GA1.1.1305975420.1709091022&semt=ais_hybrid"
-            alt="Travel 2"
-            className="rounded-lg shadow-lg object-cover w-60 h-72"
-          />
+        {/* Video */}
+        <div className="w-32 md:w-40 lg:w-48 h-56 md:h-72 rounded-3xl shadow-lg overflow-hidden my-6 ">
+          <video autoPlay loop muted className="w-full h-full object-cover">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
 
-          {/* Video Panel */}
-          <div className="relative w-60 h-72 sm:h-64 rounded-lg overflow-hidden shadow-lg">
-            <video
-              className="w-60 h-72 object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-            >
-              <source
-                src="https://www.w3schools.com/html/mov_bbb.mp4"
-                type="video/mp4"
-              />
-            </video>
-            {/* Play Button Overlay (Optional) */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
-              <span className="text-white text-3xl font-bold">▶</span>
-            </div>
-          </div>
+        {/* Image 2 */}
+        <div className="w-32 md:w-40 lg:w-48 h-56 md:h-72 rounded-3xl shadow-lg overflow-hidden my-10">
+          <img
+            src="/src/assets/Home/images2.jpg"
+            alt="Travel 2"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </section>

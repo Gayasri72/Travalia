@@ -1,5 +1,6 @@
 import React from 'react';
-import { testimonialsData } from '../../assets/about/team';
+import testimonialsData from '../../../../Backend/dev-data/data/team';
+
 
 export default function Team() {
   return (
