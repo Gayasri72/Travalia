@@ -11,12 +11,8 @@ export default function Hires() {
       <p className="text-lg mt-2">Your safety and comfort is our concern</p>
       
       <div className="mt-6 flex space-x-4">
-        <Link to='/pick'>
         <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Airport Pickup</button>
-        </Link>
-        <link to='/drop'>
         <button className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg" >Airport Drop</button>
-        </link>
       </div>
  
     </div>
