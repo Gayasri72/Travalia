@@ -34,7 +34,7 @@ const Hero = () => {
         {/* Video */}
         <div className="w-32 md:w-40 lg:w-48 h-56 md:h-72 rounded-3xl shadow-lg overflow-hidden my-6 ">
           <video autoPlay loop muted className="w-full h-full object-cover">
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+            <source src="src/assets/Home/homevid.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>

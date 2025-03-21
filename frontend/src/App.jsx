@@ -11,10 +11,11 @@ import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
 
-import Tour from './pages/Tour';
+
 
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
+import Tour from './pages/Tour';
 
 
 export default function App() {
@@ -35,7 +36,7 @@ export default function App() {
             </>
           </Route>
           <Route path="/tours" element={<Tours />} />
-          <Route path="/tour/:id" elemet={<Tour/>}/>
+          <Route path="/tour/:id" element={<Tour/>}/>
           <Route path="/hires" element={<Hires />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="*" element={<Notfound />} />
