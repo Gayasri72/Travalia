@@ -1,5 +1,10 @@
 import { Sidebar } from 'flowbite-react';
-import { HiArrowSmRight, HiUser } from 'react-icons/hi';
+import {
+  HiArrowSmRight,
+  HiUser,
+  HiOutlineGlobeAlt,
+  HiOutlineCalendar,
+} from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -28,6 +33,24 @@ export default function DashSidebar() {
               labelColor="dark"
             >
               Profile
+            </Sidebar.Item>
+            <Sidebar.Item
+              as={Link} // Use 'as' to render it as a Link component
+              to="/dashboard?tab=tour"
+              active={tab === 'profile'}
+              icon={HiOutlineGlobeAlt}
+              labelColor="dark"
+            >
+              tour
+            </Sidebar.Item>
+            <Sidebar.Item
+              as={Link} // Use 'as' to render it as a Link component
+              to="/dashboard?tab=booking"
+              active={tab === 'profile'}
+              icon={HiOutlineCalendar}
+              labelColor="dark"
+            >
+              booking
             </Sidebar.Item>
 
             <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer">
