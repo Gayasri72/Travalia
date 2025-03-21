@@ -40,7 +40,7 @@ const TourSection = () => {
   if (isLoading) return <span>Loading tours...</span>;
   if (error) return <span>Error: {error.message}</span>;
 
-  const { tours = [], totalPages = 1 } = data || {}; // Adjusted destructuring for `tours` and `totalPages`
+  const { tours = [], totalPages = 2 } = data || {}; // Adjusted destructuring for `tours` and `totalPages`
 
   const handleFilterChange = (value) => {
     setDifficultyFilter((prev) =>
@@ -60,7 +60,7 @@ const TourSection = () => {
         <div className="border border-gray-300 pl-5 py-3 mt-6">
           <p className="mb-3 text-sm font-medium">CATEGORIES</p>
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            {['Easy', 'Medium', 'Difficult'].map((level) => (
+            {['easy', 'medium', 'difficult'].map((level) => (
               <label key={level} className="flex gap-2">
                 <input
                   type="checkbox"
@@ -157,7 +157,7 @@ const TourSection = () => {
           <button
             disabled={page <= 1}
             onClick={() => setPage((prev) => prev - 1)}
-            className="px-4 py-2 bg-gray-300 rounded"
+            className="px-3 bg-gray-300 rounded"
           >
             Previous
           </button>
@@ -167,7 +167,7 @@ const TourSection = () => {
           <button
             disabled={page >= totalPages}
             onClick={() => setPage((prev) => prev + 1)}
-            className="px-4 py-2 bg-gray-300 rounded"
+            className="px-4  bg-gray-300 rounded"
           >
             Next
           </button>
