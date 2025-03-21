@@ -11,60 +11,63 @@ export default function Drop() {
   const [selectedCar, setSelectedCar] = useState(null);
 
   return (
-    <div className="relative bg-cover bg-center h-screen flex flex-col justify-center items-center text-blue-300 px-6"
-      style={{ backgroundImage: "url('https://kangaroocabs.com/your-background-image.jpg')" }}>
-      
-      <h1 className="text-4xl font-bold text-center">Your Journey with Travelia Cabs<br /><span className="text-blue-600">Starts Here</span></h1>
-      <p className="text-lg mt-2">Your safety and comfort is our concern</p>
-      
-      <div className="mt-6 flex space-x-4">
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Airport Pickup</button>
-        <button className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg">Airport Drop</button>
-      </div>
-      
-      <div className="mt-6 bg-blue-100 text-black p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-xl font-semibold">Select a Vehicle</h2>
-        <div className="flex space-x-4 mt-4">
-          {vehicles.map((vehicle, index) => (
-            <button 
-              key={index} 
-              className={`py-2 px-4 border rounded-lg  hover:bg-blue-800 ${selectedCar === vehicle ? 'bg-blue-500 text-white' : 'bg-blue-500'}`}
-              onClick={() => setSelectedCar(vehicle)}>
-              {vehicle.name}
-            </button>
-          ))}
-        </div>
-        {selectedCar && (
-          <div className="mt-4 border-t pt-4">
-            <h3 className="text-lg font-semibold">{selectedCar.name}</h3>
-            <p><strong>Passengers:</strong> {selectedCar.passengers}</p>
-            <p><strong>Baggage:</strong> {selectedCar.baggage}</p>
+    <div >
+      <div >
+        <h2 className="text-xl font-semibold text-center mb-4">Airport Drop</h2>
+
+        <form className="space-y-4">
+          {/* Vehicle Selection */}
+          <label className="block text-gray-700 font-semibold">Select a Vehicle</label>
+          <div className="flex space-x-4">
+            {vehicles.map((vehicle, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`py-2 px-4 border rounded-lg transition-all duration-300 ${
+                  selectedCar === vehicle ? "bg-blue-500 text-white" : "bg-gray-200"
+                }`}
+                onClick={() => setSelectedCar(vehicle)}
+              >
+                {vehicle.name}
+              </button>
+            ))}
           </div>
-        )}
-        
-        <div className="mt-6">
-          <label className="block text-gray-700 font-semibold">Pickup Location</label>
-          <div className="flex items-center border p-2 rounded-lg">
-            <FaMapMarkerAlt className="text-gray-500 mr-2" />
-            <input type="text" className="w-full outline-none" placeholder="BIA Arrival Terminal, Katunayake" />
+
+          {/* Selected Vehicle Details */}
+          {selectedCar && (
+            <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+              <h3 className="text-lg font-semibold">{selectedCar.name}</h3>
+              <p><strong>Passengers:</strong> {selectedCar.passengers}</p>
+              <p><strong>Baggage:</strong> {selectedCar.baggage}</p>
+            </div>
+          )}
+
+          {/* Form Fields */}
+          <div className="space-y-4">
+            <label className="block text-gray-700 font-semibold">Pickup Location</label>
+            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
+              <FaMapMarkerAlt className="text-gray-500 mr-2" />
+              <input type="text" className="w-full bg-transparent outline-none" placeholder="Enter Pickup Location" />
+            </div>
+
+            <label className="block text-gray-700 font-semibold">Drop Location</label>
+            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
+              <FaMapMarkerAlt className="text-gray-500 mr-2" />
+              <input type="text" className="w-full bg-transparent outline-none" placeholder="BIA Departure Terminal, Katunayake" />
+            </div>
+
+            <label className="block text-gray-700 font-semibold">Date & Time</label>
+            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
+              <FaCalendarAlt className="text-gray-500 mr-2" />
+              <input type="datetime-local" className="w-full bg-transparent outline-none" />
+            </div>
           </div>
-          
-          <label className="block text-gray-700 font-semibold mt-4">Drop Location</label>
-          <div className="flex items-center border p-2 rounded-lg">
-            <FaMapMarkerAlt className="text-gray-500 mr-2" />
-            <input type="text" className="w-full outline-none" placeholder="Enter Drop Location" />
-          </div>
-          
-          <label className="block text-gray-700 font-semibold mt-4">Date & Time</label>
-          <div className="flex items-center border p-2 rounded-lg">
-            <FaCalendarAlt className="text-gray-500 mr-2" />
-            <input type="datetime-local" className="w-full outline-none" />
-          </div>
-          
-          <button className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+
+          {/* Submit Button */}
+          <button type="submit" className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
             Book Now
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

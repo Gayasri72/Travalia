@@ -16,6 +16,8 @@ import Gallery from './pages/Gallery';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import Tour from './pages/Tour';
+import Pickup from './components/Hire/Pick';
+import Drop from './components/Hire/Drop';
 
 
 export default function App() {
@@ -40,6 +42,7 @@ export default function App() {
           <Route path="/hires" element={<Hires />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="*" element={<Notfound />} />
+  
         </Routes>
       </div>
 
