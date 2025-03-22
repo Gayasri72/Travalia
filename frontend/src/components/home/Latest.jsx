@@ -72,7 +72,7 @@ const Latest = () => {
             {/* Increased slide width */}
             <div className="relative bg-white shadow-lg rounded-lg overflow-hidden">
               {/* Tour Image */}
-              <Link to={`/tours/${tour._id}`}>
+              <Link to={`/tour/${tour._id}`}>
                 <img
                    src={`src/assets/tours/${tour.imageCover}`}
                   alt={tour.name || 'Tour Image'}
