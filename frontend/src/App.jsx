@@ -10,14 +10,14 @@ import Footer from './components/Footer';
 import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
+import UserDetails from './components/Hire/UserDetails';
 
 
 
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import Tour from './pages/Tour';
-import Pickup from './components/Hire/Pick';
-import Drop from './components/Hire/Drop';
+
 
 
 export default function App() {
@@ -31,10 +31,14 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/hires/userdetail" element={<UserDetails />} />
+
 
           <Route element={<PrivateRoute />}>
             <>
               <Route path="/dashboard" element={<Dashboard />} />
+              
+
             </>
           </Route>
           <Route path="/tours" element={<Tours />} />

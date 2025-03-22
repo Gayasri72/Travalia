@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 
+import { Link } from "react-router-dom";
+
+
 const vehicles = [
   { name: "Suzuki Alto", passengers: 3, baggage: "Limited" },
   { name: "Toyota Prius", passengers: 4, baggage: "Medium" },
@@ -64,9 +67,11 @@ export default function Drop() {
           </div>
 
           {/* Submit Button */}
+          <Link to='userdetail'>
           <button type="submit" className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
             Book Now
           </button>
+          </Link>
         </form>
       </div>
     </div>
