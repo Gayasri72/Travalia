@@ -38,7 +38,7 @@ const Latest = () => {
         </span>
       </h1>
       <p className="text-center text-gray-500 mb-12 max-w-80 mx-auto">
-        Real Heros behind the scene
+        Get the best deals on our top tours. Explore the world with us.
       </p>
 
       {/* Swiper 3D Coverflow Slider */}
