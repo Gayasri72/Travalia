@@ -42,7 +42,7 @@ export default function Drop() {
                 key={index}
                 type="button"
                 className={`py-2 px-4 border rounded-lg transition-all duration-300 ${
-                  selectedCar === vehicle ? "bg-blue-500 text-white" : "bg-gray-200"
+                  selectedCar === vehicle ? "bg-blue-500 text-white" : "bg-gray-700  text-white"
                 }`}
                 onClick={() => setSelectedCar(vehicle)}
               >
@@ -53,7 +53,7 @@ export default function Drop() {
 
           {/* Selected Vehicle Details */}
           {selectedCar && (
-            <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+            <div className="mt-4 p-4 border rounded-lg bg-gray-50  text-black">
               <h3 className="text-lg font-semibold">{selectedCar.name}</h3>
               <p><strong>Passengers:</strong> {selectedCar.passengers}</p>
               <p><strong>Baggage:</strong> {selectedCar.baggage}</p>
