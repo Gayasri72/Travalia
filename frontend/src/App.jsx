@@ -11,8 +11,6 @@ import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
 
-
-
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import Tour from './pages/Tour';
@@ -20,7 +18,7 @@ import TourBooking from './pages/Admin/TourBooking';
 import AddPackages from './pages/Admin/AddPackages';
 import Packages from './pages/Admin/Packages';
 import CreatePackage from './pages/Ai/CratePackage';
-
+import ForgotPassword from './components/User/ForgotPassword';
 
 export default function App() {
   return (
@@ -33,6 +31,7 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
           <Route element={<PrivateRoute />}>
             <>
@@ -40,17 +39,15 @@ export default function App() {
             </>
           </Route>
           <Route path="/tours" element={<Tours />} />
-          <Route path="/tour/:id" element={<Tour/>}/>
+          <Route path="/tour/:id" element={<Tour />} />
           <Route path="/hires" element={<Hires />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/create-package" element={<CreatePackage/>} />
+          <Route path="/create-package" element={<CreatePackage />} />
           <Route path="*" element={<Notfound />} />
-          <Route path='/admin/tourbooking' element={<TourBooking />} />
-          <Route path='/admin/addPackages' element={<AddPackages/>} />
-          <Route path='/admin/packages' element={<Packages/>} />
-          
+          <Route path="/admin/tourbooking" element={<TourBooking />} />
+          <Route path="/admin/addPackages" element={<AddPackages />} />
+          <Route path="/admin/packages" element={<Packages />} />
         </Routes>
-        
       </div>
 
       <Footer />
