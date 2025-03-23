@@ -16,7 +16,7 @@ export default function Reviews() {
         </span>
       </h1>
       <p className="text-center text-gray-500 mb-12 max-w-80 mx-auto">
-        Real Heroes behind the scene
+        Real stories from real people. Read reviews from our happy customers.
       </p>
 
       {/* Swiper Slider */}
