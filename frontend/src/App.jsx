@@ -18,6 +18,7 @@ import TourBooking from './pages/Admin/TourBooking';
 import AddPackages from './pages/Admin/AddPackages';
 import Packages from './pages/Admin/Packages';
 import CreatePackage from './pages/Ai/CreatePackage';
+import EditePackges from './pages/Admin/EditePackges';
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
             <Route path="/admin/tourbooking" element={<TourBooking />} />
             <Route path="/admin/addPackages" element={<AddPackages />} />
             <Route path="/admin/packages" element={<Packages />} />
+            <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
           </Routes>
         </main>
         <Footer />
