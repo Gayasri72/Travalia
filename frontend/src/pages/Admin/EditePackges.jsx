@@ -305,9 +305,9 @@ const EditPackages = () => {
     if (tour.priceDiscount < 0) newErrors.priceDiscount = 'Price discount cannot be negative.';
 
     // Validate image URLs
-    if (tour.images.some((image) => !/^https?:\/\/.+\.(jpg|jpeg|png|gif)$/.test(image))) {
-      newErrors.images = 'All images must be valid URLs ending with .jpg, .jpeg, .png, or .gif.';
-    }
+    // if (tour.images.some((image) => !/^https?:\/\/.+\.(jpg|jpeg|png|gif)$/.test(image))) {
+    //   newErrors.images = 'All images must be valid URLs ending with .jpg, .jpeg, .png, or .gif.';
+    // }
 
     // Validate start dates (basic validation for date format)
     if (tour.startDates.some((date) => isNaN(Date.parse(date)))) {
