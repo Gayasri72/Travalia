@@ -25,7 +25,7 @@ export default function DashSidebar() {
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             <Sidebar.Item
-              as={Link} // Use 'as' to render it as a Link component
+              as={Link}
               to="/dashboard?tab=profile"
               active={tab === 'profile'}
               icon={HiUser}
@@ -35,7 +35,7 @@ export default function DashSidebar() {
               Profile
             </Sidebar.Item>
             <Sidebar.Item
-              as={Link} // Use 'as' to render it as a Link component
+              as={Link}
               to="/dashboard?tab=tour"
               active={tab === 'profile'}
               icon={HiOutlineGlobeAlt}
@@ -44,7 +44,7 @@ export default function DashSidebar() {
               tour
             </Sidebar.Item>
             <Sidebar.Item
-              as={Link} // Use 'as' to render it as a Link component
+              as={Link}
               to="/dashboard?tab=booking"
               active={tab === 'profile'}
               icon={HiOutlineCalendar}
