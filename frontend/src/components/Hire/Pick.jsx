@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const vehicles = [
   { name: "Suzuki Alto", passengers: 3, baggage: "Limited" },
@@ -9,62 +10,107 @@ const vehicles = [
 
 export default function Pick() {
   const [selectedCar, setSelectedCar] = useState(null);
+  const [dropLocation, setDropLocation] = useState("");
+  const [dateTime, setDateTime] = useState("");
+  const [error, setError] = useState("");
+
+  // Function to handle date validation
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    const currentDate = new Date();
+
+    // Check if the selected date is in the future
+    if (selectedDate <= currentDate) {
+      setError("Please select a future date and time.");
+    } else {
+      setError(""); // Clear error if date is valid
+    }
+    setDateTime(e.target.value);
+  };
 
   return (
-    <div className="relative bg-cover bg-center h-screen flex flex-col justify-center items-center text-blue-300 px-6"
-      style={{ backgroundImage: "url('https://kangaroocabs.com/your-background-image.jpg')" }}>
-      
-      <h1 className="text-4xl font-bold text-center">Your Journey with Travelia Cabs<br /><span className="text-blue-600">Starts Here</span></h1>
-      <p className="text-lg mt-2">Your safety and comfort is our concern</p>
-      
-      <div className="mt-6 flex space-x-4">
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Airport Pickup</button>
-        <button className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg">Airport Drop</button>
-      </div>
-      
-      <div className="mt-6 bg-blue-100 text-black p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-xl font-semibold">Select a Vehicle</h2>
-        <div className="flex space-x-4 mt-4">
-          {vehicles.map((vehicle, index) => (
+    <div>
+      <div>
+        <h2 className="text-xl font-semibold text-center mb-4">Airport Pickup</h2>
+
+        <form className="space-y-4">
+          {/* Vehicle Selection */}
+          <label className="block text-gray-700 font-semibold">Select a Vehicle</label>
+          <div className="flex space-x-4">
+            {vehicles.map((vehicle, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`py-2 px-4 border rounded-lg transition-all duration-300 ${
+                  selectedCar === vehicle ? "bg-blue-500 text-white" : "bg-gray-700   text-white"
+                }`}
+                onClick={() => setSelectedCar(vehicle)}
+              >
+                {vehicle.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Selected Vehicle Details */}
+          {selectedCar && (
+            <div className="mt-4 p-4 border rounded-lg bg-gray-100 text-black">
+              <h3 className="text-lg font-semibold ">{selectedCar.name}</h3>
+              <p><strong>Passengers:</strong> {selectedCar.passengers}</p>
+              <p><strong>Baggage:</strong> {selectedCar.baggage}</p>
+            </div>
+          )}
+
+          {/* Form Fields */}
+          <div className="space-y-4">
+            <label className="block text-gray-700 font-semibold">Drop Location <span className="text-red-500">*</span></label>
+            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
+              <FaMapMarkerAlt className="text-gray-500 mr-2" />
+              <input 
+                type="text" 
+                className="w-full bg-transparent outline-none text-black" 
+                placeholder="Enter Drop Location"
+                value={dropLocation}
+                onChange={(e) => setDropLocation(e.target.value)}
+                required
+              />
+            </div>
+
+            <label className="block text-gray-700 font-semibold">Pick Up Location</label>
+            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
+              <FaMapMarkerAlt className="text-gray-500 mr-2" />
+              <input 
+                type="text" 
+                className="w-full bg-transparent outline-none text-black" 
+                value="BIA Departure Terminal, Katunayake"
+                readOnly
+              />
+            </div>
+
+            <label className="block text-gray-700 font-semibold">Date & Time <span className="text-red-500">*</span></label>
+            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
+              <FaCalendarAlt className="text-gray-500 mr-2" />
+              <input 
+                type="datetime-local" 
+                className="w-full bg-transparent outline-none text-black"
+                value={dateTime}
+                onChange={handleDateChange}
+                required
+              />
+            </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display Error */}
+          </div>
+
+          {/* Submit Button */}
+          <Link to="userdetail">
             <button 
-              key={index} 
-              className={`py-2 px-4 border rounded-lg  hover:bg-blue-800 ${selectedCar === vehicle ? 'bg-blue-500 text-white' : 'bg-blue-500'}`}
-              onClick={() => setSelectedCar(vehicle)}>
-              {vehicle.name}
+              type="submit" 
+              className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+              disabled={!dropLocation || !dateTime || error} // Disable if there's an error
+            >
+              Book Now
             </button>
-          ))}
-        </div>
-        {selectedCar && (
-          <div className="mt-4 border-t pt-4">
-            <h3 className="text-lg font-semibold">{selectedCar.name}</h3>
-            <p><strong>Passengers:</strong> {selectedCar.passengers}</p>
-            <p><strong>Baggage:</strong> {selectedCar.baggage}</p>
-          </div>
-        )}
-        
-        <div className="mt-6">
-          <label className="block text-gray-700 font-semibold">Pickup Location</label>
-          <div className="flex items-center border p-2 rounded-lg">
-            <FaMapMarkerAlt className="text-gray-500 mr-2" />
-            <input type="text" className="w-full outline-none" placeholder="BIA Arrival Terminal, Katunayake" />
-          </div>
-          
-          <label className="block text-gray-700 font-semibold mt-4">Drop Location</label>
-          <div className="flex items-center border p-2 rounded-lg">
-            <FaMapMarkerAlt className="text-gray-500 mr-2" />
-            <input type="text" className="w-full outline-none" placeholder="Enter Drop Location" />
-          </div>
-          
-          <label className="block text-gray-700 font-semibold mt-4">Date & Time</label>
-          <div className="flex items-center border p-2 rounded-lg">
-            <FaCalendarAlt className="text-gray-500 mr-2" />
-            <input type="datetime-local" className="w-full outline-none" />
-          </div>
-          
-          <button className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
-            Book Now
-          </button>
-        </div>
+          </Link>
+        </form>
       </div>
     </div>
   );

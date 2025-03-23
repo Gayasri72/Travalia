@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
+import UserDetails from './components/Hire/UserDetails';
 
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
@@ -24,9 +25,11 @@ import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
 
 
+
 export default function App() {
   return (
     <BrowserRouter>
+
 
          
         
@@ -47,6 +50,7 @@ export default function App() {
               <Route path="/dashboard" element={<Dashboard />} />
 
 
+
             <Route path="/tours" element={<Tours />} />
             <Route path="/tour/:id" element={<Tour />} />
             <Route path="/hires" element={<Hires />} />
@@ -57,6 +61,7 @@ export default function App() {
             <Route path="/admin/addPackages" element={<AddPackages />} />
             <Route path="/admin/packages" element={<Packages />} />
             <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
+                  <Route path="/hires/userdetail" element={<UserDetails />} />
           </Routes>
         </main>
         <Footer />
