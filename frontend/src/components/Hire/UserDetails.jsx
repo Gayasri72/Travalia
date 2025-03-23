@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaPhone, FaDollarSign } from "react-icons/fa";
+import backhire from '../../assets/hires/backhire.jpg';
 
 export default function BookingForm() {
   const navigate = useNavigate();
@@ -20,11 +21,14 @@ export default function BookingForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/summary", { state: { formData, fakePrice } });
+    navigate("/", { state: { formData, fakePrice } });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-cyan-400">
+    <div
+      className="flex items-center justify-center min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${backhire})` }}
+    >
       <form
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
         onSubmit={handleSubmit}
@@ -86,7 +90,7 @@ export default function BookingForm() {
         <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg mt-4">
           <span className="text-gray-700 font-semibold">Estimated Price:</span>
           <span className="text-lg text-green-600 font-bold flex items-center">
-            <FaDollarSign className="mr-1" /> LKR {fakePrice}
+            <FaDollarSign className="mr-1" /> LKR 20000
           </span>
         </div>
 
