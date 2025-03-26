@@ -2,11 +2,15 @@ import { Button, TextInput } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export default function DashProfile() {
   const { currentUser } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
-  const [imageFileUrl, setImageFileUrl] = useState(null);
+  const [imageFileUrl, setImageFileUrl] = useState(
+    currentUser?.rest?.profilePicture || null,
+  );
   const [imageFileUploadingProgress, setImageFileUploadingProgress] =
     useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
@@ -16,7 +20,7 @@ export default function DashProfile() {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
-      setImageFileUrl(URL.createObjectURL(file)); // Preview image
+      setImageFileUrl(URL.createObjectURL(file)); // Preview image before upload
     }
   };
 
@@ -28,6 +32,7 @@ export default function DashProfile() {
 
   const uploadImage = async () => {
     if (!imageFile) return;
+    setImageFileUploadError(null);
 
     const formData = new FormData();
     formData.append('file', imageFile);
@@ -38,9 +43,7 @@ export default function DashProfile() {
         `https://api.cloudinary.com/v1_1/dbonnmmkj/image/upload`,
         formData,
         {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
           onUploadProgress: (progressEvent) => {
             const progress = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total,
@@ -51,14 +54,15 @@ export default function DashProfile() {
       );
 
       // Get the Cloudinary URL from response
-      const uploadedImageUrl = response.data.secure_url; // Use secure_url for HTTPS
-      console.log('Uploaded image URL:', uploadedImageUrl);
+      const uploadedImageUrl = response.data.secure_url;
 
-      // Update state to store the Cloudinary image URL
+      // Update state with the Cloudinary image URL
       setImageFileUrl(uploadedImageUrl);
+      setImageFileUploadingProgress(null); // Reset progress after upload
     } catch (error) {
       setImageFileUploadError('Error uploading image');
       console.error('Image upload failed:', error);
+      setImageFileUploadingProgress(null);
     }
   };
 
@@ -73,44 +77,56 @@ export default function DashProfile() {
           ref={filePickerRef}
           hidden
         />
+
         <div
           className="relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full"
           onClick={() => filePickerRef.current.click()}
         >
+          {imageFileUploadingProgress !== null && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+              <CircularProgressbar
+                value={imageFileUploadingProgress}
+                text={`${imageFileUploadingProgress}%`}
+                strokeWidth={5}
+                styles={{
+                  path: {
+                    stroke: `rgba(62,152,199,${imageFileUploadingProgress / 100})`,
+                  },
+                  text: { fill: '#fff', fontSize: '16px' },
+                }}
+              />
+            </div>
+          )}
           <img
-            src={imageFileUrl || currentUser?.rest?.profilePicture}
+            src={imageFileUrl}
             alt="user"
-            className="rounded-full w-full h-full object-cover border-8 border-[lightgray]"
+            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${imageFileUploadingProgress && imageFileUploadingProgress < 100 && 'opacity-60'}`}
           />
         </div>
+
         <TextInput
           type="text"
           id="username"
           placeholder="username"
-          defaultValue={currentUser.rest.username}
+          defaultValue={currentUser?.rest?.username}
         />
         <TextInput
           type="email"
           id="email"
           placeholder="email"
-          defaultValue={currentUser.rest.email}
+          defaultValue={currentUser?.rest?.email}
         />
         <TextInput type="password" id="password" placeholder="password" />
+
         <Button type="submit" gradientDuoTone="purpleToBlue" outline>
           Update
         </Button>
       </form>
+
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer">Delete Account</span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
-
-      {/* Show upload progress */}
-      {imageFileUploadingProgress !== null && (
-        <div className="mt-2">
-          <p>Uploading: {imageFileUploadingProgress}%</p>
-        </div>
-      )}
 
       {/* Show upload error if any */}
       {imageFileUploadError && (

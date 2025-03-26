@@ -23,14 +23,9 @@ import ForgotPassword from './components/User/ForgotPassword';
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
 
-
 export default function App() {
   return (
     <BrowserRouter>
-
-         
-        
-
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 gap-2 m-1">
@@ -40,12 +35,11 @@ export default function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/contact" element={<ContactUs />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
-
+            </Route>
 
             <Route path="/tours" element={<Tours />} />
             <Route path="/tour/:id" element={<Tour />} />

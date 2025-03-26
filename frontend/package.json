@@ -23,6 +23,7 @@
     "i18next": "^24.2.2",
     "lucide-react": "^0.483.0",
     "react": "^19.0.0",
+    "react-circular-progressbar": "^2.2.0",
     "react-datepicker": "^8.2.1",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",

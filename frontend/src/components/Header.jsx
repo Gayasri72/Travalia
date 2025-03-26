@@ -13,10 +13,12 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 import ICON from '../assets/icon.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
+
 export default function Header() {
   const dispatch = useDispatch();
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
+  const { theme } = useSelector((state) => state.theme);
   return (
     <Navbar className="border-b-2">
       <Link
@@ -45,10 +47,7 @@ export default function Header() {
             label={
               <Avatar
                 alt="user"
-                img={
-                  currentUser?.rest?.profilePicture ||
-                  'https://via.placeholder.com/96'
-                }
+                img={currentUser.rest.profilePicture}
                 rounded
               />
             }
