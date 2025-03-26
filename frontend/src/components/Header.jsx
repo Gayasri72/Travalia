@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 export default function Header() {
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser.rest.profilePicture);
   return (
     <Navbar className="border-b-2">
       <Link
@@ -38,7 +39,10 @@ export default function Header() {
             label={
               <Avatar
                 alt="user"
-                img={currentUser.rest.profilePicture}
+                img={
+                  currentUser?.rest?.profilePicture ||
+                  'https://via.placeholder.com/96'
+                }
                 rounded
               />
             }
