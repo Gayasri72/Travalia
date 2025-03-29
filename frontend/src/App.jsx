@@ -12,7 +12,7 @@ import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
 
 import PrivateRoute from './components/PrivateRoute';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './components/User/Dashboard';
 import Tour from './pages/Tour';
 import TourBooking from './pages/Admin/TourBooking';
 import AddPackages from './pages/Admin/AddPackages';
@@ -22,6 +22,7 @@ import ForgotPassword from './components/User/ForgotPassword';
 
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
+import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 
 export default function App() {
   return (
@@ -39,6 +40,10 @@ export default function App() {
 
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+
+            <Route element={<OnlyAdminPrivateRoute />}>
+              <Route path="/" element={<Packages />} />
             </Route>
 
             <Route path="/tours" element={<Tours />} />
