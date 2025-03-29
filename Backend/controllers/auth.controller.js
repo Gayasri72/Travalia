@@ -10,25 +10,27 @@ export const signup = async (req, res, next) => {
     !username ||
     !email ||
     !password ||
-    username === '' ||
-    email === '' ||
-    password === ''
+    username.trim() === '' ||
+    email.trim() === '' ||
+    password.trim() === ''
   ) {
-    next(errorHandler(400, 'All fields are required'));
+    return next(errorHandler(400, 'All fields are required'));
   }
 
-  const hashedPassword = bcryptjs.hashSync(password, 10);
-
-  const newUser = new User({
-    username,
-    email,
-    password: hashedPassword,
-  });
-
   try {
+    const hashedPassword = bcryptjs.hashSync(password, 10);
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
     await newUser.save();
-    res.json({ message: 'Sign Up successfully' });
+    res.status(201).json({ message: 'Sign Up successfully' });
   } catch (error) {
+    if (error.code === 11000) {
+      return next(errorHandler(400, 'Username or Email already exists'));
+    }
     next(error);
   }
 };
