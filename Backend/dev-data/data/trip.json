@@ -1,0 +1,55 @@
+[
+  {
+    "districts": ["Colombo", "Galle"],
+    "startDate": "2025-04-07",
+    "endDate": "2025-04-09",
+    "members": 5,
+    "budget": 5000,
+    "interests": ["Beach", "Hiking", "Culture"],
+    "daily_weather": [
+      {
+        "day": 1,
+        "date": "2025-04-07",
+        "district": "Colombo",
+        "weather": "Rainy",
+        "activities": [
+          "National Museum",
+          "Gangaramaya Temple",
+          "Shopping at Odel"
+        ]
+      },
+      {
+        "day": 2,
+        "date": "2025-04-08",
+        "district": "Galle",
+        "weather": "Sunny",
+        "activities": [
+          "Galle Fort Tour",
+          "Unawatuna Beach",
+          "Jungle Beach"
+        ]
+      }
+    ]
+  },
+  {
+    "districts": ["Kandy"],
+    "startDate": "2025-05-01",
+    "endDate": "2025-05-03",
+    "members": 2,
+    "budget": 3000,
+    "interests": ["Culture", "Nature"],
+    "daily_weather": [
+      {
+        "day": 1,
+        "date": "2025-05-01",
+        "district": "Kandy",
+        "weather": "Cloudy",
+        "activities": [
+          "Temple of the Tooth",
+          "Kandy Lake Walk",
+          "Cultural Dance Show"
+        ]
+      }
+    ]
+  }
+]
