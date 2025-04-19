@@ -1,14 +1,19 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import tourRoutes from './routes/tour.route.js';
+
+import cookieParser from 'cookie-parser';
+
 import itineraryRoutes from './routes/itinerary.route.js';
+
 
 const app = express();
 app.use(express.json());
-
+app.use(cookieParser());
 // MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));

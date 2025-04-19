@@ -10,25 +10,27 @@ export const signup = async (req, res, next) => {
     !username ||
     !email ||
     !password ||
-    username === '' ||
-    email === '' ||
-    password === ''
+    username.trim() === '' ||
+    email.trim() === '' ||
+    password.trim() === ''
   ) {
-    next(errorHandler(400, 'All fields are required'));
+    return next(errorHandler(400, 'All fields are required'));
   }
 
-  const hashedPassword = bcryptjs.hashSync(password, 10);
-
-  const newUser = new User({
-    username,
-    email,
-    password: hashedPassword,
-  });
-
   try {
+    const hashedPassword = bcryptjs.hashSync(password, 10);
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
     await newUser.save();
-    res.json({ message: 'Sign Up successfully' });
+    res.status(201).json({ message: 'Sign Up successfully' });
   } catch (error) {
+    if (error.code === 11000) {
+      return next(errorHandler(400, 'Username or Email already exists'));
+    }
     next(error);
   }
 };
@@ -53,9 +55,13 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(400, 'Invalid credentials'));
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1d',
-    });
+    const token = jwt.sign(
+      { id: user._id, isAdmin: isPasswordMatch.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '1d',
+      },
+    );
 
     const { password: pass, ...rest } = user._doc;
 
@@ -76,9 +82,13 @@ export const google = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '1d',
-      });
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '1d',
+        },
+      );
 
       const { password: pass, ...rest } = user._doc;
 
@@ -102,9 +112,13 @@ export const google = async (req, res, next) => {
         profilePicture: googlePhotoUrl,
       });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: '1d',
-      });
+      const token = jwt.sign(
+        { id: newUser._id, isAdmin: newUser.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '1d',
+        },
+      );
       res
         .status(200)
         .cookie('access_token', token, {
