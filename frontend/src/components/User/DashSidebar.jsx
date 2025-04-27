@@ -2,7 +2,7 @@ import { Sidebar } from 'flowbite-react';
 import {
   HiArrowSmRight,
   HiUser,
-  HiOutlineGlobeAlt,
+  HiGift ,
   HiOutlineCalendar,
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
@@ -65,6 +65,19 @@ export default function DashSidebar() {
               >
                 packages
               </Sidebar.Item>
+              
+            )}
+             {!currentUser?.rest?.isUser && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=My Bookings"
+                active={tab === 'My Bookings'}
+                icon={HiGift }
+                labelColor="dark"
+              >
+                My Bookings
+              </Sidebar.Item>
+              
             )}
 
             <Sidebar.Item

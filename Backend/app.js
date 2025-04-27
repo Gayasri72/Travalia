@@ -5,20 +5,33 @@ import cors from 'cors';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import tourRoutes from './routes/tour.route.js';
-
 import cookieParser from 'cookie-parser';
 
 import itineraryRoutes from './routes/itinerary.route.js';
-
+import bookingRoutes from './routes/booking.route.js';
+import { stripeWebhook } from './controllers/booking.controller.js';
 
 const app = express();
+
+// Register Stripe webhook route BEFORE express.json()
+app.post(
+  '/api/bookings/webhook',
+  express.raw({ type: 'application/json' }),
+  stripeWebhook,
+);
+
 app.use(express.json());
 app.use(cookieParser());
 // MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // your frontend URL
+    credentials: true,
+  }),
+);
 
 export default app;
 
@@ -28,6 +41,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/tours', tourRoutes);
 app.use('/api/itineraries', itineraryRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

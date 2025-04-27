@@ -11,6 +11,8 @@ import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
 
+
+
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/User/Dashboard';
 import Tour from './pages/Tour';
@@ -51,6 +53,7 @@ export default function App() {
             <Route path="/hires" element={<Hires />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/create-package" element={<CreatePackage />} />
+           
             <Route path="*" element={<Notfound />} />
             <Route path="/admin/tourbooking" element={<TourBooking />} />
             <Route path="/admin/addPackages" element={<AddPackages />} />

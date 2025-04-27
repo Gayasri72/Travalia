@@ -1,6 +1,15 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { FaStar, FaChartLine, FaUsers, FaMapMarkerAlt, FaCalendarAlt, FaClock, FaDollarSign } from 'react-icons/fa';
+import {
+  FaStar,
+  FaChartLine,
+  FaUsers,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaClock,
+  FaDollarSign,
+} from 'react-icons/fa';
 import Reviews from '../components/home/reviews';
 
 const fetchTour = async (tourId) => {
@@ -12,13 +21,48 @@ const fetchTour = async (tourId) => {
 
 const Tour = () => {
   const { id } = useParams();
-  const { data: tour, isLoading, error } = useQuery({
+  const {
+    data: tour,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['tour', id],
     queryFn: () => fetchTour(id),
   });
+  const [loadingPayment, setLoadingPayment] = useState(false);
 
-  if (isLoading) return <p className="text-center text-lg">Loading tour details...</p>;
-  if (error) return <p className="text-center text-red-500">Error: {error.message}</p>;
+  const handleBookNow = async () => {
+    setLoadingPayment(true);
+    try {
+      const res = await fetch(
+        'http://localhost:3000/api/bookings/create-checkout-session',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add auth header if needed
+          },
+          body: JSON.stringify({ tourId: id }),
+          credentials: 'include',
+        },
+      );
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Failed to initiate payment.');
+      }
+    } catch (err) {
+      alert('Payment error: ' + err.message);
+    } finally {
+      setLoadingPayment(false);
+    }
+  };
+
+  if (isLoading)
+    return <p className="text-center text-lg">Loading tour details...</p>;
+  if (error)
+    return <p className="text-center text-red-500">Error: {error.message}</p>;
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg ">
@@ -39,16 +83,18 @@ const Tour = () => {
         {/* Left: Ratings, Difficulty, Guides */}
         <div>
           <p className="text-lg font-bold flex items-center">
-            <FaStar className="text-yellow-500 mr-2" /> {tour.ratingsAverage} ({tour.ratingsQuantity} reviews)
+            <FaStar className="text-yellow-500 mr-2" /> {tour.ratingsAverage} (
+            {tour.ratingsQuantity} reviews)
           </p>
           <p className="text-lg font-bold flex items-center mt-2">
-            <FaChartLine className="text-blue-500 mr-2" /> Difficulty: {tour.difficulty}
+            <FaChartLine className="text-blue-500 mr-2" /> Difficulty:{' '}
+            {tour.difficulty}
           </p>
           <p className="text-lg font-bold flex items-center mt-2">
-            <FaUsers className="text-blue-500 mr-2" /> Tour Guides: {tour.guides ? tour.guides.length : 'N/A'}
+            <FaUsers className="text-blue-500 mr-2" /> Tour Guides:{' '}
+            {tour.guides ? tour.guides.length : 'N/A'}
           </p>
           <p>Meet Your Guides</p>
-       
         </div>
 
         {/* Right: Description */}
@@ -73,17 +119,23 @@ const Tour = () => {
       {/* Map Section */}
       <h2 className="text-2xl font-bold mt-6 mb-4">Tour Locations</h2>
       <div className="w-full h-64 bg-gray-300 flex items-center justify-center rounded-lg">
-        <p className="text-gray-700">Map Placeholder (Integrate Google Maps API)</p>
+        <p className="text-gray-700">
+          Map Placeholder (Integrate Google Maps API)
+        </p>
       </div>
 
       {/* Review Section */}
       <h2 className="text-2xl font-bold mt-6 mb-4">Customer Reviews</h2>
-      <Reviews/>
+      <Reviews />
 
       {/* Booking Button */}
       <div className="mt-6 text-center">
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-md hover:bg-blue-700">
-          Book Now
+        <button
+          className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-md hover:bg-blue-700 disabled:opacity-60"
+          onClick={handleBookNow}
+          disabled={loadingPayment}
+        >
+          {loadingPayment ? 'Redirecting...' : 'Book Now'}
         </button>
       </div>
     </div>
