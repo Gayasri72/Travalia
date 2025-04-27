@@ -56,7 +56,7 @@ export const signin = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, isAdmin: isPasswordMatch.isAdmin },
+      { id: user._id, email: user.email, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
       {
         expiresIn: '1d',
@@ -69,6 +69,8 @@ export const signin = async (req, res, next) => {
       .status(200)
       .cookie('access_token', token, {
         httpOnly: true,
+        sameSite: 'lax', // or 'none' if using HTTPS
+        secure: false, // true if using HTTPS
       })
       .json({ message: 'Login successful', rest });
   } catch (error) {
@@ -83,7 +85,7 @@ export const google = async (req, res, next) => {
 
     if (user) {
       const token = jwt.sign(
-        { id: user._id, isAdmin: user.isAdmin },
+        { id: user._id, email: user.email, isAdmin: user.isAdmin },
         process.env.JWT_SECRET,
         {
           expiresIn: '1d',
@@ -113,7 +115,7 @@ export const google = async (req, res, next) => {
       });
       await newUser.save();
       const token = jwt.sign(
-        { id: newUser._id, isAdmin: newUser.isAdmin },
+        { id: newUser._id, email: newUser.email, isAdmin: newUser.isAdmin },
         process.env.JWT_SECRET,
         {
           expiresIn: '1d',

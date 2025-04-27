@@ -5,17 +5,14 @@ function Booking() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // TODO: Replace with actual user ID from auth state
-  const userId = localStorage.getItem('userId');
-
   useEffect(() => {
     const fetchBookings = async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/bookings/user?userId=${userId}`,
-        );
+        const res = await fetch('http://localhost:3000/api/bookings/user', {
+          credentials: 'include', // send cookie for auth
+        });
         const data = await res.json();
         if (data.success) {
           setBookings(data.data);
@@ -28,9 +25,8 @@ function Booking() {
         setLoading(false);
       }
     };
-    if (userId) fetchBookings();
-    else setError('User not logged in');
-  }, [userId]);
+    fetchBookings();
+  }, []);
 
   if (loading)
     return <div className="text-center mt-8">Loading bookings...</div>;

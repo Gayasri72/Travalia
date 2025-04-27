@@ -17,6 +17,6 @@ router.post(
 
 // Auth middleware should be added for real use
 router.post('/create-checkout-session', verifyToken, createCheckoutSession);
-router.get('/user', getUserBookings);
+router.get('/user', verifyToken, getUserBookings);
 
 export default router;

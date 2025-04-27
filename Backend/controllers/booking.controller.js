@@ -13,8 +13,15 @@ const stripe = new Stripe(STRIPE_SECRET_KEY);
 
 // Create Stripe Checkout Session
 export const createCheckoutSession = async (req, res, next) => {
+  console.log('req.user in createCheckoutSession:', req.user); // Debug log
+  const user = req.user;
+  if (!user || !user.email) {
+    return res.status(401).json({
+      message: 'User must be logged in with a valid email to book a tour.',
+    });
+  }
   try {
-    const { tourId, email } = req.body; // allow any email from frontend
+    const { tourId } = req.body;
     const tour = await Tour.findById(tourId);
     if (!tour) return res.status(404).json({ message: 'Tour not found' });
 
@@ -23,7 +30,7 @@ export const createCheckoutSession = async (req, res, next) => {
       mode: 'payment',
       success_url: `${CLIENT_URL}/booking-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${CLIENT_URL}/tours/${tourId}`,
-      customer_email: email || 'test@example.com', // use provided email
+      customer_email: user.email, // Always use the logged-in user's email
       client_reference_id: tourId,
       line_items: [
         {
@@ -82,9 +89,8 @@ export const stripeWebhook = async (req, res, next) => {
 // Get all bookings for the logged-in user
 export const getUserBookings = async (req, res, next) => {
   try {
-    // For now, get userId from query or body for demo (replace with req.user._id if using auth)
-    const userId = req.user?._id || req.query.userId || req.body.userId;
-    if (!userId) return res.status(400).json({ message: 'User ID required' });
+    const userId = req.user?.id; // use id, not _id
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
     const bookings = await Booking.find({ user: userId }).populate('tour');
     res.status(200).json({ success: true, data: bookings });
   } catch (err) {
