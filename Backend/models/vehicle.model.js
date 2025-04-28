@@ -3,15 +3,15 @@ import mongoose from 'mongoose';
 const vehicleSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'A vehicle must have a name'],
+    required: [true, 'Vehicle name is required'],
   },
   passengers: {
     type: Number,
-    required: [true, 'A vehicle must have a passenger capacity'],
+    required: [true, 'Number of passengers is required'],
   },
   baggage: {
     type: String,
-    required: [true, 'A vehicle must have a baggage capacity'],
+    required: [true, 'Baggage info is required'],
   },
 });
 

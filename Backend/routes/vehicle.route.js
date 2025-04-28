@@ -1,14 +1,15 @@
 import express from 'express';
-import {
-  createVehicle,
-  getAllVehicles,
-  updateVehicle,
-  deleteVehicle,
-} from '../controllers/vehicle.controller.js';
+import { createVehicle, getAllVehicles, deleteVehicle } from '../controllers/vehicle.controller.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllVehicles).post(createVehicle);
-router.route('/:id').patch(updateVehicle).delete(deleteVehicle);
+// POST /api/v1/vehicles -> create vehicle
+router.post('/', createVehicle);
+
+// GET /api/v1/vehicles -> list all vehicles
+router.get('/', getAllVehicles);
+
+// DELETE /api/v1/vehicles/:id -> delete a vehicle
+router.delete('/:id', deleteVehicle);
 
 export default router;

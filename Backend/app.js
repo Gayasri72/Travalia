@@ -5,6 +5,7 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import tourRoutes from './routes/tour.route.js';
 import vehicleRoutes from './routes/vehicle.route.js';
+import hireRoutes from './routes/hires.route.js';
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tours', tourRoutes);
 // app.use('/api/hiers')
 app.use('/api/v1/vehicles', vehicleRoutes);
+app.use('/api/v1/hires', hireRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
