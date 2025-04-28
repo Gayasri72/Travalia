@@ -2,7 +2,9 @@ import { Modal, Table, Button, TextInput, Select } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { FaCheck, FaTimes, FaFilePdf } from 'react-icons/fa';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function DashUsers() {
   const { currentUser } = useSelector((state) => state.user);
@@ -129,6 +131,54 @@ export default function DashUsers() {
     }
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    
+    // Add title
+    doc.setFontSize(20);
+    doc.text('User Report', 14, 15);
+    
+    // Add date
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 25);
+    
+    // Add filter information
+    doc.setFontSize(12);
+    doc.text(`Filter: ${adminFilter === 'all' ? 'All Users' : adminFilter === 'admin' ? 'Admins Only' : 'Regular Users'}`, 14, 35);
+    if (searchTerm) {
+      doc.text(`Search Term: ${searchTerm}`, 14, 42);
+    }
+    
+    // Prepare table data
+    const tableData = filteredUsers.map(user => [
+      new Date(user.createdAt).toLocaleDateString(),
+      user.username,
+      user.email,
+      user.isAdmin ? 'Yes' : 'No'
+    ]);
+    
+    // Add table
+    autoTable(doc, {
+      startY: 50,
+      head: [['Date Created', 'Username', 'Email', 'Admin']],
+      body: tableData,
+      theme: 'grid',
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+      },
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontSize: 12,
+        fontStyle: 'bold',
+      },
+    });
+    
+    // Save the PDF
+    doc.save('user-report.pdf');
+  };
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
@@ -152,6 +202,14 @@ export default function DashUsers() {
               <option value="admin">Admins Only</option>
               <option value="user">Regular Users</option>
             </Select>
+            <Button
+              onClick={generatePDF}
+              className="flex items-center gap-2"
+              color="gray"
+            >
+              <FaFilePdf className="w-5 h-5" />
+              Export PDF
+            </Button>
           </div>
           <Table hoverable className="shadow-md">
             <Table.Head>
