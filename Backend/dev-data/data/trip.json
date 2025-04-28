@@ -1,0 +1,1445 @@
+[
+  {
+    "name": "Sigiriya Rock Fortress",
+    "location": {
+      "lat": 7.957,
+      "lng": 80.7603
+    },
+    "region": "Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.8,
+    "tags": ["ancient", "UNESCO", "rock", "viewpoint"],
+    "avgTime": 3,
+    "avgTicketPrice": 30
+  },
+  {
+    "name": "Temple of the Sacred Tooth Relic",
+    "location": {
+      "lat": 7.294,
+      "lng": 80.6413
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.7,
+    "tags": ["Buddhism", "temple", "heritage"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Yala National Park",
+    "location": {
+      "lat": 6.3613,
+      "lng": 81.518
+    },
+    "region": "Southern Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["wildlife", "safari", "leopards"],
+    "avgTime": 4,
+    "avgTicketPrice": 50
+  },
+  {
+    "name": "Galle Fort",
+    "location": {
+      "lat": 6.026,
+      "lng": 80.217
+    },
+    "region": "Southern Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.8,
+    "tags": ["colonial", "UNESCO", "architecture"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Ella Rock",
+    "location": {
+      "lat": 6.8667,
+      "lng": 81.0461
+    },
+    "region": "Uva Province",
+    "category": "adventure",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["hiking", "scenic", "viewpoint"],
+    "avgTime": 4,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Adam's Peak (Sri Pada)",
+    "location": {
+      "lat": 6.8098,
+      "lng": 80.4994
+    },
+    "region": "Sabaragamuwa Province",
+    "category": "adventure",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["pilgrimage", "hiking", "sunrise"],
+    "avgTime": 5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Pinnawala Elephant Orphanage",
+    "location": {
+      "lat": 7.3008,
+      "lng": 80.3853
+    },
+    "region": "Sabaragamuwa Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["elephants", "conservation", "family-friendly"],
+    "avgTime": 2,
+    "avgTicketPrice": 15
+  },
+  {
+    "name": "Mirissa Beach",
+    "location": {
+      "lat": 5.9481,
+      "lng": 80.4542
+    },
+    "region": "Southern Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["surfing", "whale watching", "relaxation"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Anuradhapura Ancient City",
+    "location": {
+      "lat": 8.3114,
+      "lng": 80.4037
+    },
+    "region": "North Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.8,
+    "tags": ["ruins", "UNESCO", "Buddhism"],
+    "avgTime": 4,
+    "avgTicketPrice": 25
+  },
+  {
+    "name": "Polonnaruwa Ruins",
+    "location": {
+      "lat": 7.9395,
+      "lng": 81.0011
+    },
+    "region": "North Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["ancient city", "UNESCO", "archaeology"],
+    "avgTime": 3,
+    "avgTicketPrice": 25
+  },
+  {
+    "name": "Nuwara Eliya Tea Plantations",
+    "location": {
+      "lat": 6.9707,
+      "lng": 80.7829
+    },
+    "region": "Central Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["tea", "scenic", "cool climate"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Dambulla Cave Temple",
+    "location": {
+      "lat": 7.8561,
+      "lng": 80.6498
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.7,
+    "tags": ["caves", "Buddhism", "UNESCO"],
+    "avgTime": 2,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Horton Plains National Park",
+    "location": {
+      "lat": 6.8021,
+      "lng": 80.7994
+    },
+    "region": "Central Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["hiking", "World's End", "biodiversity"],
+    "avgTime": 4,
+    "avgTicketPrice": 25
+  },
+  {
+    "name": "Arugam Bay",
+    "location": {
+      "lat": 6.839,
+      "lng": 81.8364
+    },
+    "region": "Eastern Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["surfing", "beach", "nightlife"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Bentota Beach",
+    "location": {
+      "lat": 6.4228,
+      "lng": 79.9956
+    },
+    "region": "Southern Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["water sports", "resorts", "sunbathing"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Sinharaja Forest Reserve",
+    "location": {
+      "lat": 6.4075,
+      "lng": 80.4418
+    },
+    "region": "Southern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.8,
+    "tags": ["rainforest", "UNESCO", "biodiversity"],
+    "avgTime": 5,
+    "avgTicketPrice": 15
+  },
+  {
+    "name": "Trincomalee Harbour",
+    "location": {
+      "lat": 8.5705,
+      "lng": 81.233
+    },
+    "region": "Eastern Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["port", "naval", "scenic"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Lake",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["lake", "city view", "walking"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Udawalawe National Park",
+    "location": {
+      "lat": 6.4333,
+      "lng": 80.8833
+    },
+    "region": "Sabaragamuwa Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["elephants", "safari", "birdwatching"],
+    "avgTime": 4,
+    "avgTicketPrice": 30
+  },
+  {
+    "name": "Nine Arches Bridge (Ella)",
+    "location": {
+      "lat": 6.8708,
+      "lng": 81.0586
+    },
+    "region": "Uva Province",
+    "category": "scenic",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["railway", "photography", "hiking"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Ravana Falls",
+    "location": {
+      "lat": 6.8436,
+      "lng": 81.0528
+    },
+    "region": "Uva Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["waterfall", "mythology", "swimming"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Minneriya National Park",
+    "location": {
+      "lat": 7.9833,
+      "lng": 80.8333
+    },
+    "region": "North Central Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["elephant gathering", "safari", "biodiversity"],
+    "avgTime": 4,
+    "avgTicketPrice": 30
+  },
+  {
+    "name": "Wilpattu National Park",
+    "location": {
+      "lat": 8.45,
+      "lng": 80.0833
+    },
+    "region": "North Western Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["leopards", "lakes", "jungle"],
+    "avgTime": 5,
+    "avgTicketPrice": 35
+  },
+  {
+    "name": "Lipton's Seat",
+    "location": {
+      "lat": 6.8389,
+      "lng": 80.8208
+    },
+    "region": "Uva Province",
+    "category": "scenic",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["tea estate", "panoramic view", "hiking"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Kaudulla National Park",
+    "location": {
+      "lat": 8.1667,
+      "lng": 80.9167
+    },
+    "region": "North Central Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["elephants", "safari", "wetlands"],
+    "avgTime": 4,
+    "avgTicketPrice": 30
+  },
+  {
+    "name": "Unawatuna Beach",
+    "location": {
+      "lat": 6.0167,
+      "lng": 80.25
+    },
+    "region": "Southern Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["coral reefs", "snorkeling", "sunset"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Seetha Amman Temple",
+    "location": {
+      "lat": 6.8219,
+      "lng": 81.5358
+    },
+    "region": "Uva Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.3,
+    "tags": ["Ramayana", "Hindu", "mythology"],
+    "avgTime": 1,
+    "avgTicketPrice": 2
+  },
+  {
+    "name": "Mihintale",
+    "location": {
+      "lat": 8.35,
+      "lng": 80.5167
+    },
+    "region": "North Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["Buddhism", "pilgrimage", "ancient"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Kandy Royal Botanical Gardens",
+    "location": {
+      "lat": 7.2686,
+      "lng": 80.5958
+    },
+    "region": "Central Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["orchids", "trees", "picnic"],
+    "avgTime": 2,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Rumassala Mountain",
+    "location": {
+      "lat": 6.0333,
+      "lng": 80.2167
+    },
+    "region": "Southern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["hiking", "viewpoint", "mythology"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Bundala National Park",
+    "location": {
+      "lat": 6.1833,
+      "lng": 81.3333
+    },
+    "region": "Southern Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["flamingos", "wetlands", "birdwatching"],
+    "avgTime": 4,
+    "avgTicketPrice": 25
+  },
+  {
+    "name": "Madu River Safari",
+    "location": {
+      "lat": 6.35,
+      "lng": 80.0667
+    },
+    "region": "Southern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["mangroves", "boat ride", "biodiversity"],
+    "avgTime": 2,
+    "avgTicketPrice": 15
+  },
+  {
+    "name": "Jaffna Fort",
+    "location": {
+      "lat": 9.6667,
+      "lng": 80.0167
+    },
+    "region": "Northern Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.3,
+    "tags": ["colonial", "Dutch", "architecture"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Pigeon Island National Park",
+    "location": {
+      "lat": 8.7167,
+      "lng": 81.2
+    },
+    "region": "Eastern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["snorkeling", "coral reefs", "marine life"],
+    "avgTime": 3,
+    "avgTicketPrice": 20
+  },
+  {
+    "name": "Koneswaram Temple (Trincomalee)",
+    "location": {
+      "lat": 8.5833,
+      "lng": 81.25
+    },
+    "region": "Eastern Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.5,
+    "tags": ["Hindu", "ocean view", "pilgrimage"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 3
+  },
+  {
+    "name": "St. Clair's Falls",
+    "location": {
+      "lat": 6.9667,
+      "lng": 80.7167
+    },
+    "region": "Central Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["waterfall", "scenic", "hiking"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kalpitiya Beach",
+    "location": {
+      "lat": 8.1667,
+      "lng": 79.7167
+    },
+    "region": "North Western Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["kitesurfing", "dolphin watching", "lagoon"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Muthurajawela Wetlands",
+    "location": {
+      "lat": 7.0833,
+      "lng": 79.8833
+    },
+    "region": "Western Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.3,
+    "tags": ["boat safari", "mangroves", "birdwatching"],
+    "avgTime": 2,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Ratnapura Gem Mines",
+    "location": {
+      "lat": 6.6833,
+      "lng": 80.4
+    },
+    "region": "Sabaragamuwa Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["gemstones", "mining", "shopping"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Kataragama Temple",
+    "location": {
+      "lat": 6.4167,
+      "lng": 81.3333
+    },
+    "region": "Uva Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.4,
+    "tags": ["pilgrimage", "Hindu-Buddhist", "festivals"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Negombo Beach",
+    "location": {
+      "lat": 7.2167,
+      "lng": 79.8333
+    },
+    "region": "Western Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.3,
+    "tags": ["fishing village", "sunset", "resorts"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Dutch Canal (Colombo)",
+    "location": {
+      "lat": 6.9333,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.0,
+    "tags": ["colonial", "boat ride", "urban"],
+    "avgTime": 1,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Lunuganga Estate (Geoffrey Bawa's Garden)",
+    "location": {
+      "lat": 6.2667,
+      "lng": 80.05
+    },
+    "region": "Southern Province",
+    "category": "cultural",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["architecture", "garden", "art"],
+    "avgTime": 2,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Hikkaduwa Coral Reef",
+    "location": {
+      "lat": 6.1333,
+      "lng": 80.1
+    },
+    "region": "Southern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["snorkeling", "marine park", "turtles"],
+    "avgTime": 3,
+    "avgTicketPrice": 15
+  },
+  {
+    "name": "Kandy Esala Perahera",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "outdoor",
+    "rating": 4.8,
+    "tags": ["festival", "procession", "elephants"],
+    "avgTime": 3,
+    "avgTicketPrice": 20
+  },
+  {
+    "name": "Colombo National Museum",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["history", "artifacts", "colonial"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Gangaramaya Temple (Colombo)",
+    "location": {
+      "lat": 6.9167,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.3,
+    "tags": ["Buddhist", "museum", "urban"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 3
+  },
+  {
+    "name": "Batticaloa Lagoon",
+    "location": {
+      "lat": 7.7167,
+      "lng": 81.7
+    },
+    "region": "Eastern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.3,
+    "tags": ["boat ride", "birdwatching", "scenic"],
+    "avgTime": 2,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Kumana National Park",
+    "location": {
+      "lat": 6.5833,
+      "lng": 81.6833
+    },
+    "region": "Eastern Province",
+    "category": "wildlife",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["bird sanctuary", "safari", "wetlands"],
+    "avgTime": 4,
+    "avgTicketPrice": 25
+  },
+  {
+    "name": "Dowa Rock Temple",
+    "location": {
+      "lat": 6.9667,
+      "lng": 80.7667
+    },
+    "region": "Uva Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["Buddhist", "cave", "sculpture"],
+    "avgTime": 1,
+    "avgTicketPrice": 2
+  },
+  {
+    "name": "Kandy View Point",
+    "location": {
+      "lat": 7.3,
+      "lng": 80.6333
+    },
+    "region": "Central Province",
+    "category": "scenic",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["panoramic", "sunset", "photography"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Nilaveli Beach",
+    "location": {
+      "lat": 8.6667,
+      "lng": 81.2
+    },
+    "region": "Eastern Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.6,
+    "tags": ["white sand", "snorkeling", "relaxation"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Ritigala Forest Monastery",
+    "location": {
+      "lat": 8.1667,
+      "lng": 80.6333
+    },
+    "region": "North Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["ruins", "hiking", "Buddhist"],
+    "avgTime": 3,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Belilena Cave",
+    "location": {
+      "lat": 6.9,
+      "lng": 80.4333
+    },
+    "region": "Sabaragamuwa Province",
+    "category": "historical",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["prehistoric", "archaeology", "hiking"],
+    "avgTime": 2,
+    "avgTicketPrice": 3
+  },
+  {
+    "name": "Kandy Lake Club Cultural Show",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.3,
+    "tags": ["dance", "music", "tradition"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Gal Vihara (Polonnaruwa)",
+    "location": {
+      "lat": 7.95,
+      "lng": 81.0
+    },
+    "region": "North Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["Buddha statues", "rock carving", "UNESCO"],
+    "avgTime": 1,
+    "avgTicketPrice": 25
+  },
+  {
+    "name": "Colombo Lotus Tower",
+    "location": {
+      "lat": 6.9319,
+      "lng": 79.8578
+    },
+    "region": "Western Province",
+    "category": "modern",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["landmark", "viewpoint", "telecommunication"],
+    "avgTime": 1,
+    "avgTicketPrice": 15
+  },
+  {
+    "name": "Kalkudah Beach",
+    "location": {
+      "lat": 7.9167,
+      "lng": 81.5333
+    },
+    "region": "Eastern Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["calm waters", "family-friendly", "resorts"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Pidurangala Rock",
+    "location": {
+      "lat": 7.9667,
+      "lng": 80.7667
+    },
+    "region": "Central Province",
+    "category": "adventure",
+    "activityType": "outdoor",
+    "rating": 4.7,
+    "tags": ["hiking", "Sigiriya view", "sunrise"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Colombo Galle Face Green",
+    "location": {
+      "lat": 6.9278,
+      "lng": 79.8422
+    },
+    "region": "Western Province",
+    "category": "urban",
+    "activityType": "outdoor",
+    "rating": 4.2,
+    "tags": ["sunset", "street food", "oceanfront"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Mannar Island",
+    "location": {
+      "lat": 8.9833,
+      "lng": 79.9167
+    },
+    "region": "Northern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.3,
+    "tags": ["baobab tree", "wildlife", "remote"],
+    "avgTime": 4,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy War Cemetery",
+    "location": {
+      "lat": 7.2833,
+      "lng": 80.6333
+    },
+    "region": "Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.2,
+    "tags": ["WWII", "memorial", "peaceful"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Pasikudah Beach",
+    "location": {
+      "lat": 7.9167,
+      "lng": 81.5667
+    },
+    "region": "Eastern Province",
+    "category": "beach",
+    "activityType": "outdoor",
+    "rating": 4.5,
+    "tags": ["shallow waters", "resorts", "snorkeling"],
+    "avgTime": 3,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Dutch Hospital",
+    "location": {
+      "lat": 6.9278,
+      "lng": 79.8422
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["colonial", "shopping", "dining"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Madol Duwa (Madol Doova)",
+    "location": {
+      "lat": 6.4333,
+      "lng": 80.0167
+    },
+    "region": "Southern Province",
+    "category": "cultural",
+    "activityType": "outdoor",
+    "rating": 4.2,
+    "tags": ["literary", "island", "boat ride"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Kandy Market",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "shopping",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["spices", "handicrafts", "local experience"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Gangaramaya Park",
+    "location": {
+      "lat": 6.9167,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "urban",
+    "activityType": "outdoor",
+    "rating": 4.1,
+    "tags": ["lake", "walking", "city escape"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Koggala Lake",
+    "location": {
+      "lat": 6,
+      "lng": 80.3167
+    },
+    "region": "Southern Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.3,
+    "tags": ["boat safari", "cinnamon island", "birdwatching"],
+    "avgTime": 2,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Colombo Independence Square",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.2,
+    "tags": ["colonial", "architecture", "park"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Bahirawakanda Temple",
+    "location": {
+      "lat": 7.3,
+      "lng": 80.6333
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.3,
+    "tags": ["Buddha statue", "viewpoint", "sunset"],
+    "avgTime": 1,
+    "avgTicketPrice": 2
+  },
+  {
+    "name": "Colombo Pettah Market",
+    "location": {
+      "lat": 6.9333,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "shopping",
+    "activityType": "indoor",
+    "rating": 3.9,
+    "tags": ["street market", "bargaining", "local goods"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Udawattakele Sanctuary",
+    "location": {
+      "lat": 7.3,
+      "lng": 80.6333
+    },
+    "region": "Central Province",
+    "category": "nature",
+    "activityType": "outdoor",
+    "rating": 4.3,
+    "tags": ["forest", "birdwatching", "hiking"],
+    "avgTime": 2,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Colombo Beira Lake",
+    "location": {
+      "lat": 6.9167,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "urban",
+    "activityType": "outdoor",
+    "rating": 4.0,
+    "tags": ["boat ride", "city center", "relaxation"],
+    "avgTime": 1,
+    "avgTicketPrice": 5
+  },
+
+  {
+    "name": "Kandy Arthur's Seat",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "photography",
+    "activityType": "outdoor",
+    "rating": 4.4,
+    "tags": ["viewpoint", "sunset", "photography"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Viharamahadevi Park",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "urban",
+    "activityType": "outdoor",
+    "rating": 4.1,
+    "tags": ["park", "picnic", "city escape"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Garrison Cemetery",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.0,
+    "tags": ["colonial", "graveyard", "British era"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Old Parliament Building",
+    "location": {
+      "lat": 6.9278,
+      "lng": 79.8422
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["architecture", "colonial", "landmark"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy St. Paul's Church",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "historical",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["colonial", "Christian", "architecture"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Wolvendaal Church",
+    "location": {
+      "lat": 6.9333,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["Dutch", "colonial", "Christian"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Queens Hotel",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "historical",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["colonial", "architecture", "heritage"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Jami Ul-Alfar Mosque",
+    "location": {
+      "lat": 6.9333,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["Islamic", "architecture", "landmark"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Kandy City Center",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "shopping",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["mall", "dining", "entertainment"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo BMICH (Bandaranaike Memorial)",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "modern",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["convention center", "architecture", "events"],
+    "avgTime": 1,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Kandy Ceylon Tea Museum",
+    "location": {
+      "lat": 7.2686,
+      "lng": 80.5958
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["tea history", "tasting", "colonial"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Colombo Seema Malakaya Temple",
+    "location": {
+      "lat": 6.9167,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["Buddhist", "lake", "peaceful"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 2
+  },
+  {
+    "name": "Kandy Asgiriya Stadium",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "sports",
+    "activityType": "outdoor",
+    "rating": 4.0,
+    "tags": ["cricket", "landmark", "matches"],
+    "avgTime": 3,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Colombo Slave Island",
+    "location": {
+      "lat": 6.9167,
+      "lng": 79.85
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.0,
+    "tags": ["colonial", "urban", "diverse"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Bogambara Prison",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "historical",
+    "activityType": "indoor",
+    "rating": 3.9,
+    "tags": ["colonial", "museum", "architecture"],
+    "avgTime": 1,
+    "avgTicketPrice": 2
+  },
+  {
+    "name": "Colombo Arcade Independence Square",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "shopping",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["boutiques", "dining", "lifestyle"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Kandy View Hotel",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "scenic",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["panoramic", "sunset", "dining"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Racecourse Shopping",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "shopping",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["lifestyle", "dining", "events"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Kandy Sweets",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "food",
+    "activityType": "indoor",
+    "rating": 4.3,
+    "tags": ["local sweets", "snacks", "traditional"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 5
+  },
+  {
+    "name": "Colombo Dutch Burgher Union",
+    "location": {
+      "lat": 6.9278,
+      "lng": 79.8422
+    },
+    "region": "Western Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["heritage", "food", "colonial"],
+    "avgTime": 1,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Kandy Kandy Muslim Hotel",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "food",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["local cuisine", "halal", "traditional"],
+    "avgTime": 1,
+    "avgTicketPrice": 8
+  },
+  {
+    "name": "Colombo Barefoot Gallery",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["art", "handicrafts", "shopping"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Kandy Arts Association",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["local art", "exhibitions", "handicrafts"],
+    "avgTime": 1,
+    "avgTicketPrice": 2
+  },
+  {
+    "name": "Colombo Colombo City Centre",
+    "location": {
+      "lat": 6.9278,
+      "lng": 79.8422
+    },
+    "region": "Western Province",
+    "category": "shopping",
+    "activityType": "indoor",
+    "rating": 4.3,
+    "tags": ["mall", "dining", "entertainment"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Kandy Lake Club",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.1,
+    "tags": ["dance", "music", "tradition"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Colombo Colombo National Art Gallery",
+    "location": {
+      "lat": 6.9106,
+      "lng": 79.8633
+    },
+    "region": "Western Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["art", "exhibitions", "local artists"],
+    "avgTime": 1,
+    "avgTicketPrice": 3
+  },
+  {
+    "name": "Kandy Kandy Cultural Centre",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "cultural",
+    "activityType": "indoor",
+    "rating": 4.2,
+    "tags": ["dance", "music", "tradition"],
+    "avgTime": 1.5,
+    "avgTicketPrice": 10
+  },
+  {
+    "name": "Colombo Colombo Fort",
+    "location": {
+      "lat": 6.9278,
+      "lng": 79.8422
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.1,
+    "tags": ["colonial", "urban", "landmark"],
+    "avgTime": 1,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Kandy Kandy City Centre",
+    "location": {
+      "lat": 7.2936,
+      "lng": 80.6386
+    },
+    "region": "Central Province",
+    "category": "shopping",
+    "activityType": "indoor",
+    "rating": 4.0,
+    "tags": ["mall", "dining", "entertainment"],
+    "avgTime": 2,
+    "avgTicketPrice": 0
+  },
+  {
+    "name": "Colombo Colombo Lighthouse",
+    "location": {
+      "lat": 6.9278,
+      "lng": 79.8422
+    },
+    "region": "Western Province",
+    "category": "historical",
+    "activityType": "outdoor",
+    "rating": 4.0,
+    "tags": ["landmark", "colonial", "viewpoint"],
+    "avgTime": 0.5,
+    "avgTicketPrice": 0
+  }
+]
