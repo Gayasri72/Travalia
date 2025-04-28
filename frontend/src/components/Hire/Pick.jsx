@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
-const vehicles = [
-  { name: "Suzuki Alto", passengers: 3, baggage: "Limited" },
-  { name: "Toyota Prius", passengers: 4, baggage: "Medium" },
-  { name: "Honda Fit Shuttle", passengers: 4, baggage: "Large" },
-];
+import axios from "axios";
 
 export default function Pick() {
-  const [selectedCar, setSelectedCar] = useState(null);
+  const [vehicles, setVehicles] = useState([]);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [dropLocation, setDropLocation] = useState("");
   const [dateTime, setDateTime] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    // Fetch vehicles from the backend
+    axios.get("/api/v1/vehicles").then((response) => {
+      setVehicles(response.data.data.vehicles);
+    });
+  }, []);
 
   // Function to handle date validation
   const handleDateChange = (e) => {
@@ -36,29 +39,21 @@ export default function Pick() {
         <form className="space-y-4">
           {/* Vehicle Selection */}
           <label className="block text-gray-700 font-semibold">Select a Vehicle</label>
-          <div className="flex space-x-4">
-            {vehicles.map((vehicle, index) => (
-              <button
-                key={index}
-                type="button"
-                className={`py-2 px-4 border rounded-lg transition-all duration-300 ${
-                  selectedCar === vehicle ? "bg-blue-500 text-white" : "bg-gray-700   text-white"
+          <div className="space-y-4">
+            {vehicles.map((vehicle) => (
+              <div
+                key={vehicle._id}
+                className={`p-4 border rounded-lg cursor-pointer ${
+                  selectedVehicle === vehicle._id ? "bg-blue-500 text-white" : "bg-gray-100"
                 }`}
-                onClick={() => setSelectedCar(vehicle)}
+                onClick={() => setSelectedVehicle(vehicle._id)}
               >
-                {vehicle.name}
-              </button>
+                <h3 className="font-semibold">{vehicle.name}</h3>
+                <p>Passengers: {vehicle.passengers}</p>
+                <p>Baggage: {vehicle.baggage}</p>
+              </div>
             ))}
           </div>
-
-          {/* Selected Vehicle Details */}
-          {selectedCar && (
-            <div className="mt-4 p-4 border rounded-lg bg-gray-100 text-black">
-              <h3 className="text-lg font-semibold ">{selectedCar.name}</h3>
-              <p><strong>Passengers:</strong> {selectedCar.passengers}</p>
-              <p><strong>Baggage:</strong> {selectedCar.baggage}</p>
-            </div>
-          )}
 
           {/* Form Fields */}
           <div className="space-y-4">
