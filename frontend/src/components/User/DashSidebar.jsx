@@ -4,6 +4,8 @@ import {
   HiUser,
   HiGift ,
   HiOutlineCalendar,
+  HiOutlineChartBar,
+  HiDatabase ,
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -63,7 +65,7 @@ export default function DashSidebar() {
                 icon={HiOutlineCalendar}
                 labelColor="dark"
               >
-                packages
+                Packages
               </Sidebar.Item>
               
             )}
@@ -76,6 +78,30 @@ export default function DashSidebar() {
                 labelColor="dark"
               >
                 My Bookings
+              </Sidebar.Item>
+              
+            )}
+             {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=Booking Confirmations"
+                active={tab === 'Booking Confirmations'}
+                icon={HiDatabase  }
+                labelColor="dark"
+              >
+                Booking Status 
+              </Sidebar.Item>
+              
+            )}
+             {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=Predefined Tours"
+                active={tab === 'Predefined Tours'}
+                icon={HiOutlineChartBar}
+                labelColor="dark"
+              >
+                Predefined Tours
               </Sidebar.Item>
               
             )}

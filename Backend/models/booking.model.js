@@ -26,6 +26,14 @@ const bookingSchema = new mongoose.Schema(
     stripePaymentIntentId: {
       type: String,
     },
+    status: {
+      type: String,
+      default: 'Paid',
+    },
+    notification: {
+      type: String,
+      default: '',
+    },
   },
   { timestamps: true },
 );

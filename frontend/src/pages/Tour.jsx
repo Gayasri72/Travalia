@@ -30,6 +30,8 @@ const Tour = () => {
     queryFn: () => fetchTour(id),
   });
   const [loadingPayment, setLoadingPayment] = useState(false);
+  const [policyAgreed, setPolicyAgreed] = useState(false);
+  const [showPolicyModal, setShowPolicyModal] = useState(false);
 
   const handleBookNow = async () => {
     setLoadingPayment(true);
@@ -128,12 +130,63 @@ const Tour = () => {
       <h2 className="text-2xl font-bold mt-6 mb-4">Customer Reviews</h2>
       <Reviews />
 
+      {/* Policy Agreement Checkbox */}
+      <div className="mt-6 flex items-center justify-center">
+        <input
+          type="checkbox"
+          id="policy"
+          checked={policyAgreed}
+          onChange={(e) => setPolicyAgreed(e.target.checked)}
+          className="mr-2"
+        />
+        <label htmlFor="policy" className="text-sm">
+          I agree to the{' '}
+          <button
+            type="button"
+            className="text-blue-600 underline bg-transparent border-none cursor-pointer p-0"
+            onClick={() => setShowPolicyModal(true)}
+          >
+            terms and policy
+          </button>
+          .
+        </label>
+      </div>
+      {/* Policy Modal */}
+      {showPolicyModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-lg max-w-lg w-full shadow-lg relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
+              onClick={() => setShowPolicyModal(false)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h1 className="text-2xl font-bold mb-4">Terms & Policy</h1>
+            <p className="mb-4">
+              <strong>Refund Policy:</strong> If you cancel your tour order
+              within 7 days of booking, you are eligible for a full refund.
+              Cancellations made after 7 days are not eligible for a refund.
+            </p>
+            <p className="mb-4">
+              <strong>Tour Confirmation:</strong> Your tour booking confirmation
+              and all related communication will be sent to the email address
+              you provided during the booking process. Please ensure your email
+              is correct.
+            </p>
+            <p>
+              By proceeding with your booking, you agree to these terms and
+              policies.
+            </p>
+          </div>
+        </div>
+      )}
       {/* Booking Button */}
       <div className="mt-6 text-center">
         <button
           className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-md hover:bg-blue-700 disabled:opacity-60"
           onClick={handleBookNow}
-          disabled={loadingPayment}
+          disabled={loadingPayment || !policyAgreed}
         >
           {loadingPayment ? 'Redirecting...' : 'Book Now'}
         </button>

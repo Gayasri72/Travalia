@@ -97,3 +97,46 @@ export const getUserBookings = async (req, res, next) => {
     next(err);
   }
 };
+
+// Get all bookings (admin only)
+export const getAllBookings = async (req, res, next) => {
+  try {
+    // Optionally, check if req.user.isAdmin === true
+    const bookings = await Booking.find().populate('tour user');
+    res.status(200).json({ success: true, data: bookings });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Confirm a booking (admin)
+export const confirmBooking = async (req, res, next) => {
+  try {
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: 'Tour Booking Confirmed',
+        notification: 'Your tour booking is confirmed!',
+      },
+      { new: true },
+    );
+    if (!booking) return res.status(404).json({ message: 'Booking not found' });
+    res.status(200).json({ success: true, data: booking });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Delete a booking (admin)
+export const deleteBooking = async (req, res, next) => {
+  try {
+    const booking = await Booking.findByIdAndDelete(req.params.id);
+    if (!booking) return res.status(404).json({ message: 'Booking not found' });
+    // Optionally, notify user of cancellation
+    res
+      .status(200)
+      .json({ success: true, message: 'Booking deleted', data: booking });
+  } catch (err) {
+    next(err);
+  }
+};

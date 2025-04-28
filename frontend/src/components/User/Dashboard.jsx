@@ -4,6 +4,8 @@ import DashSidebar from './DashSidebar';
 import DashProfile from './DashProfile';
 import Packages from '../../pages/Admin/Packages';
 import Booking from '../../pages/Booking';
+import BookingConfirm from '../../pages/Admin/BookingConfirm';
+import DefinedTourBooking from '../../pages/Admin/DefinedTourBooking';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -26,6 +28,8 @@ export default function Dashboard() {
       {tab === 'profile' && <DashProfile />}
       {tab === 'packages' && <Packages />}
       {tab === 'My Bookings'&& <Booking/>} 
+      {tab === 'Booking Confirmations'&& <BookingConfirm/>} 
+      {tab === 'Predefined Tours'&& <DefinedTourBooking/>} 
     </div>
   );
 }
