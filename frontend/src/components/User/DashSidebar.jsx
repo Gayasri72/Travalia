@@ -71,7 +71,7 @@ export default function DashSidebar() {
               <Sidebar.Item
                 as={Link}
                 to="/dashboard?tab=users"
-                active={tab === 'packages'}
+                active={tab === 'users'}
                 icon={HiOutlineUserGroup}
                 labelColor="dark"
               >

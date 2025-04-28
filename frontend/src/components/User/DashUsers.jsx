@@ -95,11 +95,11 @@ export default function DashUsers() {
         throw new Error(errorData.message || 'Failed to delete user');
       }
 
-      const data = await res.json();
       setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
       setShowModal(false);
+      setError(null);
     } catch (error) {
-      setError(error.message || 'Failed to connect to server');
+      setError(error.message || 'Failed to delete user');
       console.error('Error deleting user:', error);
     } finally {
       setLoading(false);
