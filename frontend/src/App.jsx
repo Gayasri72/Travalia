@@ -17,6 +17,7 @@ import UserDetails from './components/Hire/UserDetails';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import Tour from './pages/Tour';
+import AdminVehicles from './components/AdminVehicles';
 
 
 
@@ -41,6 +42,7 @@ export default function App() {
 
             </>
           </Route>
+          <Route path="/admin/hire" element={<AdminVehicles />} />
           <Route path="/tours" element={<Tours />} />
           <Route path="/tour/:id" element={<Tour/>}/>
           <Route path="/hires" element={<Hires />} />
