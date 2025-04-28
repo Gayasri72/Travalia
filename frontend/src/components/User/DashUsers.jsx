@@ -1,4 +1,4 @@
-import { Modal, Table, Button } from 'flowbite-react';
+import { Modal, Table, Button, TextInput, Select } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
@@ -12,6 +12,9 @@ export default function DashUsers() {
   const [userIdToDelete, setUserIdToDelete] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [adminFilter, setAdminFilter] = useState('all');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,6 +35,7 @@ export default function DashUsers() {
 
         const data = await res.json();
         setUsers(data.users);
+        setFilteredUsers(data.users);
         if (data.users.length < 9) {
           setShowMore(false);
         }
@@ -47,6 +51,25 @@ export default function DashUsers() {
       fetchUsers();
     }
   }, [currentUser?.rest?.isAdmin]);
+
+  // Search and filter functionality
+  useEffect(() => {
+    const filtered = users.filter((user) => {
+      const searchLower = searchTerm.toLowerCase();
+      const matchesSearch = 
+        user.username.toLowerCase().includes(searchLower) ||
+        user.email.toLowerCase().includes(searchLower) ||
+        new Date(user.createdAt).toLocaleDateString().includes(searchLower);
+      
+      const matchesAdminFilter = 
+        adminFilter === 'all' || 
+        (adminFilter === 'admin' && user.isAdmin) || 
+        (adminFilter === 'user' && !user.isAdmin);
+
+      return matchesSearch && matchesAdminFilter;
+    });
+    setFilteredUsers(filtered);
+  }, [searchTerm, users, adminFilter]);
 
   const handleShowMore = async () => {
     setLoading(true);
@@ -112,6 +135,24 @@ export default function DashUsers() {
       {loading && <div className="text-center mb-4">Loading...</div>}
       {currentUser?.rest?.isAdmin && users.length > 0 ? (
         <>
+          <div className="flex gap-4 mb-4">
+            <TextInput
+              type="text"
+              placeholder="Search users by username, email, or date..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="flex-1"
+            />
+            <Select
+              value={adminFilter}
+              onChange={(e) => setAdminFilter(e.target.value)}
+              className="w-40"
+            >
+              <option value="all">All Users</option>
+              <option value="admin">Admins Only</option>
+              <option value="user">Regular Users</option>
+            </Select>
+          </div>
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date created</Table.HeadCell>
@@ -121,7 +162,7 @@ export default function DashUsers() {
               <Table.HeadCell>Admin</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <Table.Body className="divide-y" key={user._id}>
                 <Table.Row>
                   <Table.Cell>
