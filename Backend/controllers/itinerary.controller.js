@@ -1,4 +1,3 @@
-
 // import Itinerary from '../models/itinerary.model.js';
 // import generateItinerary from '../utills/itinerary.js';
 // import moment from 'moment';
@@ -312,8 +311,15 @@
 
 //.............................................................................................................................................................................................................
 
+import { createRequire } from 'module';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-import places from '../dev-data/data/trip.json' assert { type: 'json' };
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const places = JSON.parse(readFileSync(join(__dirname, '../dev-data/data/trip.json'), 'utf8'));
 
 // Helper: Get distance between 2 coordinates (Haversine formula)
 const getDistance = (lat1, lon1, lat2, lon2) => {
