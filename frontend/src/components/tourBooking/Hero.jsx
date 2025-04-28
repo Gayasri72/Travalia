@@ -53,7 +53,7 @@ export default function Hero() {
           From farm tours to forest bathing—get custom recs for whatever you're
           into.
         </p>
-        <Link to="/ai-tours">
+        <Link to="/create-package">
           <button className="mt-5 bg-black text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 hover:bg-gray-800 transition">
             <span>✦ Start a trip with AI</span>
           </button>

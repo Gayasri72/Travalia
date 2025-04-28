@@ -12,47 +12,68 @@ import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
 import UserDetails from './components/Hire/UserDetails';
 
-
-
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import Tour from './pages/Tour';
+
 import AdminVehicles from './components/AdminVehicles';
+
+import TourBooking from './pages/Admin/TourBooking';
+import AddPackages from './pages/Admin/AddPackages';
+import Packages from './pages/Admin/Packages';
+
+import ForgotPassword from './components/User/ForgotPassword';
+
+import CreatePackage from './pages/Ai/CreatePackage';
+import EditePackges from './pages/Admin/EditePackges';
 
 
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <div className="gap-2 m-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/info" element={<Info />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/hires/userdetail" element={<UserDetails />} />
 
 
-          <Route element={<PrivateRoute />}>
-            <>
+         
+        
+
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1 gap-2 m-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/info" element={<Info />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/contact" element={<ContactUs />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+
+
+            <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              
 
-            </>
+
+  
           </Route>
           <Route path="/admin/hire" element={<AdminVehicles />} />
-          <Route path="/tours" element={<Tours />} />
-          <Route path="/tour/:id" element={<Tour/>}/>
-          <Route path="/hires" element={<Hires />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="*" element={<Notfound />} />
-  
-        </Routes>
-      </div>
 
-      <Footer />
+
+            <Route path="/tours" element={<Tours />} />
+            <Route path="/tour/:id" element={<Tour />} />
+            <Route path="/hires" element={<Hires />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/create-package" element={<CreatePackage />} />
+            <Route path="*" element={<Notfound />} />
+            <Route path="/admin/tourbooking" element={<TourBooking />} />
+            <Route path="/admin/addPackages" element={<AddPackages />} />
+            <Route path="/admin/packages" element={<Packages />} />
+            <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
+                  <Route path="/hires/userdetail" element={<UserDetails />} />
+          </Routes>
+        </main>
+        <Footer />
+
+      </div>
     </BrowserRouter>
   );
 }

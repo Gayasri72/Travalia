@@ -1,159 +1,186 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import {
-  FaMapMarkerAlt,
-  FaCalendarAlt,
-  FaFlag,
-  FaUserFriends,
-} from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Link } from "react-router-dom";
 
-const fetchTours = async () => {
-  const response = await fetch('http://localhost:3000/api/tours');
-  const data = await response.json();
-  if (!data.success) throw new Error('Failed to fetch tours');
-  return data.data.tours.slice(0, 6);
-};
+const destinations = [
+  { name: "Galle", province: "Southern", image: "/src/assets/ai/galle.jpg" },
+  { name: "Kandy", province: "Central", image: "/src/assets/ai/kandy.jpg" },
+  { name: "Ella", province: "Central", image: "/src/assets/ai/ella.jpg" },
+  { name: "Colombo", province: "Western", image: "/src/assets/ai/colombo.jpg" },
+  { name: "Polonnaruwa", province: "North Central", image: "/src/assets/ai/polonnaruwa.jpg" },
+  { name: "Weligama", province: "Southern", image: "/src/assets/ai/weligama.jpg" },
+];
 
-const TourSection = () => {
-  const [showFilter, setShowFilter] = useState(false);
-  const {
-    data: tours = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['tours'],
-    queryFn: fetchTours,
-  });
+const tripTypes = ["Solo", "Group", "Family"];
+const activities = ["Adventure", "Relaxation", "Culture", "Food", "Shopping"];
 
-  if (isLoading) return <span>Loading tours...</span>;
-  if (error) return <span>Error: {error.message}</span>;
+const CreatePackage = () => {
+  const [step, setStep] = useState(1);
+  const [destination, setDestination] = useState("");
+  const [dates, setDates] = useState(null);
+  const [tripType, setTripType] = useState("");
+  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleActivityChange = (activity) => {
+    setSelectedActivities((prev) =>
+      prev.includes(activity)
+        ? prev.filter((item) => item !== activity)
+        : [...prev, activity]
+    );
+  };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-10 pt-10 border-t">
-      {/* Filter options */}
-      <div className="min-w-60">
-        <p className="my-2 text-xl flex items-center cursor-pointer gap-2">
-          FILTERS
-        </p>
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">CATEGORIES</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Easy'} /> Easy
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Medium'} /> Medium
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Hard'} /> Hard
-            </p>
+    <div className="max-w-xl mx-auto p-6 bg-gray-300 shadow-lg rounded-lg text-center mt-10 mb-10">
+      {step === 1 && (
+        <div>
+          <h2 className="text-2xl font-bold mb-2">First, where do you want to go?</h2>
+          <input
+            type="text"
+            placeholder="Choose a city or town"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="w-full p-3 border rounded-lg"
+          />
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            {destinations.map((dest) => (
+              <div
+                key={dest.name}
+                className="cursor-pointer border p-2 rounded-lg"
+                onClick={() => setDestination(dest.name)}
+              >
+                <img src={dest.image} alt={dest.name} className="w-20 h-20 mx-auto rounded-lg" />
+                <p className="mt-2 font-semibold">{dest.name}</p>
+                <p className="text-sm text-gray-500">{dest.province}</p>
+              </div>
+            ))}
           </div>
+          <button
+            onClick={() => setStep(2)}
+            disabled={!destination}
+            className={`mt-6 px-6 py-2 text-white rounded-lg ${
+              destination ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+            }`}
+          >
+            Next
+          </button>
         </div>
-        <div
-          className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">TYPES</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Mountains'} />{' '}
-              Mountains
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Beaches'} />{' '}
-              Beaches
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Forests'} />{' '}
-              Forests
-            </p>
-          </div>
-        </div>
-      </div>
-      {/* Right side */}
-      <div className="flex-1">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl sm:text-4xl font-bold text-center flex-1">
-            Our{' '}
-            <span className="underline underline-offset-4 decoration-1 font-light">
-              Tours
-            </span>
-          </h1>
-          <select className="border-2 border-gray-300 text-sm px-2">
-            <option value="relevent">Sort by: Relevent</option>
-            <option value="low-high">Sort by: Low to High</option>
-            <option value="high-low">Sort by: High to Low</option>
-          </select>
-        </div>
-        {/* Tour cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 gap-y-6">
-          {tours.map((tour) => (
-            <div
-              key={tour._id}
-              className="bg-white shadow-lg rounded-lg overflow-hidden"
+      )}
+
+      {step === 2 && (
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Select your travel dates</h2>
+          <DatePicker
+            selected={dates}
+            onChange={(date) => setDates(date)}
+            className="w-full p-3 border rounded-lg text-center"
+            placeholderText="Pick a date"
+          />
+          <div className="mt-6 flex justify-between">
+            <button onClick={() => setStep(1)} className="px-6 py-2 bg-gray-300 rounded-lg">
+              Back
+            </button>
+            <button
+              onClick={() => setStep(3)}
+              disabled={!dates}
+              className={`px-6 py-2 text-white rounded-lg ${
+                dates ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+              }`}
             >
-              <div className="relative">
-                <img
-                  src={
-                    'https://img.freepik.com/free-photo/woman-bikini-sitting-viewpoint-nang-yuan-island-thailand_335224-1091.jpg?ga=GA1.1.1305975420.1709091022&semt=ais_hybrid'
-                  }
-                  alt={tour.name || 'Tour Image'}
-                  className="w-full h-56 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                <h2 className="absolute bottom-5 left-5 text-white text-lg font-bold  px-3 py-1 ">
-                  {tour.name}
-                </h2>
-              </div>
-              <div className="p-6">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase">
-                  {tour.duration}-Day Tour-{tour.difficulty}
-                </h3>
-                <p className="text-gray-600 text-sm mb-4">{tour.summary}</p>
-                <div className="flex items-center text-gray-500 text-sm space-x-4 mb-4">
-                  <p className="flex items-center">
-                    <FaMapMarkerAlt className="mr-1 text-blue-500" />{' '}
-                    {tour.location}
-                  </p>
-                  <p className="flex items-center">
-                    <FaCalendarAlt className="mr-1 text-blue-500" />{' '}
-                    {tour.startDates[0]}
-                  </p>
-                </div>
-                <div className="flex items-center text-gray-500 text-sm space-x-4 mb-4">
-                  <p className="flex items-center">
-                    <FaFlag className="mr-1 text-blue-500" /> {tour.stops} stops
-                  </p>
-                  <p className="flex items-center">
-                    <FaUserFriends className="mr-1 text-blue-500" />{' '}
-                    {tour.maxGroupSize} people
-                  </p>
-                </div>
-                <div className="flex justify-between items-center mb-4">
-                  <p className="text-gray-700 font-bold text-lg">
-                    ${tour.price}{' '}
-                    <span className="text-sm text-gray-500">per person</span>
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    ⭐ {tour.ratingsAverage} ({tour.ratingsQuantity} reviews)
-                  </p>
-                </div>
-                <Link
-                  to="/tour"
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-green-600"
-                >
-                  DETAILS
-                </Link>
-              </div>
-            </div>
-          ))}
+              Next
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+
+      {step === 3 && (
+        <div>
+          <h2 className="text-2xl font-bold mb-2">What kind of trip is this?</h2>
+          <div className="flex flex-col gap-3 mt-4">
+            {tripTypes.map((type) => (
+              <button
+                key={type}
+                className={`p-3 rounded-lg ${
+                  tripType === type ? "bg-blue-600 text-white" : "bg-gray-200"
+                }`}
+                onClick={() => setTripType(type)}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+          <div className="mt-6 flex justify-between">
+            <button onClick={() => setStep(2)} className="px-6 py-2 bg-gray-300 rounded-lg">
+              Back
+            </button>
+            <button
+              onClick={() => setStep(4)}
+              disabled={!tripType}
+              className={`px-6 py-2 text-white rounded-lg ${
+                tripType ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div>
+          <h2 className="text-2xl font-bold mb-2">What interests you?</h2>
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            {activities.map((activity) => (
+              <label
+                key={activity}
+                className={`p-3 border rounded-lg cursor-pointer ${
+                  selectedActivities.includes(activity) ? "bg-blue-600 text-white" : "bg-gray-200"
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  className="hidden"
+                  checked={selectedActivities.includes(activity)}
+                  onChange={() => handleActivityChange(activity)}
+                />
+                {activity}
+              </label>
+            ))}
+          </div>
+          <div className="mt-6 flex justify-between">
+            <button onClick={() => setStep(3)} className="px-6 py-2 bg-gray-300 rounded-lg">
+              Back
+            </button>
+            <button onClick={() => setShowModal(true)} className="px-6 py-2 bg-blue-600 text-white rounded-lg">
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm">
+            <h2 className="text-xl font-bold mb-4">Review Your Trip Plan</h2>
+            <p><strong>Destination:</strong> {destination}</p>
+            <p><strong>Date:</strong> {dates?.toLocaleDateString()}</p>
+            <p><strong>Trip Type:</strong> {tripType}</p>
+            <p><strong>Activities:</strong> {selectedActivities.join(", ") || "None"}</p>
+            <div className="mt-4 flex justify-between">
+              <button onClick={() => setShowModal(false)} className="px-4 py-2 bg-gray-300 rounded-lg">
+                Edit
+              </button>
+              <Link to='/' className="px-4 py-2 bg-green-600 text-white rounded-lg">Confirm</Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
+export default CreatePackage;
 
-export default TourSection;
+
+AIzaSyCycpfUZXoMWUh_haO-6mDWpqwRTtod3p8
