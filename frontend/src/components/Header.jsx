@@ -36,6 +36,7 @@ export default function Header() {
       console.log(error);
     }
   };
+
   return (
     <Navbar className="border-b-2">
       <Link

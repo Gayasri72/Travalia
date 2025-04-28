@@ -50,7 +50,7 @@ export default function DashSidebar() {
               to="/dashboard?tab=profile"
               active={tab === 'profile'}
               icon={HiUser}
-              label={currentUser?.rest.isAdmin ? 'Admin' : 'User'}
+              label={currentUser?.rest?.isAdmin ? 'Admin' : 'User'}
               labelColor="dark"
             >
               Profile
