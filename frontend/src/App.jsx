@@ -61,7 +61,7 @@ export default function App() {
             <Route path="/admin/addPackages" element={<AddPackages />} />
             <Route path="/admin/packages" element={<Packages />} />
             <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
-                  <Route path="/hires/userdetail" element={<UserDetails />} />
+                   
           </Routes>
         </main>
         <Footer />

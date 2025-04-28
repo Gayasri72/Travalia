@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { errorHandler } from '../utills/error.js';
+import AppError from '../utills/error.js';
 import User from '../models/user.model.js';
 
 export const test = (req, res) => {
@@ -8,7 +8,7 @@ export const test = (req, res) => {
 
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'You are not allowed to update this user'));
+    return next(new AppError('You are not allowed to update this user', 403));
   }
 
   try {
@@ -16,9 +16,7 @@ export const updateUser = async (req, res, next) => {
 
     if (req.body.password) {
       if (req.body.password.length < 6) {
-        return next(
-          errorHandler(400, 'Password must be at least 6 characters'),
-        );
+        return next(new AppError('Password must be at least 6 characters', 400));
       }
       updateFields.password = bcrypt.hashSync(req.body.password, 10);
     }
@@ -26,16 +24,14 @@ export const updateUser = async (req, res, next) => {
     if (req.body.username) {
       if (req.body.username.length < 7 || req.body.username.length > 20) {
         return next(
-          errorHandler(400, 'Username must be between 7 and 20 characters'),
+          new AppError('Username must be between 7 and 20 characters', 400),
         );
       }
       if (req.body.username.includes(' ')) {
-        return next(errorHandler(400, 'Username cannot contain spaces'));
+        return next(new AppError('Username cannot contain spaces', 400));
       }
       if (!/^[a-zA-Z0-9]+$/.test(req.body.username)) {
-        return next(
-          errorHandler(400, 'Username can only contain letters and numbers'),
-        );
+        return next(new AppError('Username can only contain letters and numbers', 400));
       }
       updateFields.username = req.body.username;
     }
@@ -55,7 +51,7 @@ export const updateUser = async (req, res, next) => {
     );
 
     if (!updatedUser) {
-      return next(errorHandler(404, 'User not found'));
+      return next(new AppError('User not found', 404));
     }
 
     const { password, ...rest } = updatedUser._doc;
@@ -67,7 +63,7 @@ export const updateUser = async (req, res, next) => {
 
 export const deleteUser = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'you are not allowed to delete this user'));
+    return next(new AppError('you are not allowed to delete this user', 403));
   }
   try {
     await User.findByIdAndDelete(req.params.userId);

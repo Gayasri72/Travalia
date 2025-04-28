@@ -1,6 +1,6 @@
 import User from '../models/user.model.js';
 import bcryptjs from 'bcryptjs';
-import { errorHandler } from '../utills/error.js';
+import AppError from '../utills/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
@@ -14,7 +14,7 @@ export const signup = async (req, res, next) => {
     email.trim() === '' ||
     password.trim() === ''
   ) {
-    return next(errorHandler(400, 'All fields are required'));
+    return next(new AppError('All fields are required', 400));
   }
 
   try {
@@ -29,7 +29,7 @@ export const signup = async (req, res, next) => {
     res.status(201).json({ message: 'Sign Up successfully' });
   } catch (error) {
     if (error.code === 11000) {
-      return next(errorHandler(400, 'Username or Email already exists'));
+      return next(new AppError('Username or Email already exists', 400));
     }
     next(error);
   }
@@ -39,20 +39,20 @@ export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password || email === '' || password === '') {
-    return next(errorHandler(400, 'All fields are required'));
+    return next(new AppError('All fields are required', 400));
   }
 
   try {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return next(errorHandler(404, 'User not found'));
+      return next(new AppError('User not found', 404));
     }
 
     const isPasswordMatch = bcryptjs.compareSync(password, user.password);
 
     if (!isPasswordMatch) {
-      return next(errorHandler(400, 'Invalid credentials'));
+      return next(new AppError('Invalid credentials', 400));
     }
 
     const token = jwt.sign(

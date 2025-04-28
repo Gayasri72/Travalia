@@ -39,7 +39,7 @@ export default function Header() {
   };
 
 
-  const { theme } = useSelector((state) => state.theme);
+  
 
 
   return (

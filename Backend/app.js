@@ -5,8 +5,6 @@ import cors from 'cors';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import tourRoutes from './routes/tour.route.js';
-import vehicleRoutes from './routes/vehicle.route.js';
-import hireRoutes from './routes/hires.route.js';
 
 
 import cookieParser from 'cookie-parser';
@@ -47,10 +45,6 @@ app.use('/api/tours', tourRoutes);
 
 app.use('/api/itineraries', itineraryRoutes);
 app.use('/api/bookings', bookingRoutes);
-
-// app.use('/api/hiers')
-app.use('/api/v1/vehicles', vehicleRoutes);
-app.use('/api/v1/hires', hireRoutes);
 
 
 app.use((err, req, res, next) => {
