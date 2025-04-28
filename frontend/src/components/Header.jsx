@@ -19,6 +19,7 @@ export default function Header() {
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
 
+
   const { theme } = useSelector((state) => state.theme);
 
   const handleSignout = async () => {
@@ -36,6 +37,7 @@ export default function Header() {
       console.log(error);
     }
   };
+
 
   return (
     <Navbar className="border-b-2">
@@ -62,6 +64,7 @@ export default function Header() {
           <Dropdown
             arrowIcon={false}
             inline
+
             label={
               <Avatar
                 alt="user"
@@ -72,6 +75,7 @@ export default function Header() {
                 rounded
               />
             }
+
           >
             <Dropdown.Header>
               <span className="block text-sm">

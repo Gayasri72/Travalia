@@ -323,10 +323,12 @@ const places = JSON.parse(
   readFileSync(join(__dirname, '../dev-data/data/trip.json'), 'utf8'),
 );
 
-// Helper: Get distance between 2 coordinates (Haversine formula)
+// Helper: Haversine formula to get distance between two coordinates (in km)
 const getDistance = (lat1, lon1, lat2, lon2) => {
+
   const toRad = (value) => (value * Math.PI) / 180;
   const R = 6371; // km
+
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a =
@@ -338,21 +340,120 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
-const generateItinerary = (req, res) => {
-  const { startingPoint, interests, days } = req.body;
+// Helper: Fetch weather info for a given location
+const getWeather = async (lat, lon, date) => {
+  const apiKey = '68af94336fbb4cf7bcc181546250404'; // Replace with your WeatherAPI key
+  const url = `https://api.weatherapi.com/v1/history.json?key=${apiKey}&q=${lat},${lon}&dt=${date}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.forecast.forecastday[0].day; // Return the day's weather data
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    return null;
+  }
+};
+
+// Helper: Check if the weather has high rain probability (over 50%)
+const hasHeavyRain = (weather) => {
+  return weather && weather.daily_will_it_rain > 50;
+  
+};
+
+
+
+// Helper: Find the nearest indoor place
+const findNearestIndoorPlace = (currentPlace, allPlaces) => {
+  const indoorPlaces = allPlaces.filter(place => place.activityType === 'indoor');
+  
+  let nearest = null;
+  let minDist = Infinity;
+
+  indoorPlaces.forEach(place => {
+    const dist = getDistance(currentPlace.location.lat, currentPlace.location.lng, place.location.lat, place.location.lng);
+    if (dist < minDist) {
+      nearest = place;
+      minDist = dist;
+    }
+  });
+
+  return nearest;
+};
+
+// Helper: Calculate route distance starting from a place using nearest-neighbor
+const calculateRouteDistance = (startPlace, allPlaces) => {
+  const visited = new Set();
+  let current = startPlace;
+  let totalDistance = 0;
+  visited.add(current.name);
+
+  while (visited.size < allPlaces.length) {
+    let nearest = null;
+    let minDist = Infinity;
+
+    for (const place of allPlaces) {
+      if (visited.has(place.name)) continue;
+      const dist = getDistance(current.location.lat, current.location.lng, place.location.lat, place.location.lng);
+      if (dist < minDist) {
+        nearest = place;
+        minDist = dist;
+      }
+    }
+
+    if (nearest) {
+      totalDistance += minDist;
+      visited.add(nearest.name);
+      current = nearest;
+    }
 
   if (!startingPoint || !interests || !days) {
     return res.status(400).json({ error: 'Missing required fields.' });
+
   }
 
-  // Step 1: Filter places based on user interests (category or tags)
+  return totalDistance;
+};
+
+// Helper: Calculate the number of days between start and end dates
+const calculateDaysBetweenDates = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const timeDiff = Math.abs(end - start);
+  const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
+  return dayDiff;
+};
+
+// Main itinerary generator function
+const generateItinerary = async (req, res) => {
+  const { interests, startDate, endDate } = req.body;
+
+  if (!interests || !startDate || !endDate) {
+    return res.status(400).json({ error: "Missing required fields: interests, startDate, endDate" });
+  }
+
+  // Step 1: Calculate the number of days for the trip
+  const days = calculateDaysBetweenDates(startDate, endDate);
+  console.log(`Trip duration: ${days} days`);
+
+  // Step 2: Filter all matching places based on interests
   const matchedPlaces = places
     .filter(
       (p) =>
         interests.includes(p.category) ||
         p.tags.some((tag) => interests.includes(tag)),
     )
-    .sort((a, b) => b.rating - a.rating); // Sort by highest rating first
+    .sort((a, b) => b.rating - a.rating);
+
+  if (matchedPlaces.length === 0) {
+    return res.status(404).json({ error: "No places matched your interests." });
+  }
+
+
+  // Step 3: Count regions and find the most common one
+  const regionCount = {};
+  matchedPlaces.forEach(p => {
+    regionCount[p.region] = (regionCount[p.region] || 0) + 1;
 
   // Step 2: Calculate distance from starting point to each place and add it as a property
   const placesWithDistance = matchedPlaces.map((place) => {
@@ -363,33 +464,94 @@ const generateItinerary = (req, res) => {
       place.location.lng,
     );
     return { ...place, distance };
+
   });
+  const mostCommonRegion = Object.entries(regionCount).sort((a, b) => b[1] - a[1])[0][0];
+
+  // Step 4: Get all places in that region
+  const regionPlaces = matchedPlaces.filter(p => p.region === mostCommonRegion);
+
+  // Step 5: Find best starting point in that region (shortest route)
+  let bestStart = regionPlaces[0];
+  let shortestRoute = Infinity;
+  for (const candidate of regionPlaces) {
+    const routeLength = calculateRouteDistance(candidate, regionPlaces);
+    if (routeLength < shortestRoute) {
+      bestStart = candidate;
+      shortestRoute = routeLength;
+    }
+  }
+
+  const startingPlace = bestStart;
+
+  // Step 6: Sort remaining places using nearest-neighbor from starting point
+  const visited = new Set();
+  let current = startingPlace;
+  const orderedPlaces = [startingPlace];
+  visited.add(current.name);
+
+  while (visited.size < regionPlaces.length) {
+    let nearest = null;
+    let minDist = Infinity;
+
+    for (const place of regionPlaces) {
+      if (visited.has(place.name)) continue;
+      const dist = getDistance(current.location.lat, current.location.lng, place.location.lat, place.location.lng);
+      if (dist < minDist) {
+        nearest = place;
+        minDist = dist;
+      }
+    }
+
+
+    if (nearest) {
+      orderedPlaces.push(nearest);
+      visited.add(nearest.name);
+      current = nearest;
+    }
+  }
 
   // Step 3: Sort places by distance (nearest first)
   const sortedByDistance = placesWithDistance.sort(
     (a, b) => a.distance - b.distance,
   );
 
-  // Step 4: Plan the itinerary
-  const dailyLimit = 8; // max hours per day
-  let itinerary = [];
+
+  // Step 7: Check weather for each place and suggest indoor options if needed
+  const itinerary = [];
   let currentDay = 1;
-  let timeLeft = dailyLimit;
+  let timeLeft = 8; // hours per day
   let dayPlan = [];
 
-  // Group places into days, ensuring each day's total time does not exceed dailyLimit
-  for (const place of sortedByDistance) {
-    if (place.avgTime <= timeLeft) {
+  for (const place of orderedPlaces) {
+    const weather = await getWeather(place.location.lat, place.location.lng, startDate); // Check weather for the start date
+
+    if (hasHeavyRain(weather)) {
+      const indoorPlace = findNearestIndoorPlace(place, regionPlaces);
+      if (indoorPlace) {
+        dayPlan.push(indoorPlace); // Add nearest indoor place to the day plan
+        timeLeft -= indoorPlace.avgTime;
+      } else {
+        dayPlan.push(place);
+        timeLeft -= place.avgTime;
+      }
+    } else {
       dayPlan.push(place);
       timeLeft -= place.avgTime;
-    } else {
+    }
+
+    if (timeLeft <= 0 || dayPlan.length >= days) {
       itinerary.push({ day: currentDay, activities: dayPlan });
       currentDay++;
-      if (currentDay > days) break; // Stop if the number of days is exceeded
-      dayPlan = [place];
-      timeLeft = dailyLimit - place.avgTime;
+      timeLeft = 8; // Reset for the next day
+      dayPlan = [];
     }
   }
+
+
+  // Step 8: Calculate total estimated cost
+  const totalCost = itinerary
+    .flatMap(d => d.activities)
 
   // If there are remaining places, assign them to the final day
   if (dayPlan.length && currentDay <= days) {
@@ -399,9 +561,15 @@ const generateItinerary = (req, res) => {
   // Step 5: Calculate total cost
   const totalCost = itinerary
     .flatMap((d) => d.activities)
+
     .reduce((sum, place) => sum + place.avgTicketPrice, 0);
 
-  res.json({ itinerary, totalCost });
+  res.json({
+    startingPoint: startingPlace.name,
+    totalDays: days,
+    itinerary,
+    totalCost
+  });
 };
 
 export { generateItinerary };
