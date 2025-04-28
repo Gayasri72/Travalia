@@ -1,15 +1,21 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import tourRoutes from './routes/tour.route.js';
 import vehicleRoutes from './routes/vehicle.route.js';
 import hireRoutes from './routes/hires.route.js';
 
+import cookieParser from 'cookie-parser';
+
+import itineraryRoutes from './routes/itinerary.route.js';
+
+
 const app = express();
 app.use(express.json());
-
+app.use(cookieParser());
 // MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -23,9 +29,13 @@ console.log('app.js is running');
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/tours', tourRoutes);
+
+app.use('/api/itineraries', itineraryRoutes);
+
 // app.use('/api/hiers')
 app.use('/api/v1/vehicles', vehicleRoutes);
 app.use('/api/v1/hires', hireRoutes);
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

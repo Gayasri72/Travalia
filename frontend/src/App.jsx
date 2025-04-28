@@ -13,7 +13,7 @@ import Gallery from './pages/Gallery';
 import UserDetails from './components/Hire/UserDetails';
 
 import PrivateRoute from './components/PrivateRoute';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './components/User/Dashboard';
 import Tour from './pages/Tour';
 
 import AdminVehicles from './components/AdminVehicles';
@@ -26,7 +26,7 @@ import ForgotPassword from './components/User/ForgotPassword';
 
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
-
+import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 
 
 export default function App() {
@@ -35,7 +35,6 @@ export default function App() {
 
 
          
-        
 
       <div className="flex flex-col min-h-screen">
         <Header />
@@ -46,12 +45,15 @@ export default function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/contact" element={<ContactUs />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
 
+            <Route element={<OnlyAdminPrivateRoute />}>
+              <Route path="/" element={<Packages />} />
+            </Route>
 
   
           </Route>
