@@ -40,7 +40,7 @@
 //     try {
 //       const url = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${district}&dt=${date}`;
 //       const response = await axios.get(url);
-      
+
 //       const condition = response.data.forecast?.forecastday[0]?.day?.condition?.text || 'Cloudy';
 //       const weather = normalizeWeatherCondition(condition);
 
@@ -121,7 +121,7 @@
 //     });
 //   } catch (error) {
 //     console.error('Error creating itinerary:', error);
-//     res.status(500).json({ 
+//     res.status(500).json({
 //       error: error.message,
 //       details: 'Failed to generate itinerary. Please check your inputs and try again.'
 //     });
@@ -319,18 +319,22 @@ import { dirname, join } from 'path';
 const require = createRequire(import.meta.url);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const places = JSON.parse(readFileSync(join(__dirname, '../dev-data/data/trip.json'), 'utf8'));
+const places = JSON.parse(
+  readFileSync(join(__dirname, '../dev-data/data/trip.json'), 'utf8'),
+);
 
 // Helper: Get distance between 2 coordinates (Haversine formula)
 const getDistance = (lat1, lon1, lat2, lon2) => {
-  const toRad = (value) => value * Math.PI / 180;
+  const toRad = (value) => (value * Math.PI) / 180;
   const R = 6371; // km
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
@@ -338,24 +342,33 @@ const generateItinerary = (req, res) => {
   const { startingPoint, interests, days } = req.body;
 
   if (!startingPoint || !interests || !days) {
-    return res.status(400).json({ error: "Missing required fields." });
+    return res.status(400).json({ error: 'Missing required fields.' });
   }
 
   // Step 1: Filter places based on user interests (category or tags)
   const matchedPlaces = places
-    .filter(p =>
-      interests.includes(p.category) || p.tags.some(tag => interests.includes(tag))
+    .filter(
+      (p) =>
+        interests.includes(p.category) ||
+        p.tags.some((tag) => interests.includes(tag)),
     )
     .sort((a, b) => b.rating - a.rating); // Sort by highest rating first
 
   // Step 2: Calculate distance from starting point to each place and add it as a property
-  const placesWithDistance = matchedPlaces.map(place => {
-    const distance = getDistance(startingPoint.lat, startingPoint.lng, place.location.lat, place.location.lng);
+  const placesWithDistance = matchedPlaces.map((place) => {
+    const distance = getDistance(
+      startingPoint.lat,
+      startingPoint.lng,
+      place.location.lat,
+      place.location.lng,
+    );
     return { ...place, distance };
   });
 
   // Step 3: Sort places by distance (nearest first)
-  const sortedByDistance = placesWithDistance.sort((a, b) => a.distance - b.distance);
+  const sortedByDistance = placesWithDistance.sort(
+    (a, b) => a.distance - b.distance,
+  );
 
   // Step 4: Plan the itinerary
   const dailyLimit = 8; // max hours per day
@@ -384,7 +397,9 @@ const generateItinerary = (req, res) => {
   }
 
   // Step 5: Calculate total cost
-  const totalCost = itinerary.flatMap(d => d.activities).reduce((sum, place) => sum + place.avgTicketPrice, 0);
+  const totalCost = itinerary
+    .flatMap((d) => d.activities)
+    .reduce((sum, place) => sum + place.avgTicketPrice, 0);
 
   res.json({ itinerary, totalCost });
 };

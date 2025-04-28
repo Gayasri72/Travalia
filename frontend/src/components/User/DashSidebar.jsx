@@ -4,6 +4,7 @@ import {
   HiUser,
   HiOutlineGlobeAlt,
   HiOutlineCalendar,
+  HiOutlineUserGroup,
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -64,6 +65,17 @@ export default function DashSidebar() {
                 labelColor="dark"
               >
                 packages
+              </Sidebar.Item>
+            )}
+            {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=users"
+                active={tab === 'packages'}
+                icon={HiOutlineUserGroup}
+                labelColor="dark"
+              >
+                Users
               </Sidebar.Item>
             )}
 
