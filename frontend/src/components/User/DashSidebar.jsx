@@ -2,14 +2,16 @@ import { Sidebar } from 'flowbite-react';
 import {
   HiArrowSmRight,
   HiUser,
-  HiOutlineGlobeAlt,
   HiOutlineCalendar,
+
 } from 'react-icons/hi';
+
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { FaTaxi } from 'react-icons/fa';
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -64,6 +66,29 @@ export default function DashSidebar() {
                 labelColor="dark"
               >
                 packages
+              </Sidebar.Item>
+            )}
+            {!currentUser?.rest?.isUser && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=my-hires"
+                active={tab === 'my-hires'}
+                icon={HiOutlineCalendar}
+                labelColor="dark"
+              >
+                My Hires
+              </Sidebar.Item>
+            )}
+            
+            {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=hires"
+                active={tab === 'hires'}
+                icon={FaTaxi}
+                labelColor="dark"
+              >
+                Vehicles
               </Sidebar.Item>
             )}
 
