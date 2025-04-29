@@ -1,15 +1,6 @@
-import { createRequire } from 'module';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import Itinerary from '../models/itinerary.model.js';
 
-const require = createRequire(import.meta.url);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const places = JSON.parse(
-  readFileSync(join(__dirname, '../dev-data/data/trip.json'), 'utf8'),
-);
+import Itinerary from '../models/itinerary.model.js';
+import Trip from '../models/trip.model.js';
 
 // Helper: Haversine formula to get distance between two coordinates (in km)
 const getDistance = (lat1, lon1, lat2, lon2) => {
@@ -117,6 +108,9 @@ const generateItinerary = async (req, res) => {
       error: 'Missing required fields: interests, startDate, endDate',
     });
   }
+
+  // Fetch all places from MongoDB
+  const places = await Trip.find();
 
   // Step 1: Calculate the number of days for the trip
   const days = calculateDaysBetweenDates(startDate, endDate);
