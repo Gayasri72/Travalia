@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie"; // Import js-cookie to handle cookies
 
 export default function Drop() {
   const [vehicles, setVehicles] = useState([]);
@@ -48,12 +49,36 @@ export default function Drop() {
     };
 
     try {
-      const response = await axios.post("/api/drop/", formData);
-      alert("Booking request submitted successfully!");
-      navigate("/"); // Navigate to home page after successful submission
+      const token = localStorage.getItem("authToken"); // Retrieve the token from localStorage
+      console.log("Retrieved token from localStorage:", token); // Log the token for debugging
+
+      if (!token) {
+        console.error("No authentication token found. Please log in.");
+        alert("You must be logged in to create a drop booking.");
+        return;
+      }
+
+      const response = await axios.post("/api/drop/", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+      });
+
+      if (response.status === 201) {
+        alert("Booking request submitted successfully!");
+        navigate("/"); // Navigate to home page after successful submission
+      } else {
+        console.error("Unexpected response status:", response.status);
+        alert("An unexpected error occurred. Please try again.");
+      }
     } catch (error) {
-      console.error("Error submitting booking request:", error.response?.data || error.message);
-      alert("Failed to submit booking request. Please try again.");
+      if (error.response && error.response.status === 401) {
+        alert("Unauthorized: Please log in again.");
+        navigate("/sign-in"); // Redirect to login page
+      } else {
+        console.error("Error submitting booking request:", error.response?.data || error.message);
+        alert(error.response?.data?.message || "Failed to submit booking request. Please try again.");
+      }
     }
   };
 

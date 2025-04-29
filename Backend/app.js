@@ -24,9 +24,10 @@ console.log('app.js is running');
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/tours', tourRoutes);
-app.use('/api/pick', pickupRoutes);
-app.use('/api/drop', dropRoutes);
-app.use('/api/v1/vehicles', vehicleRoutes);
+
+app.use('/api/pick', pickupRoutes);//pickup form
+app.use('/api/drop', dropRoutes);  //drop form
+app.use('/api/v1/vehicles', vehicleRoutes);  //add vehicle form
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

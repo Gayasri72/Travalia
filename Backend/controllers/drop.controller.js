@@ -3,9 +3,16 @@ import Drop from '../models/drop.model.js';
 // Controller to create a new drop
 export const createDrop = async (req, res) => {
   try {
-    const { customerName, email, phoneNo, pickupLocation, dropLocation, dateTime, vehicleName } = req.body;
+    if (!req.user) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'You must be logged in to create a drop booking.',
+      });
+    }
 
-    if (!customerName || !email || !phoneNo || !pickupLocation || !dropLocation || !dateTime || !vehicleName) {
+    const { customerName, phoneNo, pickupLocation, dropLocation, dateTime, vehicleName } = req.body;
+
+    if (!customerName || !phoneNo || !pickupLocation || !dropLocation || !dateTime || !vehicleName) {
       return res.status(400).json({
         status: 'fail',
         message: 'All fields are required',
@@ -14,12 +21,12 @@ export const createDrop = async (req, res) => {
 
     const newDrop = await Drop.create({
       customerName,
-      email,
+      email: req.user.email, // Use logged-in user's email
       phoneNo,
       pickupLocation,
       dropLocation,
       dateTime,
-      vehicleName, // Include vehicleName in the database
+      vehicleName,
     });
 
     res.status(201).json({
@@ -34,10 +41,17 @@ export const createDrop = async (req, res) => {
   }
 };
 
-// Controller to get all drops
+// Controller to get all drops for the logged-in user
 export const getAllDrops = async (req, res) => {
   try {
-    const drops = await Drop.find();
+    if (!req.user) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'You must be logged in to view your drop bookings.',
+      });
+    }
+
+    const drops = await Drop.find({ email: req.user.email });
 
     res.status(200).json({
       status: 'success',
@@ -52,19 +66,28 @@ export const getAllDrops = async (req, res) => {
   }
 };
 
-// Controller to delete a drop booking
+// Controller to delete a drop booking for the logged-in user
 export const deleteDrop = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const deletedDrop = await Drop.findByIdAndDelete(id);
-
-    if (!deletedDrop) {
-      return res.status(404).json({
+    if (!req.user) {
+      return res.status(401).json({
         status: 'fail',
-        message: 'Drop booking not found',
+        message: 'You must be logged in to delete a drop booking.',
       });
     }
+
+    const { id } = req.params;
+
+    const drop = await Drop.findOne({ _id: id, email: req.user.email });
+
+    if (!drop) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Drop booking not found or you do not have permission to delete it.',
+      });
+    }
+
+    await Drop.findByIdAndDelete(id);
 
     res.status(200).json({
       status: 'success',
@@ -78,15 +101,37 @@ export const deleteDrop = async (req, res) => {
   }
 };
 
-// Controller to get booking hires
-export const getBookingHires = async (req, res) => {
+// Controller to get drop details for the logged-in user
+export const getUserDropDetails = async (req, res) => {
   try {
-    const hires = await Drop.find(); // Replace 'Drop' with the appropriate model if needed
+    if (!req.user) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'You must be logged in to view drop details.',
+      });
+    }
+
+    const { email } = req.params;
+
+    if (email !== req.user.email) {
+      return res.status(403).json({
+        status: 'fail',
+        message: 'You do not have permission to view these drop details.',
+      });
+    }
+
+    const userDrops = await Drop.find({ email });
+
+    if (!userDrops || userDrops.length === 0) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'No drop details found for this email',
+      });
+    }
 
     res.status(200).json({
       status: 'success',
-      results: hires.length,
-      data: hires,
+      data: userDrops,
     });
   } catch (error) {
     res.status(400).json({

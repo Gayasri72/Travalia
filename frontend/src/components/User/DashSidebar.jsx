@@ -91,6 +91,17 @@ export default function DashSidebar() {
                 Vehicles
               </Sidebar.Item>
             )}
+             {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=drop"
+                active={tab === 'drop'}
+                icon={FaTaxi}
+                labelColor="dark"
+              >
+                Drop Details
+              </Sidebar.Item>
+            )}
 
             <Sidebar.Item
               icon={HiArrowSmRight}

@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import Tours from './pages/Tours';
 import Hires from './pages/Hires';
 import Gallery from './pages/Gallery';
-import UserDetails from './components/Hire/UserDetails';
+// import UserDetails from './components/Hire/UserDetails';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/User/Dashboard';
 import Tour from './pages/Tour';
@@ -75,7 +75,7 @@ export default function App() {
             <Route path="/admin/addPackages" element={<AddPackages />} />
             <Route path="/admin/packages" element={<Packages />} />
             <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
-                  <Route path="/hires/userdetail" element={<UserDetails />} />
+                  {/* <Route path="/hires/userdetail" element={<UserDetails />} /> */}
           </Routes>
         </main>
         <Footer />
