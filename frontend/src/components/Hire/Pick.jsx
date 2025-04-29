@@ -1,112 +1,102 @@
-import { useEffect, useState } from "react";
-import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-export default function Pick() {
-  const [vehicles, setVehicles] = useState([]);
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [dropLocation, setDropLocation] = useState("");
-  const [dateTime, setDateTime] = useState("");
-  const [error, setError] = useState("");
+const Pick = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    contact: '',
+    flightNumber: '',
+    pickupTime: '',
+    destination: '',
+  });
 
-  useEffect(() => {
-    // Fetch vehicles from the backend
-    axios.get("/api/v1/vehicles").then((response) => {
-      setVehicles(response.data.data.vehicles);
-    });
-  }, []);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  // Function to handle date validation
-  const handleDateChange = (e) => {
-    const selectedDate = new Date(e.target.value);
-    const currentDate = new Date();
-
-    // Check if the selected date is in the future
-    if (selectedDate <= currentDate) {
-      setError("Please select a future date and time.");
-    } else {
-      setError(""); // Clear error if date is valid
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5173/api/pick', formData);
+      alert('Pickup request submitted successfully!');
+      setFormData({ name: '', contact: '', flightNumber: '', pickupTime: '', destination: '' });
+    } catch (error) {
+      console.error('Error submitting pickup request:', error);
+      alert('Failed to submit pickup request.');
     }
-    setDateTime(e.target.value);
   };
 
   return (
-    <div>
-      <div>
-        <h2 className="text-xl font-semibold text-center mb-4">Airport Pickup</h2>
-
-        <form className="space-y-4">
-          {/* Vehicle Selection */}
-          <label className="block text-gray-700 font-semibold">Select a Vehicle</label>
-          <div className="space-y-4">
-            {vehicles.map((vehicle) => (
-              <div
-                key={vehicle._id}
-                className={`p-4 border rounded-lg cursor-pointer ${
-                  selectedVehicle === vehicle._id ? "bg-blue-500 text-white" : "bg-gray-100"
-                }`}
-                onClick={() => setSelectedVehicle(vehicle._id)}
-              >
-                <h3 className="font-semibold">{vehicle.name}</h3>
-                <p>Passengers: {vehicle.passengers}</p>
-                <p>Baggage: {vehicle.baggage}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Form Fields */}
-          <div className="space-y-4">
-            <label className="block text-gray-700 font-semibold">Drop Location <span className="text-red-500">*</span></label>
-            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
-              <FaMapMarkerAlt className="text-gray-500 mr-2" />
-              <input 
-                type="text" 
-                className="w-full bg-transparent outline-none text-black" 
-                placeholder="Enter Drop Location"
-                value={dropLocation}
-                onChange={(e) => setDropLocation(e.target.value)}
-                required
-              />
-            </div>
-
-            <label className="block text-gray-700 font-semibold">Pick Up Location</label>
-            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
-              <FaMapMarkerAlt className="text-gray-500 mr-2" />
-              <input 
-                type="text" 
-                className="w-full bg-transparent outline-none text-black" 
-                value="BIA Departure Terminal, Katunayake"
-                readOnly
-              />
-            </div>
-
-            <label className="block text-gray-700 font-semibold">Date & Time <span className="text-red-500">*</span></label>
-            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
-              <FaCalendarAlt className="text-gray-500 mr-2" />
-              <input 
-                type="datetime-local" 
-                className="w-full bg-transparent outline-none text-black"
-                value={dateTime}
-                onChange={handleDateChange}
-                required
-              />
-            </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display Error */}
-          </div>
-
-          {/* Submit Button */}
-          <Link to="userdetail">
-            <button 
-              type="submit" 
-              className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
-              disabled={!dropLocation || !dateTime || error} // Disable if there's an error
-            >
-              Book Now
-            </button>
-          </Link>
-        </form>
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+      <h2 className="text-2xl font-bold mb-4">Airport Pickup</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Name</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full border border-gray-300 p-2 rounded-lg"
+          placeholder="Enter your name"
+          required
+        />
       </div>
-    </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Contact</label>
+        <input
+          type="text"
+          name="contact"
+          value={formData.contact}
+          onChange={handleChange}
+          className="w-full border border-gray-300 p-2 rounded-lg"
+          placeholder="Enter your contact number"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Flight Number</label>
+        <input
+          type="text"
+          name="flightNumber"
+          value={formData.flightNumber}
+          onChange={handleChange}
+          className="w-full border border-gray-300 p-2 rounded-lg"
+          placeholder="Enter your flight number"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Pickup Time</label>
+        <input
+          type="datetime-local"
+          name="pickupTime"
+          value={formData.pickupTime}
+          onChange={handleChange}
+          className="w-full border border-gray-300 p-2 rounded-lg"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Destination</label>
+        <input
+          type="text"
+          name="destination"
+          value={formData.destination}
+          onChange={handleChange}
+          className="w-full border border-gray-300 p-2 rounded-lg"
+          placeholder="Enter your destination"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+      >
+        Submit
+      </button>
+    </form>
   );
-}
+};
+
+export default Pick;
