@@ -8,9 +8,9 @@ import Header from './components/Header';
 import Notfound from './pages/Notfound';
 import Footer from './components/Footer';
 import Tours from './pages/Tours';
-import Hires from './pages/Hires';
+
 import Gallery from './pages/Gallery';
-// import UserDetails from './components/Hire/UserDetails';
+
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/User/Dashboard';
 import Tour from './pages/Tour';
@@ -26,7 +26,7 @@ import ForgotPassword from './components/User/ForgotPassword';
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
-import AdminDropBookings from './pages/Admin/AdminDropBookings';
+
 import AdminVehicles from './pages/Admin/AdminVehicles';
 
 
@@ -61,13 +61,13 @@ export default function App() {
   
          
           <Route path="/admin/hire" element={<AdminVehicles/>} />
-          <Route path="/admin/drop" element={<AdminDropBookings/>} />
+          
           
 
 
             <Route path="/tours" element={<Tours />} />
             <Route path="/tour/:id" element={<Tour />} />
-            <Route path="/hires" element={<Hires />} />
+            
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/create-package" element={<CreatePackage />} />
             <Route path="*" element={<Notfound />} />

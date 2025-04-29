@@ -16,7 +16,7 @@ export default function AdminVehicles() {
   const fetchVehicles = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/v1/vehicles");
+      const response = await axios.get("/api/vehicles");
       setVehicles(response.data.data.vehicles);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
@@ -33,7 +33,7 @@ export default function AdminVehicles() {
     }
 
     try {
-      const response = await axios.post("/api/v1/vehicles", newVehicle);
+      const response = await axios.post("/api/vehicles", newVehicle);
       setVehicles((prev) => [...prev, response.data.data.vehicle]);
       setNewVehicle({ name: "", passengers: "", baggage: "" });
     } catch (error) {
@@ -44,7 +44,7 @@ export default function AdminVehicles() {
 
   const handleDeleteVehicle = async (id) => {
     try {
-      await axios.delete(`/api/v1/vehicles/${id}`);
+      await axios.delete(`/api/vehicles/${id}`);
       setVehicles((prev) => prev.filter((vehicle) => vehicle._id !== id));
     } catch (error) {
       console.error("Error deleting vehicle:", error);
@@ -68,7 +68,7 @@ export default function AdminVehicles() {
 
   const handleSaveEdit = async (id) => {
     try {
-      const response = await axios.patch(`/api/v1/vehicles/${id}`, editVehicleData);
+      const response = await axios.patch(`/api/vehicles/${id}`, editVehicleData);
       setVehicles((prev) => prev.map((v) => (v._id === id ? response.data.data.vehicle : v)));
       setEditVehicleId(null);
     } catch (error) {

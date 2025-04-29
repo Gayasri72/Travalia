@@ -4,8 +4,7 @@ import DashSidebar from './DashSidebar';
 import DashProfile from './DashProfile';
 import Packages from '../../pages/Admin/Packages';
 import AdminVehicles from '../../pages/Admin/AdminVehicles';
-import HireDetails from '../../pages/HireDetails';
-import AdminDropBookings from '../../pages/Admin/AdminDropBookings';
+
 
 export default function Dashboard() {
   const location = useLocation();
@@ -28,8 +27,8 @@ export default function Dashboard() {
       {tab === 'profile' && <DashProfile />}
       {tab === 'packages' && <Packages />}
       {tab === 'hires' && <AdminVehicles />}
-      {tab === 'my-hires' && <HireDetails/>}
-      {tab === 'drop' && <AdminDropBookings/>}
+      
+   
       {/* Add more tabs as needed */}
     </div>
   );

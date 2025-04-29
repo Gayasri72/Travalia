@@ -68,17 +68,7 @@ export default function DashSidebar() {
                 packages
               </Sidebar.Item>
             )}
-            {!currentUser?.rest?.isUser && (
-              <Sidebar.Item
-                as={Link}
-                to="/dashboard?tab=my-hires"
-                active={tab === 'my-hires'}
-                icon={HiOutlineCalendar}
-                labelColor="dark"
-              >
-                My Hires
-              </Sidebar.Item>
-            )}
+           
             
             {currentUser?.rest?.isAdmin && (
               <Sidebar.Item
@@ -91,17 +81,7 @@ export default function DashSidebar() {
                 Vehicles
               </Sidebar.Item>
             )}
-             {currentUser?.rest?.isAdmin && (
-              <Sidebar.Item
-                as={Link}
-                to="/dashboard?tab=drop"
-                active={tab === 'drop'}
-                icon={FaTaxi}
-                labelColor="dark"
-              >
-                Drop Details
-              </Sidebar.Item>
-            )}
+            
 
             <Sidebar.Item
               icon={HiArrowSmRight}
