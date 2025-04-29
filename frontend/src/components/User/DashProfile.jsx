@@ -21,7 +21,7 @@ export default function DashProfile() {
 
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(
-    currentUser?.rest?.profilePicture || null,
+    currentUser?.profilePicture || currentUser?.rest?.profilePicture || null,
   );
   const [imageFileUploadingProgress, setImageFileUploadingProgress] =
     useState(null);
@@ -54,7 +54,7 @@ export default function DashProfile() {
 
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('upload_preset', 'Travalia'); // Ensure this matches your Cloudinary preset
+    formData.append('upload_preset', 'Travalia');
 
     try {
       const response = await axios.post(
@@ -71,20 +71,17 @@ export default function DashProfile() {
         },
       );
 
-      // Get the Cloudinary URL from response
       const uploadedImageUrl = response.data.secure_url;
-
-      // Update state with the Cloudinary image URL
       setImageFileUrl(uploadedImageUrl);
       setFormData((prevFormData) => ({
         ...prevFormData,
         profilePicture: uploadedImageUrl,
       }));
-      setImageFileUploadingProgress(null); // Reset progress after upload
+      setImageFileUploadingProgress(null);
     } catch (error) {
       setImageFileUploadError('Error uploading image');
-
       setImageFileUploadingProgress(null);
+      console.error('Image upload error:', error);
     }
   };
 
@@ -202,7 +199,7 @@ export default function DashProfile() {
             </div>
           )}
           <img
-            src={imageFileUrl || currentUser?.profilePicture}
+            src={imageFileUrl || currentUser?.profilePicture || currentUser?.rest?.profilePicture}
             alt="user"
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadingProgress &&

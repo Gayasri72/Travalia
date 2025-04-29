@@ -1,4 +1,3 @@
-
 // import Itinerary from '../models/itinerary.model.js';
 // import generateItinerary from '../utills/itinerary.js';
 // import moment from 'moment';
@@ -41,7 +40,7 @@
 //     try {
 //       const url = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${district}&dt=${date}`;
 //       const response = await axios.get(url);
-      
+
 //       const condition = response.data.forecast?.forecastday[0]?.day?.condition?.text || 'Cloudy';
 //       const weather = normalizeWeatherCondition(condition);
 
@@ -122,7 +121,7 @@
 //     });
 //   } catch (error) {
 //     console.error('Error creating itinerary:', error);
-//     res.status(500).json({ 
+//     res.status(500).json({
 //       error: error.message,
 //       details: 'Failed to generate itinerary. Please check your inputs and try again.'
 //     });
@@ -312,19 +311,32 @@
 
 //.............................................................................................................................................................................................................
 
+import { createRequire } from 'module';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-import places from '../dev-data/data/trip.json' assert { type: 'json' };
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const places = JSON.parse(
+  readFileSync(join(__dirname, '../dev-data/data/trip.json'), 'utf8'),
+);
 
 // Helper: Haversine formula to get distance between two coordinates (in km)
 const getDistance = (lat1, lon1, lat2, lon2) => {
-  const toRad = (value) => value * Math.PI / 180;
-  const R = 6371;
+
+  const toRad = (value) => (value * Math.PI) / 180;
+  const R = 6371; // km
+
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
@@ -348,6 +360,7 @@ const hasHeavyRain = (weather) => {
   return weather && weather.daily_will_it_rain > 50;
   
 };
+
 
 
 // Helper: Find the nearest indoor place
@@ -393,6 +406,10 @@ const calculateRouteDistance = (startPlace, allPlaces) => {
       visited.add(nearest.name);
       current = nearest;
     }
+
+  if (!startingPoint || !interests || !days) {
+    return res.status(400).json({ error: 'Missing required fields.' });
+
   }
 
   return totalDistance;
@@ -421,8 +438,10 @@ const generateItinerary = async (req, res) => {
 
   // Step 2: Filter all matching places based on interests
   const matchedPlaces = places
-    .filter(p =>
-      interests.includes(p.category) || p.tags.some(tag => interests.includes(tag))
+    .filter(
+      (p) =>
+        interests.includes(p.category) ||
+        p.tags.some((tag) => interests.includes(tag)),
     )
     .sort((a, b) => b.rating - a.rating);
 
@@ -430,10 +449,22 @@ const generateItinerary = async (req, res) => {
     return res.status(404).json({ error: "No places matched your interests." });
   }
 
+
   // Step 3: Count regions and find the most common one
   const regionCount = {};
   matchedPlaces.forEach(p => {
     regionCount[p.region] = (regionCount[p.region] || 0) + 1;
+
+  // Step 2: Calculate distance from starting point to each place and add it as a property
+  const placesWithDistance = matchedPlaces.map((place) => {
+    const distance = getDistance(
+      startingPoint.lat,
+      startingPoint.lng,
+      place.location.lat,
+      place.location.lng,
+    );
+    return { ...place, distance };
+
   });
   const mostCommonRegion = Object.entries(regionCount).sort((a, b) => b[1] - a[1])[0][0];
 
@@ -472,12 +503,19 @@ const generateItinerary = async (req, res) => {
       }
     }
 
+
     if (nearest) {
       orderedPlaces.push(nearest);
       visited.add(nearest.name);
       current = nearest;
     }
   }
+
+  // Step 3: Sort places by distance (nearest first)
+  const sortedByDistance = placesWithDistance.sort(
+    (a, b) => a.distance - b.distance,
+  );
+
 
   // Step 7: Check weather for each place and suggest indoor options if needed
   const itinerary = [];
@@ -510,9 +548,20 @@ const generateItinerary = async (req, res) => {
     }
   }
 
+
   // Step 8: Calculate total estimated cost
   const totalCost = itinerary
     .flatMap(d => d.activities)
+
+  // If there are remaining places, assign them to the final day
+  if (dayPlan.length && currentDay <= days) {
+    itinerary.push({ day: currentDay, activities: dayPlan });
+  }
+
+  // Step 5: Calculate total cost
+  const totalCost = itinerary
+    .flatMap((d) => d.activities)
+
     .reduce((sum, place) => sum + place.avgTicketPrice, 0);
 
   res.json({

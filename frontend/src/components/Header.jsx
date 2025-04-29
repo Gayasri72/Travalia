@@ -39,9 +39,6 @@ export default function Header() {
   };
 
 
-  
-
-
   return (
     <Navbar className="border-b-2">
       <Link

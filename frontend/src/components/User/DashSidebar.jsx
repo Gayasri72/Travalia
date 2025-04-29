@@ -4,8 +4,10 @@ import {
   HiUser,
   HiGift ,
   HiOutlineCalendar,
+
   HiOutlineChartBar,
   HiDatabase ,
+
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -52,7 +54,7 @@ export default function DashSidebar() {
               to="/dashboard?tab=profile"
               active={tab === 'profile'}
               icon={HiUser}
-              label={currentUser?.rest.isAdmin ? 'Admin' : 'User'}
+              label={currentUser?.rest?.isAdmin ? 'Admin' : 'User'}
               labelColor="dark"
             >
               Profile
@@ -104,6 +106,17 @@ export default function DashSidebar() {
                 Predefined Tours
               </Sidebar.Item>
               
+            )}
+            {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=users"
+                active={tab === 'users'}
+                icon={HiOutlineUserGroup}
+                labelColor="dark"
+              >
+                Users
+              </Sidebar.Item>
             )}
 
             <Sidebar.Item
