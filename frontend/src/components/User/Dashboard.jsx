@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import DashSidebar from './DashSidebar';
 import DashProfile from './DashProfile';
 import Packages from '../../pages/Admin/Packages';
+import AdminVehicles from '../../pages/Admin/AdminVehicles';
+import HireDetails from '../../pages/HireDetails';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -24,6 +26,9 @@ export default function Dashboard() {
       {/*profile*/}
       {tab === 'profile' && <DashProfile />}
       {tab === 'packages' && <Packages />}
+      {tab === 'hires' && <AdminVehicles />}
+      {tab === 'my-hires' && <HireDetails/>}
+      {/* Add more tabs as needed */}
     </div>
   );
 }
