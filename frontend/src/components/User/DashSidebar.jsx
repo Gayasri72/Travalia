@@ -80,7 +80,22 @@ export default function DashSidebar() {
                 My Bookings
               </Sidebar.Item>
             )}
-            {currentUser?.rest?.isAdmin && (
+
+
+            {!currentUser?.rest?.isUser && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=My Plans"
+                active={tab === 'My Plans'}
+                icon={HiGift }
+                labelColor="dark"
+              >
+                My Plans
+              </Sidebar.Item>
+              
+            )}
+             {currentUser?.rest?.isAdmin && (
+
               <Sidebar.Item
                 as={Link}
                 to="/dashboard?tab=Booking Confirmations"
@@ -100,6 +115,17 @@ export default function DashSidebar() {
                 labelColor="dark"
               >
                 Predefined Tours
+              </Sidebar.Item>
+            )}
+             {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=Ai-tours"
+                active={tab === 'Ai-tours'}
+                icon={HiOutlineUserGroup}
+                labelColor="dark"
+              >
+                User Defined Tours
               </Sidebar.Item>
             )}
             {currentUser?.rest?.isAdmin && (

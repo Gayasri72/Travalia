@@ -9,6 +9,8 @@ import BookingConfirm from '../../pages/Admin/BookingConfirm';
 import DefinedTourBooking from '../../pages/Admin/DefinedTourBooking';
 
 import DashUsers from './DashUsers';
+import Plans from '../../pages/Plans';
+import Aitours from '../../pages/Admin/Aitours';
 
 
 export default function Dashboard() {
@@ -36,7 +38,8 @@ export default function Dashboard() {
       {tab === 'My Bookings'&& <Booking/>} 
       {tab === 'Booking Confirmations'&& <BookingConfirm/>} 
       {tab === 'Predefined Tours'&& <DefinedTourBooking/>} 
-
+      {tab === 'My Plans'&& <Plans/>} 
+      {tab === 'Ai-tours'&& <Aitours/>} 
       {/*users*/}
       {tab === 'users' && <DashUsers />}
 

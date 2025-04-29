@@ -37,12 +37,16 @@ app.use(
 export default app;
 
 console.log('app.js is running');
-
+// user routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+// tour routes
 app.use('/api/tours', tourRoutes);
 
-// app.use('/api/itineraries', itineraryRoutes);
+// itinerary routes
+app.use('/api/itineraries', itineraryRoutes);
+// booking routes
+
 app.use('/api/bookings', bookingRoutes);
 
 app.use((err, req, res, next) => {

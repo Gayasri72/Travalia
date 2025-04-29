@@ -15,8 +15,6 @@ import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/User/Dashboard';
 import Tour from './pages/Tour';
 
-import AdminVehicles from './components/AdminVehicles';
-
 import TourBooking from './pages/Admin/TourBooking';
 import AddPackages from './pages/Admin/AddPackages';
 import Packages from './pages/Admin/Packages';
@@ -24,6 +22,10 @@ import Packages from './pages/Admin/Packages';
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
+
+
+
+
 
 export default function App() {
   return (
@@ -59,6 +61,16 @@ export default function App() {
           </Routes>
         </main>
         <Footer />
+
+
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          theme="colored"
+          toastClassName="rounded-lg text-base font-semibold shadow-lg"
+          bodyClassName="flex items-center"
+        />
+
       </div>
     </BrowserRouter>
   );
