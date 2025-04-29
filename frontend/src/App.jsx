@@ -20,19 +20,14 @@ import AdminVehicles from './components/AdminVehicles';
 import TourBooking from './pages/Admin/TourBooking';
 import AddPackages from './pages/Admin/AddPackages';
 import Packages from './pages/Admin/Packages';
-import ForgotPassword from './components/User/ForgotPassword';
+
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 
-
 export default function App() {
   return (
     <BrowserRouter>
-
-
-         
-
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 gap-2 m-1">
@@ -42,7 +37,7 @@ export default function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/contact" element={<ContactUs />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
@@ -61,11 +56,9 @@ export default function App() {
             <Route path="/admin/addPackages" element={<AddPackages />} />
             <Route path="/admin/packages" element={<Packages />} />
             <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
-                   
           </Routes>
         </main>
         <Footer />
-
       </div>
     </BrowserRouter>
   );

@@ -6,10 +6,9 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import tourRoutes from './routes/tour.route.js';
 
-
 import cookieParser from 'cookie-parser';
 
-import itineraryRoutes from './routes/itinerary.route.js';
+// import itineraryRoutes from './routes/itinerary.route.js';
 import bookingRoutes from './routes/booking.route.js';
 import { stripeWebhook } from './controllers/booking.controller.js';
 
@@ -43,9 +42,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/tours', tourRoutes);
 
-app.use('/api/itineraries', itineraryRoutes);
+// app.use('/api/itineraries', itineraryRoutes);
 app.use('/api/bookings', bookingRoutes);
-
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

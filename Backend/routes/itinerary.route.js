@@ -1,8 +1,8 @@
-import express from 'express';
-import {generateItinerary} from '../controllers/itinerary.controller.js';
+// import express from 'express';
+// import {generateItinerary} from '../controllers/itinerary.controller.js';
 
-const router = express.Router();
+// const router = express.Router();
 
-router.post('/generate', generateItinerary);
+// router.post('/generate', generateItinerary);
 
-export default router;
+// export default router;
