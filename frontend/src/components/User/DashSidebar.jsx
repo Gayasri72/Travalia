@@ -4,7 +4,7 @@ import {
   HiUser,
   HiGift ,
   HiOutlineCalendar,
-
+  HiOutlineUserGroup,
   HiOutlineChartBar,
   HiDatabase ,
 
@@ -83,6 +83,18 @@ export default function DashSidebar() {
               </Sidebar.Item>
               
             )}
+            {!currentUser?.rest?.isUser && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=My Plans"
+                active={tab === 'My Plans'}
+                icon={HiGift }
+                labelColor="dark"
+              >
+                My Plans
+              </Sidebar.Item>
+              
+            )}
              {currentUser?.rest?.isAdmin && (
               <Sidebar.Item
                 as={Link}
@@ -106,6 +118,17 @@ export default function DashSidebar() {
                 Predefined Tours
               </Sidebar.Item>
               
+            )}
+             {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=Ai-tours"
+                active={tab === 'Ai-tours'}
+                icon={HiOutlineUserGroup}
+                labelColor="dark"
+              >
+                User Defined Tours
+              </Sidebar.Item>
             )}
             {currentUser?.rest?.isAdmin && (
               <Sidebar.Item

@@ -1,301 +1,241 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Link } from 'react-router-dom';
-
-const destinations = [
-  { name: 'Galle', province: 'Southern', image: '/src/assets/ai/galle.jpg' },
-  { name: 'Kandy', province: 'Central', image: '/src/assets/ai/kandy.jpg' },
-  { name: 'Ella', province: 'Central', image: '/src/assets/ai/ella.jpg' },
-  { name: 'Colombo', province: 'Western', image: '/src/assets/ai/colombo.jpg' },
-  {
-    name: 'Polonnaruwa',
-    province: 'North Central',
-    image: '/src/assets/ai/polonnaruwa.jpg',
-  },
-  {
-    name: 'Weligama',
-    province: 'Southern',
-    image: '/src/assets/ai/weligama.jpg',
-  },
-];
-
-const tripTypes = ['Solo', 'Group', 'Family'];
-const activities = ['Adventure', 'Relaxation', 'Culture', 'Food', 'Shopping'];
 
 const CreatePackage = () => {
-  const [step, setStep] = useState(1);
-  const [destination, setDestination] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [tripType, setTripType] = useState('');
-  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [numPeople, setNumPeople] = useState(1);
+  const [interests, setInterests] = useState(['beach']);
   const [showModal, setShowModal] = useState(false);
+  const [itinerary, setItinerary] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleActivityChange = (activity) => {
-    setSelectedActivities((prev) =>
-      prev.includes(activity)
-        ? prev.filter((item) => item !== activity)
-        : [...prev, activity],
-    );
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError('');
+    setItinerary(null);
+    try {
+      const res = await axios.post('/api/itineraries/generate', {
+        interests,
+        startDate: startDate.toISOString().slice(0, 10),
+        endDate: endDate.toISOString().slice(0, 10),
+        numPeople: numPeople,
+      });
+      setItinerary(res.data);
+    } catch (err) {
+      setError('Failed to generate itinerary. Please try again.');
+    }
+    setLoading(false);
   };
 
-  const isDateValid = (date) => date >= new Date();
-  const isEndDateValid = (date) =>
-    startDate &&
-    date >= startDate &&
-    (date - startDate) / (1000 * 60 * 60 * 24) <= 5;
-  const tripDuration =
-    startDate && endDate
-      ? Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24))
-      : 0;
-
   return (
-    <div className=" max-w-5xl mx-auto p-4 sm:p-6 mt-6 mb-10">
-     <div className="flex flex-col lg:flex-row gap-6">
-      <div className="w-full lg:w-1/2 p-6 bg-white rounded-lg shadow-md">
-        {step === 1 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-2">
-              Where do you want to go?
-            </h2>
-            <input
-              type="text"
-              placeholder="Choose a city or town"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              className="w-full p-3 border rounded-lg"
+    <div className="max-w-2xl mx-auto p-4 sm:p-6 mt-6 mb-10">
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-2xl font-bold mb-4">Plan Your Trip</h2>
+        <div className="mb-4">
+          <label className="block font-semibold mb-1">Interests</label>
+          <input
+            type="text"
+            value={interests.join(', ')}
+            onChange={(e) =>
+              setInterests(
+                e.target.value
+                  .split(',')
+                  .map((i) => i.trim())
+                  .filter(Boolean),
+              )
+            }
+            className="w-full p-2 border rounded-lg"
+            placeholder="e.g. beach, adventure"
+          />
+        </div>
+        <div className="mb-4 flex gap-4">
+          <div className="flex-1">
+            <label className="block font-semibold mb-1">Start Date</label>
+            <DatePicker
+              selected={startDate}
+              onChange={setStartDate}
+              className="w-full p-2 border rounded-lg"
+              placeholderText="Start Date"
+              minDate={new Date()}
             />
-            <div className="grid grid-cols-3 gap-4 mt-4">
-              {destinations.map((dest) => (
-                <div
-                  key={dest.name}
-                  className="cursor-pointer border p-2 rounded-lg"
-                  onClick={() => setDestination(dest.name)}
-                >
-                  <img
-                    src={dest.image}
-                    alt={dest.name}
-                    className="w-20 h-20 mx-auto rounded-lg"
-                  />
-                  <p className="mt-2 font-semibold">{dest.name}</p>
-                  <p className="text-sm text-gray-500">{dest.province}</p>
+          </div>
+          <div className="flex-1">
+            <label className="block font-semibold mb-1">End Date</label>
+            <DatePicker
+              selected={endDate}
+              onChange={setEndDate}
+              className="w-full p-2 border rounded-lg"
+              placeholderText="End Date"
+              minDate={startDate}
+            />
+          </div>
+        </div>
+        <div className="mb-4">
+          <label className="block font-semibold mb-1">Number of People</label>
+          <input
+            type="number"
+            min={1}
+            max={20}
+            value={numPeople}
+            onChange={(e) => setNumPeople(Number(e.target.value))}
+            className="w-full p-2 border rounded-lg"
+          />
+        </div>
+        <button
+          onClick={() => {
+            setShowModal(true);
+            handleSubmit();
+          }}
+          className="px-6 py-2 bg-blue-600 text-white rounded-lg w-full"
+          disabled={
+            !startDate || !endDate || !numPeople || interests.length === 0
+          }
+        >
+          Generate Itinerary
+        </button>
+      </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+            <h2 className="text-xl font-bold mb-4">
+              Your AI-Generated Trip Plan
+            </h2>
+            {loading && <p>Generating itinerary...</p>}
+            {error && <p className="text-red-500">{error}</p>}
+            {!loading && itinerary && (
+              <div>
+                <p>
+                  <strong>Starting Point:</strong> {itinerary.startingPoint}
+                </p>
+                <p>
+                  <strong>Total Days:</strong> {itinerary.totalDays}
+                </p>
+                <p>
+                  <strong>Total Distance:</strong> {itinerary.totalDistance} km
+                </p>
+                <p>
+                  <strong>Travel Mode:</strong> {itinerary.travelMode}
+                </p>
+                <p>
+                  <strong>Estimated Fuel Cost:</strong> Rs{' '}
+                  {itinerary.totalFuelCost}
+                </p>
+                <p>
+                  <strong>Estimated Ticket Cost:</strong> Rs{' '}
+                  {itinerary.totalCost}
+                </p>
+                <div className="mt-4">
+                  <h3 className="font-bold mb-2">Itinerary:</h3>
+                  <ul className="max-h-60 overflow-y-auto">
+                    {itinerary.itinerary.map((day) => (
+                      <li key={day.day} className="mb-2">
+                        <span className="font-semibold">Day {day.day}:</span>
+                        <ul className="ml-4 list-disc">
+                          {day.activities.map((act, idx) => (
+                            <li key={idx} className="mb-3">
+                              <div className="border rounded p-2 mb-1 bg-gray-50">
+                                <div className="font-semibold text-blue-800">
+                                  {act.name} ({act.region})
+                                </div>
+                                <div className="text-sm text-gray-700">
+                                  <div>Category: {act.category}</div>
+                                  <div>Type: {act.activityType}</div>
+                                  <div>Rating: {act.rating}</div>
+                                  <div>
+                                    Tags: {act.tags && act.tags.join(', ')}
+                                  </div>
+                                  <div>Avg Time: {act.avgTime} hrs</div>
+                                  <div>
+                                    Avg Ticket Price: Rs {act.avgTicketPrice}
+                                  </div>
+                                </div>
+                                {act.replacedDueToRain && (
+                                  <div className="text-yellow-600 text-xs mt-1">
+                                    (Replaced due to rain)
+                                  </div>
+                                )}
+                                {act.indoorSuggestion && (
+                                  <div className="mt-2 p-2 border rounded bg-blue-50">
+                                    <div className="font-semibold text-blue-600">
+                                      Indoor Suggestion:{' '}
+                                      {act.indoorSuggestion.name} (
+                                      {act.indoorSuggestion.region})
+                                    </div>
+                                    <div className="text-sm text-gray-700">
+                                      <div>
+                                        Category:{' '}
+                                        {act.indoorSuggestion.category}
+                                      </div>
+                                      <div>
+                                        Type:{' '}
+                                        {act.indoorSuggestion.activityType}
+                                      </div>
+                                      <div>
+                                        Rating: {act.indoorSuggestion.rating}
+                                      </div>
+                                      <div>
+                                        Tags:{' '}
+                                        {act.indoorSuggestion.tags &&
+                                          act.indoorSuggestion.tags.join(', ')}
+                                      </div>
+                                      <div>
+                                        Avg Time: {act.indoorSuggestion.avgTime}{' '}
+                                        hrs
+                                      </div>
+                                      <div>
+                                        Avg Ticket Price: Rs{' '}
+                                        {act.indoorSuggestion.avgTicketPrice}
+                                      </div>
+                                      {act.indoorSuggestion
+                                        .suggestedDueToRain && (
+                                        <div className="text-blue-500 text-xs mt-1">
+                                          (Suggested due to rain)
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
-            </div>
-            <button
-              onClick={() => setStep(2)}
-              disabled={!destination}
-              className={`mt-6 px-6 py-2 text-white rounded-lg ${
-                destination
-                  ? 'bg-blue-600 hover:bg-blue-700'
-                  : 'bg-gray-400 cursor-not-allowed'
-              }`}
-            >
-              Next
-            </button>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-2">
-              Select your travel dates
-            </h2>
-            <div className="flex gap-4">
-              <DatePicker
-                selected={startDate}
-                onChange={setStartDate}
-                className="w-full p-3 border rounded-lg text-center"
-                placeholderText="Start Date"
-                minDate={new Date()}
-                filterDate={isDateValid}
-              />
-              <DatePicker
-                selected={endDate}
-                onChange={setEndDate}
-                className="w-full p-3 border rounded-lg text-center"
-                placeholderText="End Date"
-                minDate={startDate}
-                maxDate={
-                  startDate &&
-                  new Date(startDate.getTime() + 5 * 24 * 60 * 60 * 1000)
-                }
-                filterDate={isEndDateValid}
-              />
-            </div>
-            <div className="mt-6 flex justify-between">
-              <button
-                onClick={() => setStep(1)}
-                className="px-6 py-2 bg-gray-300 rounded-lg"
-              >
-                Back
-              </button>
-              <button
-                onClick={() => setStep(3)}
-                disabled={!startDate || !endDate}
-                className={`px-6 py-2 text-white rounded-lg ${
-                  startDate && endDate
-                    ? 'bg-blue-600 hover:bg-blue-700'
-                    : 'bg-gray-400 cursor-not-allowed'
-                }`}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        )}
-        {step === 3 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-2">
-              What kind of trip is this?
-            </h2>
-            <div className="flex flex-col gap-3 mt-4">
-              {tripTypes.map((type) => (
-                <button
-                  key={type}
-                  className={`p-3 rounded-lg ${
-                    tripType === type ? 'bg-blue-600 text-white' : 'bg-gray-200'
-                  }`}
-                  onClick={() => setTripType(type)}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-            <div className="mt-6 flex justify-between">
-              <button
-                onClick={() => setStep(2)}
-                className="px-6 py-2 bg-gray-300 rounded-lg"
-              >
-                Back
-              </button>
-              <button
-                onClick={() => setStep(4)}
-                disabled={!tripType}
-                className={`px-6 py-2 text-white rounded-lg ${
-                  tripType
-                    ? 'bg-blue-600 hover:bg-blue-700'
-                    : 'bg-gray-400 cursor-not-allowed'
-                }`}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 4 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-2">What interests you?</h2>
-            <div className="grid grid-cols-2 gap-3 mt-4">
-              {activities.map((activity) => (
-                <label
-                  key={activity}
-                  className={`p-3 border rounded-lg cursor-pointer ${
-                    selectedActivities.includes(activity)
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    className="hidden"
-                    checked={selectedActivities.includes(activity)}
-                    onChange={() => handleActivityChange(activity)}
-                  />
-                  {activity}
-                </label>
-              ))}
-            </div>
-            <div className="mt-6 flex justify-between">
-              <button
-                onClick={() => setStep(3)}
-                className="px-6 py-2 bg-gray-300 rounded-lg"
-              >
-                Back
-              </button>
-              <button
-                onClick={() => setShowModal(true)}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        )}
-
-        {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm">
-              <h2 className="text-xl font-bold mb-4">Review Your Trip Plan</h2>
-              <p>
-                <strong>Destination:</strong> {destination}
-              </p>
-              <p>
-                <strong> Number Of Dates:</strong> {tripDuration}
-              </p>
-
-              <p>
-                <strong>Trip Type:</strong> {tripType}
-              </p>
-              <p>
-                <strong>Activities:</strong>{' '}
-                {selectedActivities.join(', ') || 'None'}
-              </p>
-              <div className="mt-4 flex justify-between">
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-gray-300 rounded-lg"
-                >
-                  Edit
-                </button>
-                <Link
-                  to="/"
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg"
-                >
-                  Confirm
-                </Link>
               </div>
+            )}
+            {!loading && !itinerary && !error && (
+              <p>Fill the form and submit to get your itinerary.</p>
+            )}
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded-lg"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-yellow-500 text-white rounded-lg"
+              >
+                Edit
+              </button>
+              <Link
+                to="/"
+                className="px-4 py-2 bg-green-600 text-white rounded-lg"
+              >
+                Confirm
+              </Link>
             </div>
           </div>
-        )}
-      </div>
-
-      <div className="w-full lg:w-1/2 p-6 bg-gray-100 rounded-lg shadow-md ">
-        <h2 className="text-2xl font-bold mb-4">
-          How AI-powered Tour Suggestion Works
-        </h2>
-        <p className="text-gray-700 mb-4">
-          Our AI-powered system analyzes your preferences, such as travel
-          destination, trip type, and interests, to generate a personalized tour
-          itinerary.
-        </p>
-        <ul className="list-disc list-inside text-gray-600">
-          <li>Recommends destinations based on your interests</li>
-          <li>Suggests optimal travel dates and accommodations</li>
-          <li>Curates activities that match your selected preferences</li>
-          <li>Adapts plans based on real-time factors like weather</li>
-        </ul>
-        <div className="bg-white rounded-lg shadow-lg p-4">
-    <img
-      src="/src/assets/ai/t1.jpg"
-      alt="Beautiful Tour Places"
-      className="w-full h-40 object-cover rounded-lg"
-    />
-    <h3 className="text-lg font-bold mt-3">Explore Breathtaking Destinations</h3>
-    <p className="text-gray-600 text-sm mt-1">
-      Discover the most stunning travel destinations handpicked just for you!
-    </p>
-    <Link
-      to="/gallery"
-      className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-    >
-      View Gallery
-    </Link>
-  </div>
-      </div>
-    </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -16,7 +16,9 @@ export const updateUser = async (req, res, next) => {
 
     if (req.body.password) {
       if (req.body.password.length < 6) {
-        return next(new AppError('Password must be at least 6 characters', 400));
+        return next(
+          new AppError('Password must be at least 6 characters', 400),
+        );
       }
       updateFields.password = bcrypt.hashSync(req.body.password, 10);
     }
@@ -31,7 +33,9 @@ export const updateUser = async (req, res, next) => {
         return next(new AppError('Username cannot contain spaces', 400));
       }
       if (!/^[a-zA-Z0-9]+$/.test(req.body.username)) {
-        return next(new AppError('Username can only contain letters and numbers', 400));
+        return next(
+          new AppError('Username can only contain letters and numbers', 400),
+        );
       }
       updateFields.username = req.body.username;
     }
@@ -62,10 +66,8 @@ export const updateUser = async (req, res, next) => {
 };
 
 export const deleteUser = async (req, res, next) => {
-
   if (req.user.id !== req.params.userId) {
     return next(new AppError('you are not allowed to delete this user', 403));
-
   }
   try {
     await User.findByIdAndDelete(req.params.userId);
@@ -115,4 +117,3 @@ export const getUsers = async (req, res, next) => {
     next(error);
   }
 };
-

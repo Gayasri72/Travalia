@@ -15,8 +15,6 @@ import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/User/Dashboard';
 import Tour from './pages/Tour';
 
-import AdminVehicles from './components/AdminVehicles';
-
 import TourBooking from './pages/Admin/TourBooking';
 import AddPackages from './pages/Admin/AddPackages';
 import Packages from './pages/Admin/Packages';
@@ -24,15 +22,12 @@ import ForgotPassword from './components/User/ForgotPassword';
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
     <BrowserRouter>
-
-
-         
-
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 gap-2 m-1">
@@ -61,11 +56,16 @@ export default function App() {
             <Route path="/admin/addPackages" element={<AddPackages />} />
             <Route path="/admin/packages" element={<Packages />} />
             <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
-                   
           </Routes>
         </main>
         <Footer />
-
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          theme="colored"
+          toastClassName="rounded-lg text-base font-semibold shadow-lg"
+          bodyClassName="flex items-center"
+        />
       </div>
     </BrowserRouter>
   );
