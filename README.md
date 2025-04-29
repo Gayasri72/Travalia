@@ -1,3 +1,10 @@
+
+
+```bash
+git clone https://github.com/Gayasri72/Travalia.git
+cd Travalia
+git checkout User-management-IT22897008
+=======
 This branch is responsible for the Tours and Booking functionalities in the Travalia project.
 It is developed using the MERN Stack (MongoDB, Express.js, React.js, Node.js).
 
@@ -41,6 +48,7 @@ Admin report generation is available in PDF and Excel formats.
 The itinerary generator uses user interests to suggest activities and destinations dynamically.
 
 JWT is used for authentication to secure API routes.
+
 
 
 

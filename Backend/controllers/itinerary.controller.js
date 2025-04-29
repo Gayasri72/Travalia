@@ -1,4 +1,5 @@
 
+
 import Itinerary from '../models/itinerary.model.js';
 import Trip from '../models/trip.model.js';
 
@@ -348,3 +349,4 @@ export const getAllItineraries = async (req, res) => {
 };
 
 export { generateItinerary };
+

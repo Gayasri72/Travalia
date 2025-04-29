@@ -2,12 +2,11 @@ import { Sidebar } from 'flowbite-react';
 import {
   HiArrowSmRight,
   HiUser,
-  HiGift ,
+  HiGift,
   HiOutlineCalendar,
   HiOutlineUserGroup,
   HiOutlineChartBar,
-  HiDatabase ,
-
+  HiDatabase,
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -69,20 +68,20 @@ export default function DashSidebar() {
               >
                 Packages
               </Sidebar.Item>
-              
             )}
-             {!currentUser?.rest?.isUser && (
+            {!currentUser?.rest?.isUser && (
               <Sidebar.Item
                 as={Link}
                 to="/dashboard?tab=My Bookings"
                 active={tab === 'My Bookings'}
-                icon={HiGift }
+                icon={HiGift}
                 labelColor="dark"
               >
                 My Bookings
               </Sidebar.Item>
-              
             )}
+
+
             {!currentUser?.rest?.isUser && (
               <Sidebar.Item
                 as={Link}
@@ -96,18 +95,18 @@ export default function DashSidebar() {
               
             )}
              {currentUser?.rest?.isAdmin && (
+
               <Sidebar.Item
                 as={Link}
                 to="/dashboard?tab=Booking Confirmations"
                 active={tab === 'Booking Confirmations'}
-                icon={HiDatabase  }
+                icon={HiDatabase}
                 labelColor="dark"
               >
-                Booking Status 
+                Booking Status
               </Sidebar.Item>
-              
             )}
-             {currentUser?.rest?.isAdmin && (
+            {currentUser?.rest?.isAdmin && (
               <Sidebar.Item
                 as={Link}
                 to="/dashboard?tab=Predefined Tours"
@@ -117,7 +116,6 @@ export default function DashSidebar() {
               >
                 Predefined Tours
               </Sidebar.Item>
-              
             )}
              {currentUser?.rest?.isAdmin && (
               <Sidebar.Item
