@@ -1,8 +1,6 @@
-Sure! Here's the **complete `README.md` file** content, ready for copy-pasting or saving directly in your project root directory:
 
----
 
-```markdown
+
 # Travalia
 
 Travalia is a full-stack travel management platform that allows users to explore tours, book trips, manage itineraries, and handle vehicle hires. It is built with a modular architecture using React for the frontend and Node.js/Express for the backend, with MongoDB as the database.
@@ -170,6 +168,4 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-```
 
-Would you like me to save this as a downloadable `.md` file for you?
