@@ -11,6 +11,7 @@ import {
   FaDollarSign,
 } from 'react-icons/fa';
 import Reviews from '../components/home/reviews';
+import { useSelector } from 'react-redux';
 
 const fetchTour = async (tourId) => {
   const response = await fetch(`http://localhost:3000/api/tours/${tourId}`);
@@ -32,6 +33,7 @@ const Tour = () => {
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [policyAgreed, setPolicyAgreed] = useState(false);
   const [showPolicyModal, setShowPolicyModal] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleBookNow = async () => {
     setLoadingPayment(true);
@@ -183,13 +185,22 @@ const Tour = () => {
       )}
       {/* Booking Button */}
       <div className="mt-6 text-center">
-        <button
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-md hover:bg-blue-700 disabled:opacity-60"
-          onClick={handleBookNow}
-          disabled={loadingPayment || !policyAgreed}
-        >
-          {loadingPayment ? 'Redirecting...' : 'Book Now'}
-        </button>
+        {!currentUser ? (
+          <button
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-md hover:bg-blue-700 disabled:opacity-60"
+            onClick={() => (window.location.href = '/sign-in')}
+          >
+            Sign in to Book
+          </button>
+        ) : (
+          <button
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-md hover:bg-blue-700 disabled:opacity-60"
+            onClick={handleBookNow}
+            disabled={loadingPayment || !policyAgreed}
+          >
+            {loadingPayment ? 'Redirecting...' : 'Book Now'}
+          </button>
+        )}
       </div>
     </div>
   );

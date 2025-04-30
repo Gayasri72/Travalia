@@ -22,10 +22,8 @@ import Packages from './pages/Admin/Packages';
 import CreatePackage from './pages/Ai/CreatePackage';
 import EditePackges from './pages/Admin/EditePackges';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
-
-
-
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
@@ -62,7 +60,6 @@ export default function App() {
         </main>
         <Footer />
 
-
         <ToastContainer
           position="top-center"
           autoClose={2000}
@@ -70,7 +67,6 @@ export default function App() {
           toastClassName="rounded-lg text-base font-semibold shadow-lg"
           bodyClassName="flex items-center"
         />
-
       </div>
     </BrowserRouter>
   );

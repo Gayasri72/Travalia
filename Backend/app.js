@@ -8,7 +8,7 @@ import tourRoutes from './routes/tour.route.js';
 
 import cookieParser from 'cookie-parser';
 
-// import itineraryRoutes from './routes/itinerary.route.js';
+import itineraryRoutes from './routes/itinerary.route.js';
 import bookingRoutes from './routes/booking.route.js';
 import { stripeWebhook } from './controllers/booking.controller.js';
 

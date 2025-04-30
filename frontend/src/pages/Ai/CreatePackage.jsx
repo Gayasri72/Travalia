@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useSelector } from 'react-redux';
 
 const CreatePackage = () => {
   const [startDate, setStartDate] = useState(null);
@@ -13,6 +14,7 @@ const CreatePackage = () => {
   const [itinerary, setItinerary] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -93,11 +95,20 @@ const CreatePackage = () => {
           }}
           className="px-6 py-2 bg-blue-600 text-white rounded-lg w-full"
           disabled={
-            !startDate || !endDate || !numPeople || interests.length === 0
+            !currentUser ||
+            !startDate ||
+            !endDate ||
+            !numPeople ||
+            interests.length === 0
           }
         >
           Generate Itinerary
         </button>
+        {!currentUser && (
+          <p className="text-red-500 text-center mt-2">
+            You must be signed in to generate an itinerary.
+          </p>
+        )}
       </div>
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

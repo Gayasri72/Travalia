@@ -9,7 +9,7 @@ import {
 import { verifyToken } from '../utills/verifyUser.js';
 
 
-// const router = express.Router();
+ const router = express.Router();
 
 
 // router.post('/generate', generateItinerary);
@@ -20,4 +20,4 @@ router.delete('/:id', verifyToken, deleteItinerary);
 router.get('/', getAllItineraries);
 
 
-// export default router;
+export default router;
