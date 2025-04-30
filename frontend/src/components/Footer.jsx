@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
+
     <footer className="w-full bg-slate-500 py-6 px-10 text-gray-300 mt-auto">
       <div className="grid md:grid-cols-2 gap-8">
         <div>
@@ -46,6 +47,8 @@ function Footer() {
               </li>
             </ul>
           </div>
+   
+  
         </div>
       </div>
     </footer>
