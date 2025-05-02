@@ -9,47 +9,19 @@ const HireData = () => {
   const [error, setError] = useState(null);
 
   const pickupColumns = [
-    {
-      title: 'ID',
-      dataIndex: '_id',
-      key: '_id',
-    },
-    {
-      title: 'Pickup Location',
-      dataIndex: 'pickupLocation',
-      key: 'pickupLocation',
-    },
-    {
-      title: 'Drop Location',
-      dataIndex: 'dropLocation',
-      key: 'dropLocation',
-    },
+    { title: 'ID', dataIndex: '_id', key: '_id' },
+    { title: 'Pickup Location', dataIndex: 'pickupLocation', key: 'pickupLocation' },
+    { title: 'Drop Location', dataIndex: 'dropLocation', key: 'dropLocation' },
     {
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
       render: (date) => new Date(date).toLocaleDateString(),
     },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Phone',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
-    {
-      title: 'Vehicle',
-      dataIndex: ['vehicle', 'name'],
-      key: 'vehicle',
-    },
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Phone', dataIndex: 'phone', key: 'phone' },
+    { title: 'Vehicle', dataIndex: ['vehicle', 'name'], key: 'vehicle' },
     {
       title: 'Actions',
       key: 'actions',
@@ -67,47 +39,19 @@ const HireData = () => {
   ];
 
   const dropColumns = [
-    {
-      title: 'ID',
-      dataIndex: '_id',
-      key: '_id',
-    },
-    {
-      title: 'Pickup Location',
-      dataIndex: 'pickupLocation',
-      key: 'pickupLocation',
-    },
-    {
-      title: 'Drop Location',
-      dataIndex: 'dropLocation',
-      key: 'dropLocation',
-    },
+    { title: 'ID', dataIndex: '_id', key: '_id' },
+    { title: 'Pickup Location', dataIndex: 'pickupLocation', key: 'pickupLocation' },
+    { title: 'Drop Location', dataIndex: 'dropLocation', key: 'dropLocation' },
     {
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
       render: (date) => new Date(date).toLocaleDateString(),
     },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Phone',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
-    {
-      title: 'Vehicle',
-      dataIndex: ['vehicle', 'name'],
-      key: 'vehicle',
-    },
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Phone', dataIndex: 'phone', key: 'phone' },
+    { title: 'Vehicle', dataIndex: ['vehicle', 'name'], key: 'vehicle' },
     {
       title: 'Actions',
       key: 'actions',
@@ -129,7 +73,7 @@ const HireData = () => {
       setLoading(true);
       await axios.delete(`http://localhost:3000/api/pickup/${id}`);
       message.success('Pickup booking deleted successfully');
-      fetchPickupData(); // Refresh the data
+      fetchPickupData();
     } catch (error) {
       console.error('Error deleting pickup booking:', error);
       message.error('Failed to delete pickup booking');
@@ -143,7 +87,7 @@ const HireData = () => {
       setLoading(true);
       await axios.delete(`http://localhost:3000/api/drop/${id}`);
       message.success('Drop booking deleted successfully');
-      fetchDropData(); // Refresh the data
+      fetchDropData();
     } catch (error) {
       console.error('Error deleting drop booking:', error);
       message.error('Failed to delete drop booking');
@@ -157,14 +101,14 @@ const HireData = () => {
       setLoading(true);
       setError(null);
       const response = await axios.get('http://localhost:3000/api/pickup');
-      if (response.data && response.data.data && response.data.data.pickups) {
+      if (response.data?.data?.pickups) {
         setPickupData(response.data.data.pickups);
       } else {
         throw new Error('Invalid response format');
       }
     } catch (error) {
       console.error('Error fetching pickup data:', error);
-      setError('Failed to fetch pickup data. Please make sure the backend server is running.');
+      setError('Failed to fetch pickup data.');
       message.error('Failed to fetch pickup data');
     } finally {
       setLoading(false);
@@ -176,14 +120,14 @@ const HireData = () => {
       setLoading(true);
       setError(null);
       const response = await axios.get('http://localhost:3000/api/drop');
-      if (response.data && response.data.data && response.data.data.drops) {
+      if (response.data?.data?.drops) {
         setDropData(response.data.data.drops);
       } else {
         throw new Error('Invalid response format');
       }
     } catch (error) {
       console.error('Error fetching drop data:', error);
-      setError('Failed to fetch drop data. Please make sure the backend server is running.');
+      setError('Failed to fetch drop data.');
       message.error('Failed to fetch drop data');
     } finally {
       setLoading(false);
@@ -207,9 +151,8 @@ const HireData = () => {
             dataSource={pickupData}
             loading={loading}
             rowKey="_id"
-            pagination={{
-              pageSize: 10,
-            }}
+            pagination={{ pageSize: 10 }}
+            bordered
           />
         </div>
       ),
@@ -225,9 +168,8 @@ const HireData = () => {
             dataSource={dropData}
             loading={loading}
             rowKey="_id"
-            pagination={{
-              pageSize: 10,
-            }}
+            pagination={{ pageSize: 10 }}
+            bordered
           />
         </div>
       ),
@@ -235,9 +177,11 @@ const HireData = () => {
   ];
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Hire Data Management</h1>
-      <Tabs defaultActiveKey="1" items={items} />
+    <div style={{ padding: '30px', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ maxWidth: '1200px', width: '100%', backgroundColor: '#fff', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', borderRadius: '8px' }}>
+        <h1 style={{ textAlign: 'center', marginBottom: '24px' }}>Hire Data Management</h1>
+        <Tabs defaultActiveKey="1" items={items} />
+      </div>
     </div>
   );
 };

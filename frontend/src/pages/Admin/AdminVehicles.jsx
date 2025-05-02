@@ -82,132 +82,138 @@ export default function AdminVehicles() {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold text-center mb-6">Manage Vehicles</h2>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ml-auto">
+        <h2 className="text-2xl font-bold text-center mb-6">Manage Vehicles</h2>
 
-      {/* Add Vehicle Form */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
-        <input
-          type="text"
-          placeholder="Vehicle Name"
-          value={newVehicle.name}
-          onChange={(e) => setNewVehicle({ ...newVehicle, name: e.target.value })}
-          className="border p-2 rounded-lg flex-1"
-        />
-        <input
-          type="number"
-          placeholder="Passengers"
-          value={newVehicle.passengers}
-          onChange={(e) => setNewVehicle({ ...newVehicle, passengers: e.target.value })}
-          className="border p-2 rounded-lg flex-1"
-        />
-        <input
-          type="text"
-          placeholder="Baggage Capacity"
-          value={newVehicle.baggage}
-          onChange={(e) => setNewVehicle({ ...newVehicle, baggage: e.target.value })}
-          className="border p-2 rounded-lg flex-1"
-        />
-        <button
-          onClick={handleAddVehicle}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
-          Add Vehicle
-        </button>
-      </div>
+        {/* Add Vehicle Form */}
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <div className="flex flex-col md:flex-row gap-4">
+            <input
+              type="text"
+              placeholder="Vehicle Name"
+              value={newVehicle.name}
+              onChange={(e) => setNewVehicle({ ...newVehicle, name: e.target.value })}
+              className="border p-2 rounded-lg flex-1"
+            />
+            <input
+              type="number"
+              placeholder="Passengers"
+              value={newVehicle.passengers}
+              onChange={(e) => setNewVehicle({ ...newVehicle, passengers: e.target.value })}
+              className="border p-2 rounded-lg flex-1"
+            />
+            <input
+              type="text"
+              placeholder="Baggage Capacity"
+              value={newVehicle.baggage}
+              onChange={(e) => setNewVehicle({ ...newVehicle, baggage: e.target.value })}
+              className="border p-2 rounded-lg flex-1"
+            />
+            <button
+              onClick={handleAddVehicle}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              Add Vehicle
+            </button>
+          </div>
+        </div>
 
-      {/* Error message */}
-      {error && <p className="text-red-500 text-center">{error}</p>}
+        {/* Error message */}
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-      {/* Vehicles Table */}
-      <div className="overflow-x-auto">
-        {loading ? (
-          <p className="text-center text-gray-500">Loading vehicles...</p>
-        ) : vehicles.length > 0 ? (
-          <table className="min-w-full bg-white rounded-lg shadow">
-            <thead>
-              <tr className="bg-gray-100 text-gray-700">
-                <th className="py-3 px-6 text-left">Vehicle Name</th>
-                <th className="py-3 px-6 text-left">Passengers</th>
-                <th className="py-3 px-6 text-left">Baggage</th>
-                <th className="py-3 px-6 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {vehicles.map((vehicle) => (
-                <tr key={vehicle._id} className="border-b">
-                  {editVehicleId === vehicle._id ? (
-                    <>
-                      <td className="py-3 px-6">
-                        <input
-                          type="text"
-                          name="name"
-                          value={editVehicleData.name}
-                          onChange={handleEditChange}
-                          className="border p-1 rounded w-full"
-                        />
-                      </td>
-                      <td className="py-3 px-6">
-                        <input
-                          type="number"
-                          name="passengers"
-                          value={editVehicleData.passengers}
-                          onChange={handleEditChange}
-                          className="border p-1 rounded w-full"
-                        />
-                      </td>
-                      <td className="py-3 px-6">
-                        <input
-                          type="text"
-                          name="baggage"
-                          value={editVehicleData.baggage}
-                          onChange={handleEditChange}
-                          className="border p-1 rounded w-full"
-                        />
-                      </td>
-                      <td className="py-3 px-6 space-x-2">
-                        <button
-                          onClick={() => handleSaveEdit(vehicle._id)}
-                          className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded"
-                        >
-                          Save
-                        </button>
-                        <button
-                          onClick={handleCancelEdit}
-                          className="bg-gray-400 hover:bg-gray-500 text-white py-1 px-3 rounded"
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </>
-                  ) : (
-                    <>
-                      <td className="py-3 px-6">{vehicle.name}</td>
-                      <td className="py-3 px-6">{vehicle.passengers}</td>
-                      <td className="py-3 px-6">{vehicle.baggage}</td>
-                      <td className="py-3 px-6 space-x-2">
-                        <button
-                          onClick={() => handleEditClick(vehicle)}
-                          className="bg-yellow-400 hover:bg-yellow-500 text-white py-1 px-3 rounded"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteVehicle(vehicle._id)}
-                          className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p className="text-center text-gray-500">No vehicles found.</p>
-        )}
+        {/* Vehicles Table */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="overflow-x-auto">
+            {loading ? (
+              <p className="text-center text-gray-500">Loading vehicles...</p>
+            ) : vehicles.length > 0 ? (
+              <table className="min-w-full bg-white rounded-lg shadow">
+                <thead>
+                  <tr className="bg-gray-100 text-gray-700">
+                    <th className="py-3 px-6 text-center">Vehicle Name</th>
+                    <th className="py-3 px-6 text-center">Passengers</th>
+                    <th className="py-3 px-6 text-center">Baggage</th>
+                    <th className="py-3 px-6 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {vehicles.map((vehicle) => (
+                    <tr key={vehicle._id} className="border-b">
+                      {editVehicleId === vehicle._id ? (
+                        <>
+                          <td className="py-3 px-6">
+                            <input
+                              type="text"
+                              name="name"
+                              value={editVehicleData.name}
+                              onChange={handleEditChange}
+                              className="border p-1 rounded w-full"
+                            />
+                          </td>
+                          <td className="py-3 px-6">
+                            <input
+                              type="number"
+                              name="passengers"
+                              value={editVehicleData.passengers}
+                              onChange={handleEditChange}
+                              className="border p-1 rounded w-full"
+                            />
+                          </td>
+                          <td className="py-3 px-6">
+                            <input
+                              type="text"
+                              name="baggage"
+                              value={editVehicleData.baggage}
+                              onChange={handleEditChange}
+                              className="border p-1 rounded w-full"
+                            />
+                          </td>
+                          <td className="py-3 px-6 space-x-2 text-center">
+                            <button
+                              onClick={() => handleSaveEdit(vehicle._id)}
+                              className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={handleCancelEdit}
+                              className="bg-gray-400 hover:bg-gray-500 text-white py-1 px-3 rounded"
+                            >
+                              Cancel
+                            </button>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td className="py-3 px-6 text-center">{vehicle.name}</td>
+                          <td className="py-3 px-6 text-center">{vehicle.passengers}</td>
+                          <td className="py-3 px-6 text-center">{vehicle.baggage}</td>
+                          <td className="py-3 px-6 space-x-2 text-center">
+                            <button
+                              onClick={() => handleEditClick(vehicle)}
+                              className="bg-yellow-400 hover:bg-yellow-500 text-white py-1 px-3 rounded"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeleteVehicle(vehicle._id)}
+                              className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="text-center text-gray-500">No vehicles found.</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
