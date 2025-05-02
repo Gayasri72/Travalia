@@ -172,6 +172,30 @@ export default function DashSidebar() {
                 >
                   Reviews
                 </Sidebar.Item>
+            )}
+
+{currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=hire"
+                active={tab === 'hire'}
+                icon={HiDatabase}
+                labelColor="dark"
+              >
+                Hire Details
+              </Sidebar.Item>
+            )}
+            {currentUser?.rest?.isAdmin && (
+
+            <Sidebar.Item
+              as={Link}
+              to="/dashboard?tab=vehicles"
+              active={tab === 'vehicles'}
+              icon={FaTaxi}
+              labelColor="dark"
+            >
+              Vehicles
+            </Sidebar.Item>
               </>
             )}
             {/* Divider */}
