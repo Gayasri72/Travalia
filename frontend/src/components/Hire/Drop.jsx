@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Drop = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     pickupLocation: '',
     dropLocation: 'BIA Arrival Terminal, Katunayake, Sri Lanka',
@@ -92,6 +94,7 @@ const Drop = () => {
       });
       console.log('Booking successful:', response.data);
       alert('Drop booking successfully submitted!');
+      navigate('/'); // Navigate to home page
       // Clear form
       setFormData({
         pickupLocation: '',
