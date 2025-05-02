@@ -1,3 +1,4 @@
+
 import {
   Avatar,
   Button,
@@ -6,6 +7,7 @@ import {
   Navbar,
   TextInput,
 } from 'flowbite-react';
+
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -38,8 +40,6 @@ export default function Header() {
     }
   };
 
-
- 
 
   return (
     <Navbar className="border-b-2">

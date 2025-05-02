@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import login from '../assets/userManagement/login.png';
+import Register from '../assets/userManagement/register.jpg';
 import icon1 from '../assets/userManagement/icon1.png';
 import icon2 from '../assets/userManagement/icon2.png';
 import icon3 from '../assets/userManagement/icon3.png';
@@ -55,7 +55,7 @@ export default function SignUp() {
       {/* Left Side - Image and Quote */}
       <div
         className="hidden md:flex flex-1 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${login})` }}
+        style={{ backgroundImage: `url(${Register})` }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col items-center justify-center text-white text-center px-6">
           <h1 className="text-4xl font-bold">TRAVALIA</h1>

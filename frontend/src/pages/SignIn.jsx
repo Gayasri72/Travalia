@@ -4,7 +4,6 @@ import icon1 from '../assets/userManagement/icon1.png';
 import icon2 from '../assets/userManagement/icon2.png';
 import icon3 from '../assets/userManagement/icon3.png';
 
-import fingerprintIcon from '../assets/userManagement/fingerprint.png';
 import { Button, Spinner, Alert } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -106,10 +105,6 @@ export default function SignIn() {
             </div>
           </div>
 
-          <Link to="/forgot-password" className="text-right text-blue-600">
-            Forgot your password?
-          </Link>
-
           <Button
             type="submit"
             gradientDuoTone="purpleToBlue"
@@ -141,12 +136,8 @@ export default function SignIn() {
           <hr className="flex-grow border-gray-300" />
         </div>
 
-        <div className="w-full flex justify-center gap-4">
+        <div className="w-full flex justify-center ">
           <OAuth />
-          <button className="flex items-center justify-center bg-white border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition w-1/2">
-            <img src={fingerprintIcon} alt="Fingerprint" className="w-6 mr-2" />
-            Fingerprint
-          </button>
         </div>
 
         <p className="mt-4 text-gray-600">
