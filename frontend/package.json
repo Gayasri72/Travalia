@@ -26,6 +26,7 @@
     "i18next": "^24.2.2",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.483.0",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
@@ -34,17 +35,13 @@
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",
     "react-icons": "^5.5.0",
+    "react-leaflet": "^5.0.0",
     "react-redux": "^9.2.0",
-    
+    "react-router-dom": "^7.4.0",
     "react-scroll": "^1.9.3",
     "react-toastify": "^11.0.5",
     "redux-persist": "^6.0.0",
-
-    "swiper": "^11.2.5",
-
-    "react-router-dom": "^7.4.0"
-
-
+    "swiper": "^11.2.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

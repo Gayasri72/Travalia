@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import path from 'path';
 
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
@@ -11,6 +12,7 @@ import cookieParser from 'cookie-parser';
 import itineraryRoutes from './routes/itinerary.route.js';
 import bookingRoutes from './routes/booking.route.js';
 import { stripeWebhook } from './controllers/booking.controller.js';
+import reviewRoutes from './routes/review.route.js';
 
 const app = express();
 
@@ -34,6 +36,12 @@ app.use(
   }),
 );
 
+// Serve uploaded images as static files
+app.use(
+  '/uploads',
+  express.static(path.join(process.cwd(), 'frontend/public/uploads')),
+);
+
 export default app;
 
 console.log('app.js is running');
@@ -48,6 +56,7 @@ app.use('/api/itineraries', itineraryRoutes);
 // booking routes
 
 app.use('/api/bookings', bookingRoutes);
+app.use('/api', reviewRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { toast, ToastContainer } from 'react-toastify';
 
 export default function ContactUs() {
@@ -30,6 +31,7 @@ export default function ContactUs() {
   };
 
   return (
+
     <div className="px-6 md:px-20 py-16">
       {/* Top Section: Title & Subtitle */}
       <div className="text-center mb-10">
@@ -100,7 +102,11 @@ export default function ContactUs() {
         </div>
       </div>
 
+
+
       <ToastContainer />
     </div>
+    
+
   );
 }

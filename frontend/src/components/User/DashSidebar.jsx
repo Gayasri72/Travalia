@@ -69,7 +69,7 @@ export default function DashSidebar() {
                 Packages
               </Sidebar.Item>
             )}
-            {!currentUser?.rest?.isUser && (
+            {!currentUser?.rest?.isAdmin && (
               <Sidebar.Item
                 as={Link}
                 to="/dashboard?tab=My Bookings"
@@ -82,7 +82,7 @@ export default function DashSidebar() {
             )}
 
 
-            {!currentUser?.rest?.isUser && (
+            {!currentUser?.rest?.isAdmin && (
               <Sidebar.Item
                 as={Link}
                 to="/dashboard?tab=My Plans"
@@ -91,6 +91,18 @@ export default function DashSidebar() {
                 labelColor="dark"
               >
                 My Plans
+              </Sidebar.Item>
+              
+            )}
+            {!currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=My Reviews"
+                active={tab === 'My Reviews'}
+                icon={HiGift }
+                labelColor="dark"
+              >
+                My Reviews
               </Sidebar.Item>
               
             )}
@@ -137,6 +149,17 @@ export default function DashSidebar() {
                 labelColor="dark"
               >
                 Users
+              </Sidebar.Item>
+            )}
+             {currentUser?.rest?.isAdmin && (
+              <Sidebar.Item
+                as={Link}
+                to="/dashboard?tab=reviews"
+                active={tab === 'reviews'}
+                icon={HiOutlineCalendar}
+                labelColor="dark"
+              >
+                Reviews
               </Sidebar.Item>
             )}
 
