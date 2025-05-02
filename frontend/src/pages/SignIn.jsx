@@ -19,7 +19,6 @@ export default function SignIn() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Clear any existing error messages when component mounts
     dispatch(signInFailure(null));
   }, [dispatch]);
 
@@ -51,12 +50,12 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-5xl mx-4 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden"
+        className="w-full max-w-6xl mx-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700"
       >
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left Side - Image and Quote */}
@@ -66,7 +65,7 @@ export default function SignIn() {
             transition={{ duration: 0.5 }}
             className="hidden md:block relative"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-indigo-600/80" />
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/80 via-purple-600/80 to-pink-600/80" />
             <img
               src={login}
               alt="Travel"
@@ -77,7 +76,7 @@ export default function SignIn() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="text-4xl font-bold mb-4 text-center"
+                className="text-5xl font-bold mb-4 text-center"
               >
                 Welcome to Travalia
               </motion.h1>
@@ -85,7 +84,7 @@ export default function SignIn() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
-                className="text-lg text-center max-w-md"
+                className="text-xl text-center max-w-md"
               >
                 Discover the world's most amazing destinations with our curated travel experiences.
               </motion.p>
@@ -104,7 +103,7 @@ export default function SignIn() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
-                className="text-3xl font-bold text-gray-900 dark:text-white mb-2"
+                className="text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2"
               >
                 Sign In
               </motion.h2>
@@ -129,12 +128,12 @@ export default function SignIn() {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Email
                   </label>
-                  <div className="relative">
-                    <AiOutlineMail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <div className="relative group">
+                    <AiOutlineMail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
                     <input
                       id="email"
                       type="email"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-all duration-200"
                       placeholder="Enter your email"
                       onChange={handleChange}
                     />
@@ -145,12 +144,12 @@ export default function SignIn() {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Password
                   </label>
-                  <div className="relative">
-                    <AiOutlineLock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <div className="relative group">
+                    <AiOutlineLock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
                     <input
                       id="password"
                       type="password"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-all duration-200"
                       placeholder="Enter your password"
                       onChange={handleChange}
                     />
@@ -161,12 +160,18 @@ export default function SignIn() {
                   <div className="flex items-center">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                     />
                     <label className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                       Remember me
                     </label>
                   </div>
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
+                  >
+                    Forgot password?
+                  </Link>
                 </div>
               </motion.div>
 
@@ -178,7 +183,7 @@ export default function SignIn() {
                 <Button
                   type="submit"
                   gradientDuoTone="purpleToBlue"
-                  className="w-full py-3 rounded-xl"
+                  className="w-full py-3 rounded-xl text-lg font-medium transition-all duration-200 hover:shadow-lg"
                   disabled={loading}
                 >
                   {loading ? (
@@ -238,7 +243,7 @@ export default function SignIn() {
               Don't have an account?{' '}
               <Link
                 to="/sign-up"
-                className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
               >
                 Sign up
               </Link>
