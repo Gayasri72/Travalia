@@ -3,27 +3,22 @@ import axios from "axios";
 
 const customStyles = `
   .admin-vehicles-container {
-    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
-                url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: linear-gradient(135deg, #f6f8fa 0%, #e9ecef 100%);
     min-height: 100vh;
     padding: 2rem 0;
   }
   
   .content-wrapper {
-    background: rgba(255, 255, 255, 0.95);
+    background: white;
     border-radius: 1rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     padding: 2rem;
     margin: 0 auto;
     max-width: 1200px;
-    backdrop-filter: blur(5px);
   }
   
   .form-container {
-    background: rgba(255, 255, 255, 0.9);
+    background: white;
     border-radius: 0.5rem;
     padding: 1.5rem;
     margin-bottom: 2rem;
@@ -31,7 +26,7 @@ const customStyles = `
   }
   
   .table-container {
-    background: rgba(255, 255, 255, 0.9);
+    background: white;
     border-radius: 0.5rem;
     padding: 1.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -42,7 +37,7 @@ const customStyles = `
   }
   
   .table-container th {
-    background-color: rgba(248, 250, 252, 0.9);
+    background-color: #f8fafc;
     padding: 1rem;
     text-align: center;
     font-weight: 600;
@@ -57,16 +52,6 @@ const customStyles = `
     display: flex;
     gap: 0.5rem;
     justify-content: center;
-  }
-
-  /* Add smooth transitions for hover effects */
-  .action-buttons button {
-    transition: all 0.3s ease;
-  }
-
-  /* Improve input field visibility */
-  input {
-    background: rgba(255, 255, 255, 0.9);
   }
 `;
 
