@@ -50,13 +50,20 @@ export const updateReview = async (req, res) => {
   }
 };
 
-// Delete a review (only by the review owner)
+// Delete a review (only by the review owner or admin)
 export const deleteReview = async (req, res) => {
   try {
-    const review = await Review.findOneAndDelete({
-      _id: req.params.id,
-      user: req.user._id,
-    });
+    let review;
+    if (req.user.isAdmin) {
+      // Admin can delete any review
+      review = await Review.findOneAndDelete({ _id: req.params.id });
+    } else {
+      // Regular user can only delete their own review
+      review = await Review.findOneAndDelete({
+        _id: req.params.id,
+        user: req.user._id,
+      });
+    }
     if (!review)
       return res.status(404).json({
         success: false,
@@ -86,7 +93,7 @@ export const getUserReviews = async (req, res) => {
 export const getAllReviews = async (req, res) => {
   try {
     const reviews = await Review.find()
-      .populate('user', 'name photo')
+      .populate('user', 'name photo email username')
       .populate('tour', 'name');
     res.status(200).json({ success: true, data: { reviews } });
   } catch (err) {

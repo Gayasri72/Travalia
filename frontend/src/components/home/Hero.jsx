@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { HiOutlineArrowRight } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -52,13 +53,17 @@ const Hero = () => {
               transition={{ delay: 0.8, duration: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
+              <Link to='/'>
               <button className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
                 Explore Tours
                 <HiOutlineArrowRight className="w-5 h-5" />
               </button>
+              </Link>
+              <Link to='/contact'>
               <button className="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                 Learn More
               </button>
+              </Link>
             </motion.div>
           </motion.div>
 
