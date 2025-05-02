@@ -14,6 +14,9 @@ import bookingRoutes from './routes/booking.route.js';
 import { stripeWebhook } from './controllers/booking.controller.js';
 import reviewRoutes from './routes/review.route.js';
 
+import pickupRoutes from './routes/pickup.routes.js';
+
+
 const app = express();
 
 // Register Stripe webhook route BEFORE express.json()
@@ -57,6 +60,9 @@ app.use('/api/itineraries', itineraryRoutes);
 
 app.use('/api/bookings', bookingRoutes);
 app.use('/api', reviewRoutes);
+
+app.use('/api/pickup', pickupRoutes);
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
