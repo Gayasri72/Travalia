@@ -1,5 +1,3 @@
-
-
 import Itinerary from '../models/itinerary.model.js';
 import Trip from '../models/trip.model.js';
 
@@ -9,7 +7,7 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // km
 
   const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
+  const dLon = toRad(lon1 - lon2);
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(toRad(lat1)) *
@@ -102,7 +100,7 @@ const calculateDaysBetweenDates = (startDate, endDate) => {
 
 // Main itinerary generator function
 const generateItinerary = async (req, res) => {
-  const { interests, startDate, endDate } = req.body;
+  const { interests, startDate, endDate, numPeople } = req.body;
 
   if (!interests || !startDate || !endDate) {
     return res.status(400).json({
@@ -277,22 +275,7 @@ const generateItinerary = async (req, res) => {
   const totalFuelLitres = totalDistance / avgKmPerLitre;
   const totalFuelCost = Math.round(totalFuelLitres * fuelPricePerLitre);
 
-  // Save itinerary to MongoDB
-  await Itinerary.create({
-    interests,
-    startDate,
-    endDate,
-    numPeople: req.body.numPeople,
-    startingPoint: startPlace.name,
-    totalDays: itinerary.length,
-    totalDistance: Math.round(totalDistance * 100) / 100,
-    travelMode,
-    totalFuelCost,
-    totalCost,
-    itinerary,
-    user: req.user.id,
-  });
-
+  // Do NOT save to DB here, just return the generated plan
   res.json({
     startingPoint: startPlace.name,
     totalDays: itinerary.length,
@@ -302,6 +285,62 @@ const generateItinerary = async (req, res) => {
     travelMode,
     totalFuelCost, // Rs
   });
+};
+
+// New: Save itinerary to DB only when user confirms
+export const saveItinerary = async (req, res) => {
+  try {
+    console.log('saveItinerary req.body:', req.body); // <-- log incoming data
+    const {
+      interests,
+      startDate,
+      endDate,
+      numPeople,
+      startingPoint,
+      totalDays,
+      totalDistance,
+      travelMode,
+      totalFuelCost,
+      totalCost,
+      itinerary,
+    } = req.body;
+    if (
+      interests == null ||
+      startDate == null ||
+      endDate == null ||
+      numPeople == null ||
+      startingPoint == null ||
+      totalDays == null ||
+      totalDistance == null ||
+      travelMode == null ||
+      totalFuelCost == null ||
+      totalCost == null ||
+      itinerary == null
+    ) {
+      return res
+        .status(400)
+        .json({ error: 'Missing required fields to save itinerary.' });
+    }
+    const saved = await Itinerary.create({
+      interests,
+      startDate,
+      endDate,
+      numPeople,
+      startingPoint,
+      totalDays,
+      totalDistance,
+      travelMode,
+      totalFuelCost,
+      totalCost,
+      itinerary,
+      user: req.user.id,
+    });
+    res.status(201).json({ success: true, data: saved });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ success: false, message: 'Failed to save itinerary' });
+  }
 };
 
 // Get all itineraries for the logged-in user
@@ -349,4 +388,3 @@ export const getAllItineraries = async (req, res) => {
 };
 
 export { generateItinerary };
-

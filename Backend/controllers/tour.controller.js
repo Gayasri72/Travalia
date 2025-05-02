@@ -34,6 +34,23 @@ export const getAllTours = async (req, res) => {
   }
 };
 
+export const getAllToursAdmin = async (req, res) => {
+  try {
+    const tours = await Tour.find(); // Fetch all tours
+    res.status(200).json({
+      success: true,
+      data: {
+        tours,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getTour = async (req, res) => {
   try {
     const tour = await Tour.findById(req.params.id);
@@ -52,6 +69,41 @@ export const getTour = async (req, res) => {
 };
 
 export const createTour = async (req, res) => {
+  // Handle imageCover from upload.fields (multer)
+  if (req.files && req.files.imageCover && req.files.imageCover[0]) {
+    req.body.imageCover = req.files.imageCover[0].filename;
+  }
+  // Parse locations if sent as a string (from FormData)
+  if (typeof req.body.locations === 'string') {
+    try {
+      req.body.locations = JSON.parse(req.body.locations);
+    } catch (e) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid locations format',
+      });
+    }
+  }
+  // Parse startDates if sent as a string (for FormData)
+  if (typeof req.body.startDates === 'string') {
+    try {
+      req.body.startDates = JSON.parse(req.body.startDates);
+    } catch (e) {
+      req.body.startDates = [req.body.startDates];
+    }
+  }
+  // Handle multiple gallery images
+  if (req.files && req.files.images) {
+    req.body.images = req.files.images.map((file) => file.filename);
+  }
+  // Parse guides if sent as a string (for FormData)
+  if (typeof req.body.guides === 'string') {
+    try {
+      req.body.guides = JSON.parse(req.body.guides);
+    } catch (e) {
+      req.body.guides = [req.body.guides];
+    }
+  }
   try {
     const tour = await Tour.create(req.body);
     res.status(201).json({
