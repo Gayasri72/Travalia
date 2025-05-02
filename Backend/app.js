@@ -15,6 +15,8 @@ import { stripeWebhook } from './controllers/booking.controller.js';
 import reviewRoutes from './routes/review.route.js';
 
 import pickupRoutes from './routes/pickup.routes.js';
+import dropRoutes from './routes/drop.routes.js';
+
 
 
 const app = express();
@@ -62,6 +64,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api', reviewRoutes);
 
 app.use('/api/pickup', pickupRoutes);
+app.use('/api/drop', dropRoutes);
 
 
 app.use((err, req, res, next) => {
