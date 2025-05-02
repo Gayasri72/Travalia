@@ -16,6 +16,7 @@ import reviewRoutes from './routes/review.route.js';
 
 import pickupRoutes from './routes/pickup.routes.js';
 import dropRoutes from './routes/drop.routes.js';
+import hireVehicles from './routes/hireVehicles.route.js';
 
 
 
@@ -65,6 +66,8 @@ app.use('/api', reviewRoutes);
 
 app.use('/api/pickup', pickupRoutes);
 app.use('/api/drop', dropRoutes);
+app.use('/api/vehicles',hireVehicles);
+
 
 
 app.use((err, req, res, next) => {
