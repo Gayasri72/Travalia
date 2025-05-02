@@ -13,7 +13,7 @@ export const verifyToken = (req, res, next) => {
       console.log('JWT verify error:', err); // Debug log for JWT verification
       return next(new AppError('Unauthorized', 401));
     }
-    req.user = user;
+    req.user = { _id: user._id || user.id, ...user };
     next();
   });
 };

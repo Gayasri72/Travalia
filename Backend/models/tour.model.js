@@ -47,6 +47,34 @@ const tourSchema = new mongoose.Schema(
       required: [true, 'A tour must have a cover image'],
     },
     images: [String],
+    locations: {
+      type: [
+        {
+          type: {
+            type: String,
+            default: 'Point',
+            enum: ['Point'],
+          },
+          coordinates: {
+            type: [Number], // [longitude, latitude]
+            required: true,
+          },
+          description: String,
+          day: Number,
+        },
+      ],
+      validate: [
+        (arr) => Array.isArray(arr) && arr.length >= 2,
+        'A tour must have at least 2 locations',
+      ],
+      required: [true, 'A tour must have locations'],
+    },
+    guides: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now(),
