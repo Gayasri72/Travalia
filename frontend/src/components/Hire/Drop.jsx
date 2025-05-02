@@ -1,133 +1,306 @@
-import { useEffect, useState } from "react";
-import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default function Drop() {
+const Drop = () => {
+  const [formData, setFormData] = useState({
+    pickupLocation: '',
+    dropLocation: 'BIA Arrival Terminal, Katunayake, Sri Lanka',
+    date: '',
+    name: '',
+    email: '',
+    phone: '',
+    notes: '',
+    selectedVehicle: ''
+  });
+
   const [vehicles, setVehicles] = useState([]);
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [pickupLocation, setPickupLocation] = useState("");
-  const [dateTime, setDateTime] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch vehicles from the backend
-    axios.get("/api/v1/vehicles").then((response) => {
-      setVehicles(response.data.data.vehicles);
-    });
+    const fetchVehicles = async () => {
+      setLoading(true);
+      try {
+        console.log('Fetching vehicles...');
+        const response = await axios.get("http://localhost:3000/api/vehicles");
+        console.log('API Response:', response.data);
+        
+        if (response.data && response.data.data && response.data.data.vehicles) {
+          setVehicles(response.data.data.vehicles);
+        } else if (response.data && Array.isArray(response.data)) {
+          setVehicles(response.data);
+        } else {
+          console.error('Unexpected API response format:', response.data);
+          setError('Invalid data format received from server');
+        }
+      } catch (error) {
+        console.error("Error fetching vehicles:", error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error('Error response:', error.response.data);
+          console.error('Error status:', error.response.status);
+          setError(`Server error: ${error.response.status} - ${error.response.data.message || 'Unknown error'}`);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error('No response received:', error.request);
+          setError('No response from server. Please check if the server is running.');
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error setting up request:', error.message);
+          setError('Failed to connect to server');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
   }, []);
 
-  // Function to handle Date & Time validation
-  const handleDateChange = (e) => {
-    const selectedDate = new Date(e.target.value);
-    const currentDate = new Date();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
-    // Check if the selected date is in the future
-    if (selectedDate <= currentDate) {
-      setError("Please select a future date and time.");
-    } else {
-      setError(""); // Clear error if date is valid
+  const handleVehicleSelect = (vehicleId) => {
+    setFormData(prevState => ({
+      ...prevState,
+      selectedVehicle: vehicleId
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Validate date
+      const selectedDate = new Date(formData.date);
+      const currentDate = new Date();
+      
+      if (selectedDate < currentDate) {
+        alert('Please select a future date and time');
+        return;
+      }
+
+      const { selectedVehicle, ...otherData } = formData;
+      const response = await axios.post('http://localhost:3000/api/drop', {
+        ...otherData,
+        vehicle: selectedVehicle
+      });
+      console.log('Booking successful:', response.data);
+      alert('Drop booking successfully submitted!');
+      // Clear form
+      setFormData({
+        pickupLocation: '',
+        dropLocation: 'BIA Arrival Terminal, Katunayake, Sri Lanka',
+        date: '',
+        name: '',
+        email: '',
+        phone: '',
+        notes: '',
+        selectedVehicle: ''
+      });
+    } catch (err) {
+      console.error('Booking failed:', err);
+      alert('Booking failed: ' + (err.response?.data?.message || 'Please try again later'));
     }
-    setDateTime(e.target.value);
   };
 
   return (
-    <div>
-      <div>
-        <h2 className="text-xl font-semibold text-center mb-4">Airport Drop</h2>
-
-        <form className="space-y-4">
-          {/* Vehicle Selection */}
-          <label className="block text-gray-700 font-semibold">Select a Vehicle</label>
-          <div className="space-y-4">
-            {vehicles.map((vehicle) => (
-              <div
-                key={vehicle._id}
-                className={`p-4 border rounded-lg cursor-pointer ${
-                  selectedVehicle === vehicle._id ? "bg-blue-500 text-white" : "bg-gray-100"
-                }`}
-                onClick={() => setSelectedVehicle(vehicle._id)}
-              >
-                <h3 className="font-semibold">{vehicle.name}</h3>
-                <p>Passengers: {vehicle.passengers}</p>
-                <p>Baggage: {vehicle.baggage}</p>
-              </div>
-            ))}
+    <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8">
+      <h3 className="text-2xl font-bold text-gray-800 mb-8">Drop Service Details</h3>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Pickup Location
+            </label>
+            <input
+              type="text"
+              name="pickupLocation"
+              value={formData.pickupLocation}
+              onChange={handleChange}
+              placeholder="Enter pickup location"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            />
           </div>
 
-          {/* Selected Vehicle Details */}
-          {selectedVehicle && (
-            <div className="mt-4 p-4 border rounded-lg bg-gray-50 text-black">
-              <h3 className="text-lg font-semibold">
-                {vehicles.find((vehicle) => vehicle._id === selectedVehicle)?.name}
-              </h3>
-              <p>
-                <strong>Passengers:</strong>{" "}
-                {vehicles.find((vehicle) => vehicle._id === selectedVehicle)?.passengers}
-              </p>
-              <p>
-                <strong>Baggage:</strong>{" "}
-                {vehicles.find((vehicle) => vehicle._id === selectedVehicle)?.baggage}
-              </p>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Drop Location
+            </label>
+            <input
+              type="text"
+              name="dropLocation"
+              value={formData.dropLocation}
+              disabled
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Date and Time
+            </label>
+            <input
+              type="datetime-local"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              min={new Date().toISOString().slice(0, 16)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-4">
+            Select Vehicle
+          </label>
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading vehicles...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center py-8">
+              <div className="text-red-500 mb-2">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <p className="text-red-500">{error}</p>
+            </div>
+          ) : vehicles.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-600">No vehicles available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {vehicles.map((vehicle) => (
+                <div
+                  key={vehicle._id}
+                  onClick={() => handleVehicleSelect(vehicle._id)}
+                  className={`p-6 border rounded-xl cursor-pointer transition-all duration-200 ${
+                    formData.selectedVehicle === vehicle._id
+                      ? 'border-blue-500 bg-blue-50 shadow-md'
+                      : 'border-gray-200 hover:border-blue-300 hover:shadow-sm'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="font-semibold text-lg text-gray-800">{vehicle.name}</h4>
+                    
+                  </div>
+                  <div className="space-y-3 text-sm text-gray-600">
+                    <div className="flex items-center space-x-3">
+                      <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                      <span>{vehicle.passengers || 'N/A'} Passengers</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                      </svg>
+                      <span>{vehicle.baggage || 'N/A'} Bags</span>
+                    </div>
+                    {vehicle.type && (
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span>{vehicle.type}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
+        </div>
 
-          {/* Form Fields */}
-          <div className="space-y-4">
-            <label className="block text-gray-700 font-semibold">
-              Pickup Location <span className="text-red-500">*</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name
             </label>
-            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
-              <FaMapMarkerAlt className="text-gray-500 mr-2" />
-              <input
-                type="text"
-                className="w-full bg-transparent outline-none text-black"
-                placeholder="Enter Pickup Location"
-                value={pickupLocation}
-                onChange={(e) => setPickupLocation(e.target.value)}
-                required
-              />
-            </div>
-
-            <label className="block text-gray-700 font-semibold">Drop Location</label>
-            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
-              <FaMapMarkerAlt className="text-gray-500 mr-2" />
-              <input
-                type="text"
-                className="w-full bg-transparent outline-none text-black"
-                value="BIA Departure Terminal, Katunayake"
-                readOnly
-              />
-            </div>
-
-            <label className="block text-gray-700 font-semibold">
-              Date & Time <span className="text-red-500">*</span>
-            </label>
-            <div className="flex items-center border p-2 rounded-lg bg-gray-50">
-              <FaCalendarAlt className="text-gray-500 mr-2" />
-              <input
-                type="datetime-local"
-                className="w-full bg-transparent outline-none text-black"
-                value={dateTime}
-                onChange={handleDateChange}
-                required
-              />
-            </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display Error */}
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter your full name"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            />
           </div>
 
-          {/* Submit Button */}
-          <Link to="userdetail">
-            <button
-              type="submit"
-              className="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
-              disabled={!pickupLocation || !dateTime || error} // Disable if there's an error
-            >
-              Book Now
-            </button>
-          </Link>
-        </form>
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Enter your phone number"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Additional Notes
+            </label>
+            <textarea
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              placeholder="Any special requirements?"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              rows="3"
+            />
+          </div>
+        </div>
+
+        <div className="text-center">
+          <button
+            type="submit"
+            disabled={!formData.selectedVehicle}
+            className={`px-8 py-4 text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:-translate-y-1 ${
+              formData.selectedVehicle
+                ? 'bg-blue-600 hover:bg-blue-700'
+                : 'bg-gray-400 cursor-not-allowed'
+            }`}
+          >
+            Book Drop Service
+          </button>
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default Drop;
