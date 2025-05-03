@@ -28,7 +28,7 @@ export const createCheckoutSession = async (req, res, next) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
-      success_url: `${CLIENT_URL}/booking-success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${CLIENT_URL}/`,
       cancel_url: `${CLIENT_URL}/tours/${tourId}`,
       customer_email: user.email, // Always use the logged-in user's email
       client_reference_id: tourId,

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { FaStar, FaTrash } from 'react-icons/fa';
+import { FaStar, FaTrash, FaUser, FaSearch } from 'react-icons/fa';
 
 const AllReview = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const fetchAllReviews = async () => {
@@ -44,102 +45,151 @@ const AllReview = () => {
     }
   };
 
+  // Filter reviews by search
+  const filteredReviews = reviews.filter((r) => {
+    const searchTerm = search.toLowerCase();
+    return (
+      r.user?.name?.toLowerCase().includes(searchTerm) ||
+      r.user?.username?.toLowerCase().includes(searchTerm) ||
+      r.user?.email?.toLowerCase().includes(searchTerm) ||
+      r.tour?.name?.toLowerCase().includes(searchTerm) ||
+      r.review?.toLowerCase().includes(searchTerm)
+    );
+  });
+
   // Helper to convert reviews to CSV
   function reviewsToCSV(reviews) {
     const header = ['User', 'Tour', 'Rating', 'Review', 'Date'];
-    const rows = reviews.map(r => [
+    const rows = reviews.map((r) => [
       `"${r.user?.name || 'User'}"`,
       `"${r.tour?.name || 'Tour'}"`,
       r.rating,
       `"${r.review.replace(/"/g, '""')}"`,
-      new Date(r.createdAt).toLocaleDateString()
+      new Date(r.createdAt).toLocaleDateString(),
     ]);
-    return [header, ...rows].map(row => row.join(',')).join('\r\n');
+    return [header, ...rows].map((row) => row.join(',')).join('\r\n');
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">All User Reviews</h1>
-      <button
-        onClick={() => {
-          const csv = reviewsToCSV(reviews);
-          const blob = new Blob([csv], { type: 'text/csv' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'reviews_report.csv';
-          a.click();
-          URL.revokeObjectURL(url);
-        }}
-        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded font-bold hover:bg-blue-700"
-      >
-        Export as CSV
-      </button>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
-      ) : reviews.length === 0 ? (
-        <p>No reviews found.</p>
-      ) : (
-        <div className="overflow-x-auto rounded-lg shadow">
-          <table className="min-w-full bg-white text-sm">
-            <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="p-3">User</th>
-                <th className="p-3">Tour</th>
-                <th className="p-3">Rating</th>
-                <th className="p-3">Review</th>
-                <th className="p-3">Date</th>
-                <th className="p-3">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reviews.map((r) => (
-                <tr key={r._id} className="border-b hover:bg-gray-50">
-                  <td className="p-3 flex items-center gap-2">
-                    <img
-                      src={
-                        r.user?.photo
-                          ? r.user.photo.startsWith('http')
-                            ? r.user.photo
-                            : `/uploads/${r.user.photo}`
-                          : '/default-user.png'
-                      }
-                      alt={r.user?.name || 'User'}
-                      className="w-8 h-8 rounded-full object-cover border"
-                    />
-                    <span className="font-medium">{r.user?.name || 'User'}</span>
-                  </td>
-                  <td className="p-3">{r.tour?.name || 'Tour'}</td>
-                  <td className="p-3">
-                    <span className="flex text-yellow-500">
-                      {Array.from({ length: r.rating }).map((_, i) => (
-                        <FaStar key={i} />
-                      ))}
-                    </span>
-                  </td>
-                  <td className="p-3 max-w-xs truncate" title={r.review}>
-                    {r.review}
-                  </td>
-                  <td className="p-3 text-gray-500">
-                    {new Date(r.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="p-3">
-                    <button
-                      onClick={() => handleDelete(r._id)}
-                      className="text-red-600 hover:text-red-800 px-2 py-1 rounded border border-red-200 bg-red-50"
-                      disabled={deletingId === r._id}
-                    >
-                      {deletingId === r._id ? 'Deleting...' : <FaTrash />}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className="max-w-7xl mx-auto p-6">
+      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <h1 className="text-3xl font-extrabold text-blue-900 tracking-tight flex items-center gap-3">
+          <FaUser className="text-blue-500 text-3xl" />
+          All User Reviews
+        </h1>
+        <div className="flex gap-2 items-center w-full md:w-auto">
+          <div className="relative w-full md:w-72">
+            <input
+              type="text"
+              placeholder="Search reviews..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none bg-white text-gray-700"
+            />
+            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          </div>
+          <button
+            onClick={() => {
+              const csv = reviewsToCSV(filteredReviews);
+              const blob = new Blob([csv], { type: 'text/csv' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'reviews_report.csv';
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg font-bold shadow hover:from-blue-700 hover:to-blue-500 transition"
+          >
+            Export CSV
+          </button>
         </div>
-      )}
+      </div>
+      <div className="bg-white rounded-2xl shadow-xl p-6 border border-blue-100">
+        {loading ? (
+          <div className="flex justify-center items-center py-16">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid mr-6"></div>
+            <span className="text-blue-700 font-semibold text-xl">
+              Loading reviews...
+            </span>
+          </div>
+        ) : error ? (
+          <div className="text-red-500 font-semibold text-center py-10 text-lg">
+            {error}
+          </div>
+        ) : filteredReviews.length === 0 ? (
+          <div className="text-gray-500 text-center py-10 text-lg">
+            No reviews found.
+          </div>
+        ) : (
+          <div className="overflow-x-auto rounded-lg">
+            <table className="min-w-full bg-white text-sm rounded-xl overflow-hidden">
+              <thead>
+                <tr className="bg-blue-50 text-blue-900">
+                  <th className="p-4 font-bold">Added By</th>
+                  <th className="p-4 font-bold">Username</th>
+                  <th className="p-4 font-bold">Tour</th>
+                  <th className="p-4 font-bold">Rating</th>
+                  <th className="p-4 font-bold">Review</th>
+                  <th className="p-4 font-bold">Date</th>
+                  <th className="p-4 font-bold">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredReviews.map((r, idx) => (
+                  <tr
+                    key={r._id}
+                    className={
+                      idx % 2 === 0
+                        ? 'bg-white hover:bg-blue-50 transition'
+                        : 'bg-blue-50 hover:bg-blue-100 transition'
+                    }
+                  >
+                    <td className="p-4 flex items-center gap-3">
+                      <FaUser className="w-8 h-8 text-blue-400 rounded-full border bg-blue-100 p-1" />
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-blue-900">
+                          {r.user?.name || 'User'}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {r.user?.email || '-'}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="p-4 text-blue-800">
+                      {r.user?.username || '-'}
+                    </td>
+                    <td className="p-4">{r.tour?.name || 'Tour'}</td>
+                    <td className="p-4">
+                      <span className="flex text-yellow-500">
+                        {Array.from({ length: r.rating }).map((_, i) => (
+                          <FaStar key={i} />
+                        ))}
+                      </span>
+                    </td>
+                    <td className="p-4 max-w-xs truncate" title={r.review}>
+                      {r.review}
+                    </td>
+                    <td className="p-4 text-gray-500">
+                      {new Date(r.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="p-4">
+                      <button
+                        onClick={() => handleDelete(r._id)}
+                        className="text-red-600 hover:text-white hover:bg-red-500 px-3 py-2 rounded-lg border border-red-200 bg-red-50 font-bold transition flex items-center gap-2 disabled:opacity-60"
+                        disabled={deletingId === r._id}
+                        title="Delete Review"
+                      >
+                        {deletingId === r._id ? 'Deleting...' : <FaTrash />}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
