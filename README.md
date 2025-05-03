@@ -105,10 +105,10 @@ Travalia/
 
 ## Contributors
 
-Authentication & Profile Management-IT22031266-Kavindu Theekshana
-Package Management-IT22892812-Janindu Jayasundara
-Booking managemnt & itinerary Generation-IT22031266-Gayasri pethum
-Hire management-IT22324238-Malitha Parikalpa
+1.Authentication & Profile Management-IT22031266-Kavindu Theekshana
+2.Package Management-IT22892812-Janindu Jayasundara
+3.Booking managemnt & itinerary Generation-IT22031266-Gayasri pethum
+4.Hire management-IT22324238-Malitha Parikalpa
 
 ## Contributing
 
