@@ -62,7 +62,7 @@ function Booking() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-10">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-4xl font-extrabold mb-10 text-center text-blue-800 tracking-tight drop-shadow-lg">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-10 text-center text-blue-900 tracking-tight drop-shadow-lg font-serif italic">
           My Tours
         </h2>
         {bookings.length === 0 ? (

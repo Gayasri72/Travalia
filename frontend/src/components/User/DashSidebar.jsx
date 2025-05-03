@@ -9,6 +9,7 @@ import {
   HiDatabase,
   HiOutlineLogout,
 } from 'react-icons/hi';
+import { FaTaxi } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../../redux/user/userSlice';
@@ -50,19 +51,31 @@ export default function DashSidebar() {
       <Sidebar className="w-full md:w-56 min-h-screen bg-white shadow-md border-r">
         {/* Logo and User Info */}
         <div className="flex flex-col items-center py-6 border-b mb-4 bg-gray-50">
-          <img src={logo} alt="Travalia Logo" className="w-12 h-12 rounded-full mb-2 shadow" />
-          <span className="font-bold text-lg text-gray-800 tracking-wide">Travalia</span>
+          <img
+            src={logo}
+            alt="Travalia Logo"
+            className="w-12 h-12 rounded-full mb-2 shadow"
+          />
+          <span className="font-bold text-lg text-gray-800 tracking-wide">
+            Travalia
+          </span>
           {currentUser && (
             <div className="mt-3 text-center">
-              <div className="font-semibold text-gray-700 text-sm">{currentUser?.rest?.name || 'User'}</div>
-              <div className="text-xs text-gray-500">{currentUser?.rest?.isAdmin ? 'Admin' : 'User'}</div>
+              <div className="font-semibold text-gray-700 text-sm">
+                {currentUser?.rest?.name || 'User'}
+              </div>
+              <div className="text-xs text-gray-500">
+                {currentUser?.rest?.isAdmin ? 'Admin' : 'User'}
+              </div>
             </div>
           )}
         </div>
         <Sidebar.Items>
           <Sidebar.ItemGroup className="flex flex-col gap-1">
             {/* Account Section */}
-            <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Account</div>
+            <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              Account
+            </div>
             <Sidebar.Item
               as={Link}
               to="/dashboard?tab=profile"
@@ -111,7 +124,9 @@ export default function DashSidebar() {
             {/* Admin Section */}
             {currentUser?.rest?.isAdmin && (
               <>
-                <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin Panel</div>
+                <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Admin Panel
+                </div>
                 <Sidebar.Item
                   as={Link}
                   to="/dashboard?tab=packages"
@@ -172,30 +187,26 @@ export default function DashSidebar() {
                 >
                   Reviews
                 </Sidebar.Item>
-            )}
-
-{currentUser?.rest?.isAdmin && (
-              <Sidebar.Item
-                as={Link}
-                to="/dashboard?tab=hire"
-                active={tab === 'hire'}
-                icon={HiDatabase}
-                labelColor="dark"
-              >
-                Hire Details
-              </Sidebar.Item>
-            )}
-            {currentUser?.rest?.isAdmin && (
-
-            <Sidebar.Item
-              as={Link}
-              to="/dashboard?tab=vehicles"
-              active={tab === 'vehicles'}
-              icon={FaTaxi}
-              labelColor="dark"
-            >
-              Vehicles
-            </Sidebar.Item>
+                <Sidebar.Item
+                  as={Link}
+                  to="/dashboard?tab=hire"
+                  active={tab === 'hire'}
+                  icon={HiDatabase}
+                  labelColor="dark"
+                  className="rounded-md"
+                >
+                  Hire Details
+                </Sidebar.Item>
+                <Sidebar.Item
+                  as={Link}
+                  to="/dashboard?tab=vehicles"
+                  active={tab === 'vehicles'}
+                  icon={FaTaxi}
+                  labelColor="dark"
+                  className="rounded-md"
+                >
+                  Vehicles
+                </Sidebar.Item>
               </>
             )}
             {/* Divider */}
