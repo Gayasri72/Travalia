@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const customStyles = `
   .admin-vehicles-container {
@@ -142,10 +144,57 @@ export default function AdminVehicles() {
     setEditVehicleId(null);
   };
 
+  const generateReport = () => {
+    const doc = new jsPDF();
+    
+    // Add title
+    doc.setFontSize(20);
+    doc.text('Vehicle Management Report', 14, 22);
+    
+    // Add date
+    doc.setFontSize(12);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+    
+    // Add table
+    autoTable(doc, {
+      startY: 40,
+      head: [['Vehicle Name', 'Passengers', 'Baggage Capacity']],
+      body: vehicles.map(vehicle => [
+        vehicle.name,
+        vehicle.passengers,
+        vehicle.baggage
+      ]),
+      theme: 'grid',
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontStyle: 'bold'
+      },
+      styles: {
+        fontSize: 10,
+        cellPadding: 5
+      }
+    });
+
+    // Save the PDF
+    doc.save('vehicle-report.pdf');
+  };
+
   return (
     <div className="admin-vehicles-container">
       <div className="content-wrapper">
-        <h2 className="text-2xl font-bold text-center mb-6">Manage Vehicles</h2>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Manage Vehicles</h2>
+          <button
+            onClick={generateReport}
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
+            </svg>
+            Generate Report
+          </button>
+        </div>
 
         {/* Add Vehicle Form */}
         <div className="form-container">
