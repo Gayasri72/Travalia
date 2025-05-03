@@ -29,6 +29,8 @@ const TourPackages = () => {
     fetchPackages();
   }, []);
 
+  console.log(tourPackages);
+
     const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this package?')) {
       try {
@@ -146,7 +148,7 @@ const TourPackages = () => {
                 filteredPackages.map((tour) => (
                   <tr key={tour._id} className="border-b hover:bg-blue-100 transition">
                     <td className="px-6 py-4 font-medium flex items-center space-x-2">
-                      <img src={tour.image || '/default-avatar.png'} alt="tour" className="w-8 h-8 rounded-full" />
+                      <img src={`/src/assets/tours/${tour.imageCover}`} alt="tour" className="w-8 h-8 rounded full" />
                       <span>{tour.name}</span>
                     </td>
                     <td className="px-6 py-4">{tour.duration}</td>
