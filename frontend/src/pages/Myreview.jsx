@@ -98,7 +98,7 @@ const MyReview = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">My Reviews</h1>
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-10 text-center text-blue-900 tracking-tight drop-shadow-lg font-serif italic">My Reviews</h1>
       {/* <div className="mb-4 text-xs text-gray-500">
         Debug: currentUser = {JSON.stringify(currentUser)}
       </div> */}

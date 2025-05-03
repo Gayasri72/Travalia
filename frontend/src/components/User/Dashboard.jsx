@@ -15,6 +15,12 @@ import MyReview from '../../pages/Myreview';
 import AllReview from '../../pages/Admin/AllReview';
 
 
+
+
+import AdminVehicles from '../../pages/Admin/AdminVehicles';
+import HireData from '../../pages/Admin/HireData';
+
+
 export default function Dashboard() {
   const location = useLocation();
   const [tab, setTab] = useState('');
@@ -46,6 +52,13 @@ export default function Dashboard() {
       {tab=== 'reviews' && <AllReview/>}
       {/*users*/}
       {tab === 'users' && <DashUsers />}
+
+      {/*vehicles*/}
+      {tab === 'vehicles' && <AdminVehicles/>}
+  {tab === 'hire' && <HireData/>}
+
+    
+   
 
     </div>
   );

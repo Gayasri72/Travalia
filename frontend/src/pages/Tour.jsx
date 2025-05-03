@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState,  } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import {
@@ -9,6 +9,7 @@ import {
   FaCalendarAlt,
   FaClock,
   FaDollarSign,
+  FaUserCircle,
 } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -16,6 +17,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import TourReviews from '../components/tourBooking/TourReviews';
 
 const defaultIcon = L.icon({
   iconUrl,
@@ -55,7 +57,7 @@ const Tour = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // Add auth header if needed
+            
           },
           body: JSON.stringify({ tourId: id }),
           credentials: 'include',
@@ -281,162 +283,7 @@ const Tour = () => {
   );
 };
 
-// Add this component inside the same file (or move to a separate file if preferred)
-function TourReviews({ tourId, currentUser }) {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [rating, setRating] = useState(5);
-  const [review, setReview] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [hasReviewed, setHasReviewed] = useState(false);
+<TourReviews/>
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/tours/${tourId}/reviews`,
-        );
-        const data = await res.json();
-        if (!data.success) throw new Error('Failed to fetch reviews');
-        setReviews(data.data.reviews);
-        if (currentUser) {
-          setHasReviewed(
-            data.data.reviews.some(
-              (r) => r.user && r.user._id === currentUser._id,
-            ),
-          );
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchReviews();
-  }, [tourId, currentUser]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError(null);
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/tours/${tourId}/reviews`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({ rating, review }),
-        },
-      );
-      const data = await res.json();
-      if (!data.success)
-        throw new Error(data.message || 'Failed to submit review');
-      setReviews([data.data.review, ...reviews]);
-      setHasReviewed(true);
-      setReview('');
-      setRating(5);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <div>
-      {loading ? (
-        <p>Loading reviews...</p>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
-      ) : (
-        <>
-          {reviews.length === 0 && <p>No reviews yet.</p>}
-          <ul className="mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {reviews.map((r) => (
-              <li
-                key={r._id}
-                className="bg-white rounded-lg shadow-md p-4 flex flex-col h-full border border-gray-100 hover:shadow-lg transition-shadow"
-              >
-                <div className="flex items-center mb-2">
-                  <img
-                    src={
-                      r.user?.photo
-                        ? r.user.photo.startsWith('http')
-                          ? r.user.photo
-                          : `/uploads/${r.user.photo}`
-                        : '/default-user.png'
-                    }
-                    alt={r.user?.name || 'User'}
-                    className="w-10 h-10 rounded-full object-cover mr-3 border"
-                  />
-                  <div>
-                    <span className="font-bold text-gray-800">
-                      {r.user?.name || 'User'}
-                    </span>
-                    <div className="flex text-yellow-500 text-sm">
-                      {Array.from({ length: r.rating }).map((_, i) => (
-                        <FaStar key={i} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-gray-700 flex-1 mb-2">{r.review}</p>
-                <div className="text-xs text-gray-400 mt-auto text-right">
-                  {new Date(r.createdAt).toLocaleDateString()}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      {/* Review Form */}
-      {currentUser && !hasReviewed && (
-        <form
-          onSubmit={handleSubmit}
-          className="mb-4 p-4 bg-gray-100 rounded-lg"
-        >
-          <label className="block mb-2 font-bold">Your Rating:</label>
-          <select
-            value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-            className="mb-2 p-2 rounded border"
-          >
-            {[5, 4, 3, 2, 1].map((val) => (
-              <option key={val} value={val}>
-                {val} Star{val > 1 && 's'}
-              </option>
-            ))}
-          </select>
-          <label className="block mb-2 font-bold">Your Review:</label>
-          <textarea
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            required
-            className="w-full p-2 rounded border mb-2"
-            rows={3}
-            placeholder="Share your experience..."
-          />
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 disabled:opacity-60"
-            disabled={submitting || !review.trim()}
-          >
-            {submitting ? 'Submitting...' : 'Submit Review'}
-          </button>
-        </form>
-      )}
-      {currentUser && hasReviewed && (
-        <p className="text-green-600 font-semibold">
-          You have already reviewed this tour.
-        </p>
-      )}
-    </div>
-  );
-}
 
 export default Tour;

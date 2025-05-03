@@ -8,7 +8,7 @@ import Header from './components/Header';
 import Notfound from './pages/Notfound';
 import Footer from './components/Footer';
 import Tours from './pages/Tours';
-import Hires from './pages/Hires';
+
 import Gallery from './pages/Gallery';
 
 import PrivateRoute from './components/PrivateRoute';
@@ -24,6 +24,7 @@ import EditePackges from './pages/Admin/EditePackges';
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import HireDetails from './pages/HireDetails';
 
 export default function App() {
   return (
@@ -47,7 +48,7 @@ export default function App() {
 
             <Route path="/tours" element={<Tours />} />
             <Route path="/tour/:id" element={<Tour />} />
-            <Route path="/hires" element={<Hires />} />
+            
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/create-package" element={<CreatePackage />} />
 
@@ -56,6 +57,10 @@ export default function App() {
             <Route path="/admin/addPackages" element={<AddPackages />} />
             <Route path="/admin/packages" element={<Packages />} />
             <Route path="/admin/packages/edit/:id" element={<EditePackges />} />
+
+
+
+            <Route path="/hires" element={<HireDetails/>} />
           </Routes>
         </main>
         <Footer />

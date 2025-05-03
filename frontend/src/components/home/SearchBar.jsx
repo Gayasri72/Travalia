@@ -1,29 +1,89 @@
-import React from 'react';
-import { Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, MapPin, Calendar, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const SearchBar = () => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
-    <div className="flex items-center justify-center px-4 md:px-10 py-6">
-      <div className="relative w-full max-w-2xl">
-       
-        <input
-          type="text"
-          placeholder="Search Your Favourite Destination"
-          className="w-full py-3 pl-10 pr-20 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full max-w-4xl mx-auto"
+    >
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4">
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Destination Search */}
+          <div className="flex-1 relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <input
+              type="text"
+              placeholder="Where do you want to go?"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+            />
+          </div>
 
-       
-        <Search
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
-          size={20}
-        />
+          {/* Date Picker */}
+          <div className="flex-1 relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <Calendar className="w-5 h-5" />
+            </div>
+            <input
+              type="date"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
 
-        
-        <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-400 hover:bg-blue-500 text-black font-semibold px-6 py-2 rounded-full transition">
-          Search
-        </button>
+          {/* People Count */}
+          <div className="flex-1 relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <Users className="w-5 h-5" />
+            </div>
+            <input
+              type="number"
+              placeholder="How many people?"
+              min="1"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+
+          {/* Search Button */}
+          <button className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+            <Search className="w-5 h-5" />
+            Search
+          </button>
+        </div>
+
+        {/* Popular Searches */}
+        {isFocused && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl"
+          >
+            <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">
+              Popular Destinations
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {['Paris', 'Tokyo', 'New York', 'Bali', 'London', 'Dubai'].map((destination) => (
+                <button
+                  key={destination}
+                  className="px-3 py-1 text-sm bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-500 transition-colors"
+                >
+                  {destination}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
