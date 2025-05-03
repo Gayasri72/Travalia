@@ -24,6 +24,8 @@ const AddPackages = () => {
   ]);
   const navigate = useNavigate();
 
+  const today = new Date();
+
   const validateForm = () => {
     const newErrors = {};
     if (!tourData.name.trim()) newErrors.name = 'Tour name is required';
@@ -45,6 +47,16 @@ const AddPackages = () => {
     if (!tourData.imageCover) newErrors.imageCover = 'Cover image is required';
     if (tourData.startDates.length === 0)
       newErrors.startDates = 'At least one start date is required';
+    else if (
+      tourData.startDates.some(
+        (date) => {
+          const d = new Date(date);
+          return isNaN(d) || d < new Date(today.toISOString().slice(0, 10));
+        }
+      )
+    ) {
+      newErrors.startDates = 'Start dates cannot be in the past';
+    }
     if (locations.length < 2)
       newErrors.locations = 'At least 2 locations are required';
 
