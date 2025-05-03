@@ -17,7 +17,7 @@ Travalia is a full-stack travel and tour management platform. It allows users to
 
 - **Frontend:** React, Vite, Tailwind CSS, Redux
 - **Backend:** Node.js, Express, MongoDB
-- **Other:** Cloudinary, Firebase, Framer Motion
+- **Other:** Cloudinary, Firebase, Framer Motion,leaflet map
 
 ## Project Structure
 
@@ -102,6 +102,13 @@ Travalia/
 - Hire vehicles and plan your itinerary.
 - Leave reviews and read others' experiences.
 - Admins can manage tours, bookings, and users.
+
+## Contributors
+
+Authentication & Profile Management-IT22031266-Kavindu Theekshana
+Package Management-IT22892812-Janindu Jayasundara
+Booking managemnt & itinerary Generation-IT22031266-Gayasri pethum
+Hire management-IT22324238-Malitha Parikalpa
 
 ## Contributing
 
