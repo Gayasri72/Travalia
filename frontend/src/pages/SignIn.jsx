@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import login from '../assets/userManagement/login.png';
-import icon1 from '../assets/userManagement/icon1.png';
-import icon2 from '../assets/userManagement/icon2.png';
-import icon3 from '../assets/userManagement/icon3.png';
-
 import { Button, Spinner, Alert } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
+import { AiOutlineMail, AiOutlineLock, AiOutlineGoogle } from 'react-icons/ai';
+import { motion } from 'framer-motion';
 import {
   signInStart,
   signInSuccess,
@@ -20,6 +17,10 @@ export default function SignIn() {
   const { loading, error: errorMessages } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(signInFailure(null));
+  }, [dispatch]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -49,115 +50,207 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Left Side - Image and Quote */}
-      <div
-        className="hidden md:flex flex-1 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${login})` }}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-6xl mx-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700"
       >
-        <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col items-center justify-center text-white text-center px-6">
-          <h1 className="text-4xl font-bold">TRAVALIA</h1>
-          <p className="mt-4 text-lg">
-            Travel is the only purchase that enriches you in ways beyond
-            material wealth
-          </p>
-        </div>
-      </div>
-
-      {/* Right Side - Login Form */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-8 md:p-16 bg-white shadow-lg relative">
-        <div className="flex flex-col items-center justify-center w-full">
-          <img
-            src={icon1}
-            alt="Plane Icon"
-            className="absolute top-4 right-0 w-80 h-20 mt-1"
-          />
-          <h2 className="text-5xl font-bold text-blue-600 -mt-20">Welcome</h2>
-          <p className="mt-2 text-gray-500">Login with Email</p>
-        </div>
-
-        <form className="w-full mt-6" onSubmit={handleSubmit}>
-          <div className="mb-4 relative">
-            <label className="block text-gray-700">Email</label>
-            <div className="relative">
-              <AiOutlineMail className="absolute left-3 top-3 w-5 h-5" />
-              <input
-                id="email"
-                type="email"
-                className="w-full pl-10 px-4 py-2 mt-1 border border-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="example@email.com"
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="mb-4 relative">
-            <label className="block text-gray-700">Password</label>
-            <div className="relative">
-              <AiOutlineLock className="absolute left-3 top-3 w-5 h-5" />
-              <input
-                id="password"
-                type="password"
-                className="w-full pl-10 px-4 py-2 mt-1 border border-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="********"
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <Button
-            type="submit"
-            gradientDuoTone="purpleToBlue"
-            className="w-full mt-4 h-11"
-            disabled={loading}
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          {/* Left Side - Image and Quote */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="hidden md:block relative"
           >
-            {loading ? (
-              <>
-                <Spinner size="sm" />
-                <span className="pl-3">Loading...</span>
-              </>
-            ) : (
-              'Sign In'
-            )}
-          </Button>
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/80 via-purple-600/80 to-pink-600/80" />
+            <img
+              src={login}
+              alt="Travel"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="text-5xl font-bold mb-4 text-center"
+              >
+                Welcome to Travalia
+              </motion.h1>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="text-xl text-center max-w-md"
+              >
+                Discover the world's most amazing destinations with our curated travel experiences.
+              </motion.p>
+            </div>
+          </motion.div>
 
-          <div className="relative w-full">
-            {errorMessages && (
-              <Alert className="absolute top-2 left-0 w-full" color="failure">
-                {errorMessages}
-              </Alert>
-            )}
-          </div>
-        </form>
+          {/* Right Side - Login Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="p-8 md:p-12"
+          >
+            <div className="text-center mb-8">
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2"
+              >
+                Sign In
+              </motion.h2>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="text-gray-600 dark:text-gray-400"
+              >
+                Welcome back! Please enter your details
+              </motion.p>
+            </div>
 
-        <div className="flex items-center w-full my-6 ">
-          <hr className="flex-grow border-gray-300" />
-          <span className="mx-2 text-gray-500">OR</span>
-          <hr className="flex-grow border-gray-300" />
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.5 }}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Email
+                  </label>
+                  <div className="relative group">
+                    <AiOutlineMail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+                    <input
+                      id="email"
+                      type="email"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-all duration-200"
+                      placeholder="Enter your email"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Password
+                  </label>
+                  <div className="relative group">
+                    <AiOutlineLock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+                    <input
+                      id="password"
+                      type="password"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-all duration-200"
+                      placeholder="Enter your password"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    />
+                    <label className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                      Remember me
+                    </label>
+                  </div>
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2, duration: 0.5 }}
+              >
+                <Button
+                  type="submit"
+                  gradientDuoTone="purpleToBlue"
+                  className="w-full py-3 rounded-xl text-lg font-medium transition-all duration-200 hover:shadow-lg"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Spinner size="sm" />
+                      <span className="ml-3">Signing in...</span>
+                    </>
+                  ) : (
+                    'Sign In'
+                  )}
+                </Button>
+              </motion.div>
+
+              {errorMessages && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.4, duration: 0.5 }}
+                >
+                  <Alert color="failure" className="rounded-xl">
+                    {errorMessages}
+                  </Alert>
+                </motion.div>
+              )}
+            </form>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.6, duration: 0.5 }}
+              className="mt-6"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-1 gap-3">
+                <div className="flex justify-center">
+                  <OAuth />
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.8, duration: 0.5 }}
+              className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400"
+            >
+              Don't have an account?{' '}
+              <Link
+                to="/sign-up"
+                className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
+              >
+                Sign up
+              </Link>
+            </motion.p>
+          </motion.div>
         </div>
-
-        <div className="w-full flex justify-center ">
-          <OAuth />
-        </div>
-
-        <p className="mt-4 text-gray-600">
-          Don't have an account?{' '}
-          <Link to="/sign-up" className="text-blue-600">
-            Register Now
-          </Link>
-        </p>
-
-        <img
-          src={icon2}
-          alt="Left Icon"
-          className="absolute bottom-0 left-0 w-36 h-36"
-        />
-        <img
-          src={icon3}
-          alt="Right Icon"
-          className="absolute bottom-0 right-0 w-36 h-36 "
-        />
-      </div>
+      </motion.div>
     </div>
   );
 }
