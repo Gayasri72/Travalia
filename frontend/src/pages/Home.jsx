@@ -7,6 +7,7 @@ import Ads1 from '../components/home/ads1';
 import Reviews from '../components/home/reviews';
 import SearchBar from '../components/home/SearchBar';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
@@ -38,9 +39,9 @@ export default function Home() {
         >
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Latest Tours</h2>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+            <Link to='/tours' className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
               View All
-            </button>
+            </Link>
           </div>
           <Latest />
         </motion.section>

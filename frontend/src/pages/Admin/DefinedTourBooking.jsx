@@ -8,13 +8,71 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import Papa from 'papaparse'; // use this library to parse CSV data
+import { saveAs } from 'file-saver'; // use this library to save files
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
+
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+// Helper to filter bookings by date range
+const filterByDateRange = (bookings, range) => {
+  const now = new Date();
+  return bookings.filter((b) => {
+    const date = new Date(b.updatedAt);
+    if (range === 'daily') {
+      return (
+        date.getDate() === now.getDate() &&
+        date.getMonth() === now.getMonth() &&
+        date.getFullYear() === now.getFullYear()
+      );
+    }
+    if (range === 'weekly') {
+      const weekAgo = new Date(now);
+      weekAgo.setDate(now.getDate() - 7);
+      return date >= weekAgo && date <= now;
+    }
+    if (range === 'monthly') {
+      return (
+        date.getMonth() === now.getMonth() &&
+        date.getFullYear() === now.getFullYear()
+      );
+    }
+    return true;
+  });
+};
+
+// Helper to get most booked tours
+const getMostBookedTours = (bookings) => {
+  const counts = {};
+  bookings.forEach((b) => {
+    const name = b.tour?.name || 'Unknown';
+    counts[name] = (counts[name] || 0) + 1;
+  });
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, count]) => ({ name, count }));
+};
 
 function DefinedTourBooking() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportType, setExportType] = useState('pdf');
+  const [exportRange, setExportRange] = useState('daily');
 
   useEffect(() => {
     const fetchConfirmedBookings = async () => {
@@ -40,6 +98,65 @@ function DefinedTourBooking() {
     };
     fetchConfirmedBookings();
   }, []);
+
+  // Export CSV
+  const handleExportCSV = (range) => {
+    const filtered = filterByDateRange(bookings, range);
+    const csv = Papa.unparse(
+      filtered.map((b) => ({
+        Username: b.user?.username,
+        Email: b.user?.email,
+        Tour: b.tour?.name,
+        Price: b.price,
+        Status: b.status,
+        ConfirmedOn: new Date(b.updatedAt).toLocaleString(),
+      }))
+    );
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, `tour-bookings-${range}.csv`);
+  };
+
+  // Export PDF
+  const handleExportPDF = (range) => {
+    const filtered = filterByDateRange(bookings, range);
+    const doc = new jsPDF();
+    doc.text(`Tour Bookings Report (${range})`, 14, 14);
+    if (filtered.length > 0) {
+      autoTable(doc, {
+        head: [['Username', 'Email', 'Tour', 'Price', 'Status', 'Confirmed On']],
+        body: filtered.map((b) => [
+          b.user?.username || '',
+          b.user?.email || '',
+          b.tour?.name || '',
+          b.price || '',
+          b.status || '',
+          b.updatedAt ? new Date(b.updatedAt).toLocaleString() : '',
+        ]),
+        startY: 20,
+      });
+      // Most booked tours
+      const mostBooked = getMostBookedTours(filtered);
+      doc.text('Most Booked Tours:', 14, doc.lastAutoTable.finalY + 10);
+      autoTable(doc, {
+        head: [['Tour Name', 'Bookings']],
+        body: mostBooked.map((t) => [t.name, t.count]),
+        startY: doc.lastAutoTable.finalY + 15,
+      });
+    } else {
+      doc.text('No data available for this period.', 14, 30);
+    }
+    doc.save(`tour-bookings-${range}.pdf`);
+  };
+
+  // Export handler
+  const handleExport = () => {
+    if (exportType === 'pdf') {
+      handleExportPDF(exportRange);
+    } else {
+      handleExportCSV(exportRange);
+    }
+    setExportDialogOpen(false);
+  };
 
   // Filter bookings by search
   const filteredBookings = bookings.filter(
@@ -81,17 +198,65 @@ function DefinedTourBooking() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 min-h-screen bg-gradient-to-br from-blue-50 to-white font-sans">
+      {/* Export Dialog */}
+      <Dialog open={exportDialogOpen} onClose={() => setExportDialogOpen(false)}>
+        <DialogTitle>Export Bookings Report</DialogTitle>
+        <DialogContent>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel id="export-type-label">Export Type</InputLabel>
+            <Select
+              labelId="export-type-label"
+              value={exportType}
+              label="Export Type"
+              onChange={(e) => setExportType(e.target.value)}
+            >
+              <MenuItem value="pdf">PDF</MenuItem>
+              <MenuItem value="csv">CSV</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel id="export-range-label">Report Range</InputLabel>
+            <Select
+              labelId="export-range-label"
+              value={exportRange}
+              label="Report Range"
+              onChange={(e) => setExportRange(e.target.value)}
+            >
+              <MenuItem value="daily">Daily</MenuItem>
+              <MenuItem value="weekly">Weekly</MenuItem>
+              <MenuItem value="monthly">Monthly</MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setExportDialogOpen(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleExport} variant="contained" color="primary">
+            Export
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
         <h2 className="text-4xl font-extrabold text-blue-800 tracking-tight drop-shadow-sm">
           Admin Confirmed Tours
         </h2>
-        <input
-          type="text"
-          placeholder="Search by tour or user..."
-          className="w-full md:w-72 px-4 py-2 border border-blue-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-700"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+          <input
+            type="text"
+            placeholder="Search by tour or user..."
+            className="w-full md:w-72 px-4 py-2 border border-blue-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-700"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button
+            onClick={() => setExportDialogOpen(true)}
+            className="px-4 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded font-semibold shadow hover:from-green-600 hover:to-blue-600 transition"
+            style={{ minWidth: 120 }}
+          >
+            Export Report
+          </button>
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
         <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 flex flex-col justify-between">

@@ -6,6 +6,7 @@ import {
   HiOutlineClock,
   HiOutlineHeart
 } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 const policies = [
   {
@@ -81,9 +82,9 @@ function Policy() {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <button className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+          <Link to='/info' className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
             Learn More About Our Policies
-          </button>
+          </Link>
         </motion.div>
       </div>
     </div>

@@ -11,7 +11,28 @@ import {
   FaTicketAlt,
   FaTrashAlt,
   FaTimesCircle,
+  FaWhatsapp,
 } from 'react-icons/fa';
+
+// Helper function to format plan for WhatsApp sharing
+const getPlanShareText = (plan) => {
+  let text = `My Travel Plan 🚗\n`;
+  text += `From: ${plan.startDate?.slice(0, 10)} To: ${plan.endDate?.slice(0, 10)}\n`;
+  text += `Starting Point: ${plan.startingPoint}\n`;
+  text += `Total Days: ${plan.totalDays}\n`;
+  text += `Travel Mode: ${plan.travelMode}\n`;
+  text += `Distance: ${plan.totalDistance} km\n`;
+  text += `Fuel Cost: Rs ${plan.totalFuelCost}\n`;
+  text += `Tickets: Rs ${plan.totalCost}\n\n`;
+  text += `Day-by-Day Itinerary:\n`;
+  plan.itinerary.forEach((day) => {
+    text += `Day ${day.day}:\n`;
+    day.activities.forEach((act) => {
+      text += `- ${act.name} (${act.region})\n`;
+    });
+  });
+  return encodeURIComponent(text);
+};
 
 function Plans() {
   const [plans, setPlans] = useState([]);
@@ -310,6 +331,16 @@ function Plans() {
                   className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full font-semibold shadow hover:from-blue-600 hover:to-blue-800 transition-all"
                 >
                   View Details
+                </button>
+                <button
+                  onClick={() => {
+                    const text = getPlanShareText(plan);
+                    window.open(`https://wa.me/?text=${text}`, '_blank');
+                  }}
+                  className="px-6 py-2 bg-green-500 text-white rounded-full font-semibold shadow hover:bg-green-600 transition-all flex items-center gap-2"
+                  title="Share to WhatsApp"
+                >
+                  <FaWhatsapp className="text-xl" /> Share
                 </button>
               </div>
             </div>
