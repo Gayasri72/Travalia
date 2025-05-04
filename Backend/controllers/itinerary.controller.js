@@ -287,7 +287,7 @@ const generateItinerary = async (req, res) => {
   });
 };
 
-// New: Save itinerary to DB only when user confirms
+//  Save itinerary to DB only when user confirms
 export const saveItinerary = async (req, res) => {
   try {
     console.log('saveItinerary req.body:', req.body); // <-- log incoming data

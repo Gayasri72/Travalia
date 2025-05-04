@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -14,61 +14,106 @@ const customStyles = `
     background: white;
     border-radius: 1rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    padding: 2rem;
+    padding: 2.5rem 2rem;
     margin: 0 auto;
+    width: 90vw;
     max-width: 1200px;
   }
   
   .form-container {
     background: white;
     border-radius: 0.5rem;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+    padding: 2rem 1.5rem;
+    margin-bottom: 2.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .form-container .flex {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .form-container input, .form-container button {
+    min-width: 220px;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+  }
+  .form-container button {
+    min-width: 160px;
   }
   
   .table-container {
     background: white;
     border-radius: 0.5rem;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .table-container table {
     width: 100%;
+    font-size: 1.05rem;
   }
   
   .table-container th {
     background-color: #f8fafc;
-    padding: 1rem;
+    padding: 1.2rem;
     text-align: center;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.1rem;
   }
   
   .table-container td {
-    padding: 1rem;
+    padding: 1.2rem;
     text-align: center;
   }
   
   .action-buttons {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
     justify-content: center;
+  }
+  @media (max-width: 900px) {
+    .content-wrapper, .form-container, .table-container {
+      padding: 1rem 0.5rem;
+    }
+    .form-container .flex {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .table-container th, .table-container td {
+      padding: 0.7rem;
+    }
   }
 `;
 
-const styleSheet = document.createElement("style");
+const styleSheet = document.createElement('style');
 styleSheet.innerText = customStyles;
 document.head.appendChild(styleSheet);
 
 export default function AdminVehicles() {
   const [vehicles, setVehicles] = useState([]);
-  const [newVehicle, setNewVehicle] = useState({ name: "", passengers: "", baggage: "" });
+  const [newVehicle, setNewVehicle] = useState({
+    name: '',
+    passengers: '',
+    baggage: '',
+  });
   const [editVehicleId, setEditVehicleId] = useState(null);
-  const [editVehicleData, setEditVehicleData] = useState({ name: "", passengers: "", baggage: "" });
+  const [editVehicleData, setEditVehicleData] = useState({
+    name: '',
+    passengers: '',
+    baggage: '',
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [validationError, setValidationError] = useState('');
 
   useEffect(() => {
     fetchVehicles();
@@ -77,41 +122,54 @@ export default function AdminVehicles() {
   const fetchVehicles = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/vehicles");
+      const response = await axios.get('/api/vehicles');
       setVehicles(response.data.data.vehicles);
     } catch (error) {
-      console.error("Error fetching vehicles:", error);
-      setError("Failed to fetch vehicles");
+      console.error('Error fetching vehicles:', error);
+      setError('Failed to fetch vehicles');
     } finally {
       setLoading(false);
     }
   };
 
   const handleAddVehicle = async () => {
+    setValidationError('');
     if (!newVehicle.name || !newVehicle.passengers || !newVehicle.baggage) {
-      alert("Please fill all fields");
+      setValidationError('Please fill all fields');
+      return;
+    }
+    if (!isNaN(newVehicle.name)) {
+      setValidationError('Vehicle name must be a string, not a number');
+      return;
+    }
+    if (Number(newVehicle.passengers) <= 0) {
+      setValidationError('Passengers must be greater than 0');
       return;
     }
 
     try {
-      const response = await axios.post("/api/vehicles", newVehicle);
+      const response = await axios.post('/api/vehicles', newVehicle);
       setVehicles((prev) => [...prev, response.data.data.vehicle]);
-      setNewVehicle({ name: "", passengers: "", baggage: "" });
+      setNewVehicle({ name: '', passengers: '', baggage: '' });
     } catch (error) {
-      console.error("Error adding vehicle:", error);
-      alert("Failed to add vehicle");
+      console.error('Error adding vehicle:', error);
+      setValidationError('Failed to add vehicle');
     }
   };
 
   const handleDeleteVehicle = async (id) => {
-    if (window.confirm('Are you sure you want to delete this vehicle? This action cannot be undone.')) {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this vehicle? This action cannot be undone.',
+      )
+    ) {
       try {
         await axios.delete(`/api/vehicles/${id}`);
         setVehicles((prev) => prev.filter((vehicle) => vehicle._id !== id));
         alert('Vehicle deleted successfully!');
       } catch (error) {
-        console.error("Error deleting vehicle:", error);
-        alert("Failed to delete vehicle");
+        console.error('Error deleting vehicle:', error);
+        alert('Failed to delete vehicle');
       }
     }
   };
@@ -131,13 +189,35 @@ export default function AdminVehicles() {
   };
 
   const handleSaveEdit = async (id) => {
+    setValidationError('');
+    if (
+      !editVehicleData.name ||
+      !editVehicleData.passengers ||
+      !editVehicleData.baggage
+    ) {
+      setValidationError('Please fill all fields');
+      return;
+    }
+    if (!isNaN(editVehicleData.name)) {
+      setValidationError('Vehicle name must be a string, not a number');
+      return;
+    }
+    if (Number(editVehicleData.passengers) <= 0) {
+      setValidationError('Passengers must be greater than 0');
+      return;
+    }
     try {
-      const response = await axios.patch(`/api/vehicles/${id}`, editVehicleData);
-      setVehicles((prev) => prev.map((v) => (v._id === id ? response.data.data.vehicle : v)));
+      const response = await axios.patch(
+        `/api/vehicles/${id}`,
+        editVehicleData,
+      );
+      setVehicles((prev) =>
+        prev.map((v) => (v._id === id ? response.data.data.vehicle : v)),
+      );
       setEditVehicleId(null);
     } catch (error) {
-      console.error("Error updating vehicle:", error);
-      alert("Failed to update vehicle");
+      console.error('Error updating vehicle:', error);
+      setValidationError('Failed to update vehicle');
     }
   };
 
@@ -147,42 +227,42 @@ export default function AdminVehicles() {
 
   const generateReport = () => {
     const doc = new jsPDF();
-    
+
     // Add title
     doc.setFontSize(20);
     doc.text('Vehicle Management Report', 14, 22);
-    
+
     // Add date
     doc.setFontSize(12);
     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-    
+
     // Add table
     autoTable(doc, {
       startY: 40,
       head: [['Vehicle Name', 'Passengers', 'Baggage Capacity']],
-      body: vehicles.map(vehicle => [
+      body: vehicles.map((vehicle) => [
         vehicle.name,
         vehicle.passengers,
-        vehicle.baggage
+        vehicle.baggage,
       ]),
       theme: 'grid',
       headStyles: {
         fillColor: [41, 128, 185],
         textColor: 255,
-        fontStyle: 'bold'
+        fontStyle: 'bold',
       },
       styles: {
         fontSize: 10,
-        cellPadding: 5
-      }
+        cellPadding: 5,
+      },
     });
 
     // Save the PDF
     doc.save('vehicle-report.pdf');
   };
 
-  const filteredVehicles = vehicles.filter(vehicle =>
-    vehicle.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredVehicles = vehicles.filter((vehicle) =>
+    vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -216,8 +296,17 @@ export default function AdminVehicles() {
               onClick={generateReport}
               className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center gap-2"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+                  clipRule="evenodd"
+                />
               </svg>
               Generate Report
             </button>
@@ -231,21 +320,27 @@ export default function AdminVehicles() {
               type="text"
               placeholder="Vehicle Name"
               value={newVehicle.name}
-              onChange={(e) => setNewVehicle({ ...newVehicle, name: e.target.value })}
+              onChange={(e) =>
+                setNewVehicle({ ...newVehicle, name: e.target.value })
+              }
               className="border p-2 rounded-lg flex-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <input
               type="number"
               placeholder="Passengers"
               value={newVehicle.passengers}
-              onChange={(e) => setNewVehicle({ ...newVehicle, passengers: e.target.value })}
+              onChange={(e) =>
+                setNewVehicle({ ...newVehicle, passengers: e.target.value })
+              }
               className="border p-2 rounded-lg flex-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <input
               type="text"
               placeholder="Baggage Capacity"
               value={newVehicle.baggage}
-              onChange={(e) => setNewVehicle({ ...newVehicle, baggage: e.target.value })}
+              onChange={(e) =>
+                setNewVehicle({ ...newVehicle, baggage: e.target.value })
+              }
               className="border p-2 rounded-lg flex-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
@@ -258,7 +353,11 @@ export default function AdminVehicles() {
         </div>
 
         {/* Error message */}
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {(error || validationError) && (
+          <p className="text-red-500 text-center mb-4">
+            {error || validationError}
+          </p>
+        )}
 
         {/* Vehicles Table */}
         <div className="table-container">
@@ -349,7 +448,9 @@ export default function AdminVehicles() {
               </table>
             ) : (
               <p className="text-center text-gray-500">
-                {searchTerm ? "No vehicles found matching your search." : "No vehicles found."}
+                {searchTerm
+                  ? 'No vehicles found matching your search.'
+                  : 'No vehicles found.'}
               </p>
             )}
           </div>

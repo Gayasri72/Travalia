@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FaCalendarAlt,
   FaMapMarkerAlt,
@@ -342,6 +342,9 @@ function Plans() {
                 >
                   <FaWhatsapp className="text-xl" /> Share
                 </button>
+                <Link to='/contact' className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full font-semibold shadow hover:from-blue-600 hover:to-blue-800 transition-all">
+                Contact Us
+                </Link>
               </div>
             </div>
           ))}

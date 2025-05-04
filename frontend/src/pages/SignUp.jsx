@@ -182,11 +182,11 @@ export default function SignUp() {
                   />
                   <label className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                     I agree to the{' '}
-                    <Link to="/terms" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
+                    <Link to="/info" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link to="/privacy" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
+                    <Link to="/info" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
                       Privacy Policy
                     </Link>
                   </label>

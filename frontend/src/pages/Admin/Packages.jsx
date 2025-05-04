@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import autoTable from 'jspdf-autotable'; // Importing jsPDF and autoTable for PDF generation
 
 const TourPackages = () => {
   const [tourPackages, setTourPackages] = useState([]);

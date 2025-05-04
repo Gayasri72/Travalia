@@ -86,6 +86,12 @@ const Drop = () => {
         alert('Please select a future date and time');
         return;
       }
+      // Validate phone number
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(formData.phone)) {
+        alert('Please enter a valid 10-digit phone number');
+        return;
+      }
 
       const { selectedVehicle, ...otherData } = formData;
       const response = await axios.post('http://localhost:3000/api/drop', {

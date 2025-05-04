@@ -98,10 +98,9 @@ const MyReview = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-10 text-center text-blue-900 tracking-tight drop-shadow-lg font-serif italic">My Reviews</h1>
-      {/* <div className="mb-4 text-xs text-gray-500">
-        Debug: currentUser = {JSON.stringify(currentUser)}
-      </div> */}
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-10 text-center text-blue-900 tracking-tight drop-shadow-lg font-serif italic">
+        My Reviews
+      </h1>
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -109,60 +108,58 @@ const MyReview = () => {
       ) : reviews.length === 0 ? (
         <p>You have not posted any reviews yet.</p>
       ) : (
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {reviews.map((r) => (
             <li
               key={r._id}
-              className="bg-white rounded-lg shadow-md p-4 flex flex-col border border-gray-100 hover:shadow-lg transition-shadow"
+              className="bg-white rounded-2xl shadow-md p-6 flex flex-col gap-2 border border-blue-100 hover:shadow-xl transition-shadow group"
             >
-              <div className="flex items-center mb-2">
-                <span className="font-bold text-gray-800 mr-2">
-                  {r.tour?.name || 'Tour'}
-                </span>
-                <span className="flex text-yellow-500 text-sm">
-                  {Array.from({ length: r.rating }).map((_, i) => (
-                    <FaStar key={i} />
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-full bg-blue-200 flex items-center justify-center text-blue-700 font-bold text-lg">
+                  {/* User initials or avatar */}
+                  {currentUser?.rest?.name?.[0]?.toUpperCase() || 'U'}
+                </div>
+                <div>
+                  <div className="font-semibold text-blue-900">
+                    {currentUser?.rest?.name || 'User'}
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    {new Date(r.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="ml-auto flex gap-1">
+                  {[...Array(r.rating)].map((_, i) => (
+                    <FaStar key={i} className="w-5 h-5 text-yellow-400" />
                   ))}
-                </span>
-                <span className="ml-auto flex gap-2">
-                  <button
-                    onClick={() => handleEdit(r)}
-                    className="text-blue-600 hover:text-blue-800"
-                  >
-                    <FaEdit />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(r._id)}
-                    className="text-red-600 hover:text-red-800"
-                  >
-                    <FaTrash />
-                  </button>
-                </span>
+                </div>
               </div>
               {editingId === r._id ? (
-                <form onSubmit={handleUpdate} className="flex flex-col gap-2">
+                <form
+                  onSubmit={handleUpdate}
+                  className="flex flex-col gap-3 animate-fade-in"
+                >
                   <textarea
                     value={editReview}
                     onChange={(e) => setEditReview(e.target.value)}
-                    className="w-full p-2 rounded border"
+                    className="w-full p-3 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-400 focus:outline-none text-gray-800 bg-blue-50"
                     rows={3}
                     required
                   />
-                  <select
-                    value={editRating}
-                    onChange={(e) => setEditRating(Number(e.target.value))}
-                    className="p-2 rounded border w-32"
-                  >
-                    {[5, 4, 3, 2, 1].map((val) => (
-                      <option key={val} value={val}>
-                        {val} Star{val > 1 && 's'}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-4">
+                    <select
+                      value={editRating}
+                      onChange={(e) => setEditRating(Number(e.target.value))}
+                      className="p-2 rounded-lg border border-blue-200 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-white text-blue-900 font-semibold"
+                    >
+                      {[5, 4, 3, 2, 1].map((val) => (
+                        <option key={val} value={val}>
+                          {val} Star{val > 1 && 's'}
+                        </option>
+                      ))}
+                    </select>
                     <button
                       type="submit"
-                      className="bg-blue-600 text-white px-3 py-1 rounded font-bold hover:bg-blue-700 disabled:opacity-60"
+                      className="bg-blue-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-blue-700 shadow disabled:opacity-60 transition-all"
                       disabled={submitting}
                     >
                       {submitting ? 'Saving...' : 'Save'}
@@ -170,17 +167,33 @@ const MyReview = () => {
                     <button
                       type="button"
                       onClick={() => setEditingId(null)}
-                      className="bg-gray-300 px-3 py-1 rounded font-bold"
+                      className="bg-gray-200 px-5 py-2 rounded-lg font-bold hover:bg-gray-300 text-gray-700 transition-all"
                     >
                       Cancel
                     </button>
                   </div>
                 </form>
               ) : (
-                <p className="text-gray-700 flex-1 mb-2">{r.review}</p>
+                <p className="text-gray-700 text-base mb-2">{r.review}</p>
               )}
-              <div className="text-xs text-gray-400 mt-auto text-right">
-                {new Date(r.createdAt).toLocaleDateString()}
+              <div className="flex gap-2 mt-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  onClick={() => handleEdit(r)}
+                  className="text-blue-600 hover:text-blue-800 p-1 rounded-full bg-blue-50 hover:bg-blue-100 shadow"
+                  title="Edit Review"
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  onClick={() => handleDelete(r._id)}
+                  className="text-red-600 hover:text-red-800 p-1 rounded-full bg-red-50 hover:bg-red-100 shadow"
+                  title="Delete Review"
+                >
+                  <FaTrash />
+                </button>
+              </div>
+              <div className="text-xs text-blue-400 mt-2 italic">
+                {r.tour?.name || 'Tour'}
               </div>
             </li>
           ))}
