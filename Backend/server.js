@@ -15,7 +15,8 @@ mongoose
   .connect(db, {})
   .then(() => console.log('TRAVALIA DB connection successful'));
 
+const host = '0.0.0.0';
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+app.listen(port, host, () => {
   console.log(`TRAVALIA server running on port ${port}...`);
 });

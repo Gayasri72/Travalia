@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Aitours() {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ function Aitours() {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch('http://localhost:3000/api/itineraries', {
+        const res = await fetch(`${API_URL}/itineraries`, {
           credentials: 'include',
         });
         const data = await res.json();
@@ -153,10 +155,30 @@ function Aitours() {
           All Plans in Database
         </h1>
         <div className="flex gap-2 flex-wrap">
-          <button onClick={() => setFilter('all')} className={`px-5 py-2 rounded-lg font-semibold border ${filter==='all'?'bg-blue-700 text-white':'bg-white text-blue-700 border-blue-300'} transition`}>All</button>
-          <button onClick={() => setFilter('today')} className={`px-5 py-2 rounded-lg font-semibold border ${filter==='today'?'bg-blue-700 text-white':'bg-white text-blue-700 border-blue-300'} transition`}>Today</button>
-          <button onClick={() => setFilter('week')} className={`px-5 py-2 rounded-lg font-semibold border ${filter==='week'?'bg-blue-700 text-white':'bg-white text-blue-700 border-blue-300'} transition`}>This Week</button>
-          <button onClick={() => setFilter('month')} className={`px-5 py-2 rounded-lg font-semibold border ${filter==='month'?'bg-blue-700 text-white':'bg-white text-blue-700 border-blue-300'} transition`}>This Month</button>
+          <button
+            onClick={() => setFilter('all')}
+            className={`px-5 py-2 rounded-lg font-semibold border ${filter === 'all' ? 'bg-blue-700 text-white' : 'bg-white text-blue-700 border-blue-300'} transition`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilter('today')}
+            className={`px-5 py-2 rounded-lg font-semibold border ${filter === 'today' ? 'bg-blue-700 text-white' : 'bg-white text-blue-700 border-blue-300'} transition`}
+          >
+            Today
+          </button>
+          <button
+            onClick={() => setFilter('week')}
+            className={`px-5 py-2 rounded-lg font-semibold border ${filter === 'week' ? 'bg-blue-700 text-white' : 'bg-white text-blue-700 border-blue-300'} transition`}
+          >
+            This Week
+          </button>
+          <button
+            onClick={() => setFilter('month')}
+            className={`px-5 py-2 rounded-lg font-semibold border ${filter === 'month' ? 'bg-blue-700 text-white' : 'bg-white text-blue-700 border-blue-300'} transition`}
+          >
+            This Month
+          </button>
         </div>
         <button
           onClick={() => setShowReportModal(true)}
@@ -175,29 +197,55 @@ function Aitours() {
             >
               ×
             </button>
-            <h2 className="text-xl font-bold mb-6 text-blue-700 text-center">Select Data Range</h2>
+            <h2 className="text-xl font-bold mb-6 text-blue-700 text-center">
+              Select Data Range
+            </h2>
             <div className="flex flex-col gap-4">
               <button
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold"
-                onClick={() => { handleDownloadReport(plans); setShowReportModal(false); }}
+                onClick={() => {
+                  handleDownloadReport(plans);
+                  setShowReportModal(false);
+                }}
               >
                 All
               </button>
               <button
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold"
-                onClick={() => { handleDownloadReport(plans.filter(plan => new Date(plan.createdAt) >= startOfToday)); setShowReportModal(false); }}
+                onClick={() => {
+                  handleDownloadReport(
+                    plans.filter(
+                      (plan) => new Date(plan.createdAt) >= startOfToday,
+                    ),
+                  );
+                  setShowReportModal(false);
+                }}
               >
                 Today
               </button>
               <button
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold"
-                onClick={() => { handleDownloadReport(plans.filter(plan => new Date(plan.createdAt) >= startOfWeek)); setShowReportModal(false); }}
+                onClick={() => {
+                  handleDownloadReport(
+                    plans.filter(
+                      (plan) => new Date(plan.createdAt) >= startOfWeek,
+                    ),
+                  );
+                  setShowReportModal(false);
+                }}
               >
                 This Week
               </button>
               <button
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold"
-                onClick={() => { handleDownloadReport(plans.filter(plan => new Date(plan.createdAt) >= startOfMonth)); setShowReportModal(false); }}
+                onClick={() => {
+                  handleDownloadReport(
+                    plans.filter(
+                      (plan) => new Date(plan.createdAt) >= startOfMonth,
+                    ),
+                  );
+                  setShowReportModal(false);
+                }}
               >
                 This Month
               </button>
@@ -206,7 +254,9 @@ function Aitours() {
         </div>
       )}
       {filteredPlans.length === 0 ? (
-        <div className="text-center text-gray-500 text-lg mt-20">No plans found.</div>
+        <div className="text-center text-gray-500 text-lg mt-20">
+          No plans found.
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPlans.map((plan, idx) => (
@@ -220,7 +270,8 @@ function Aitours() {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-blue-800">
-                    Trip: {plan.startDate?.slice(0, 10)} - {plan.endDate?.slice(0, 10)}
+                    Trip: {plan.startDate?.slice(0, 10)} -{' '}
+                    {plan.endDate?.slice(0, 10)}
                   </h2>
                   <p className="text-gray-600 text-sm">
                     User ID: <span className="font-mono">{plan.user}</span>
@@ -229,13 +280,16 @@ function Aitours() {
               </div>
               <div className="space-y-1 text-gray-700 mb-4">
                 <p>
-                  <span className="font-semibold">Starting Point:</span> {plan.startingPoint}
+                  <span className="font-semibold">Starting Point:</span>{' '}
+                  {plan.startingPoint}
                 </p>
                 <p>
-                  <span className="font-semibold">Total Days:</span> {plan.totalDays}
+                  <span className="font-semibold">Total Days:</span>{' '}
+                  {plan.totalDays}
                 </p>
                 <p>
-                  <span className="font-semibold">Travel Mode:</span> {plan.travelMode}
+                  <span className="font-semibold">Travel Mode:</span>{' '}
+                  {plan.travelMode}
                 </p>
               </div>
               <div className="flex gap-2 mt-auto">
@@ -245,7 +299,6 @@ function Aitours() {
                 >
                   View Details
                 </button>
-                
               </div>
             </div>
           ))}
@@ -265,10 +318,13 @@ function Aitours() {
               Trip Details
             </h2>
             <p className="mb-2">
-              <strong>User ID:</strong> <span className="font-mono">{selectedPlan.user}</span>
+              <strong>User ID:</strong>{' '}
+              <span className="font-mono">{selectedPlan.user}</span>
             </p>
             <p className="mb-2">
-              <strong>Trip Dates:</strong> {selectedPlan.startDate?.slice(0, 10)} - {selectedPlan.endDate?.slice(0, 10)}
+              <strong>Trip Dates:</strong>{' '}
+              {selectedPlan.startDate?.slice(0, 10)} -{' '}
+              {selectedPlan.endDate?.slice(0, 10)}
             </p>
             <p className="mb-2">
               <strong>Starting Point:</strong> {selectedPlan.startingPoint}
@@ -283,23 +339,36 @@ function Aitours() {
               <strong>Travel Mode:</strong> {selectedPlan.travelMode}
             </p>
             <p className="mb-2">
-              <strong>Fuel Cost:</strong> <span className="text-green-700 font-bold">Rs {selectedPlan.totalFuelCost}</span>
+              <strong>Fuel Cost:</strong>{' '}
+              <span className="text-green-700 font-bold">
+                Rs {selectedPlan.totalFuelCost}
+              </span>
             </p>
             <p className="mb-2">
-              <strong>Ticket Cost:</strong> <span className="text-green-700 font-bold">Rs {selectedPlan.totalCost}</span>
+              <strong>Ticket Cost:</strong>{' '}
+              <span className="text-green-700 font-bold">
+                Rs {selectedPlan.totalCost}
+              </span>
             </p>
             <div className="mt-4">
               <h3 className="font-semibold mb-2 text-blue-700">Itinerary:</h3>
               <ol className="space-y-2 list-decimal ml-6">
                 {selectedPlan.itinerary.map((day) => (
                   <li key={day.day} className="">
-                    <span className="font-semibold text-blue-600">Day {day.day}:</span>
+                    <span className="font-semibold text-blue-600">
+                      Day {day.day}:
+                    </span>
                     <ul className="ml-4 list-disc text-gray-700">
                       {day.activities.map((act, i) => (
                         <li key={i} className="mb-1">
-                          <span className="font-medium">{act.name}</span> <span className="text-xs text-gray-500">({act.region})</span>
+                          <span className="font-medium">{act.name}</span>{' '}
+                          <span className="text-xs text-gray-500">
+                            ({act.region})
+                          </span>
                           {act.indoorSuggestion && (
-                            <span className="text-blue-500 ml-2 text-xs">(Indoor: {act.indoorSuggestion.name})</span>
+                            <span className="text-blue-500 ml-2 text-xs">
+                              (Indoor: {act.indoorSuggestion.name})
+                            </span>
                           )}
                         </li>
                       ))}

@@ -6,6 +6,8 @@ import {
   HiOutlineExclamationCircle,
 } from 'react-icons/hi';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Booking() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ function Booking() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('http://localhost:3000/api/bookings/user', {
+        const res = await fetch(`${API_URL}/bookings/user`, {
           credentials: 'include', // send cookie for auth
         });
         const data = await res.json();

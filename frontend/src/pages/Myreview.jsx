@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaStar, FaEdit, FaTrash } from 'react-icons/fa';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MyReview = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [reviews, setReviews] = useState([]);
@@ -17,7 +19,7 @@ const MyReview = () => {
       setLoading(true);
       console.log('currentUser:', currentUser); // Debug: log currentUser
       try {
-        const url = `http://localhost:3000/api/users/${currentUser?.rest?._id}/reviews`;
+        const url = `${API_URL}/users/${currentUser?.rest?._id}/reviews`;
         console.log('Fetching:', url); // Debug: log fetch URL
         const res = await fetch(url, {
           credentials: 'include',
@@ -41,7 +43,7 @@ const MyReview = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this review?')) return;
     try {
-      const res = await fetch(`http://localhost:3000/api/reviews/${id}`, {
+      const res = await fetch(`${API_URL}/reviews/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -62,15 +64,12 @@ const MyReview = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/reviews/${editingId}`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ review: editReview, rating: editRating }),
-        },
-      );
+      const res = await fetch(`${API_URL}/reviews/${editingId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ review: editReview, rating: editRating }),
+      });
       const data = await res.json();
       if (!data.success)
         throw new Error(data.message || 'Failed to update review');

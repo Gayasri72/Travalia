@@ -1,4 +1,4 @@
-import { useState,  } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import {
@@ -26,8 +26,10 @@ const defaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = defaultIcon;
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const fetchTour = async (tourId) => {
-  const response = await fetch(`http://localhost:3000/api/tours/${tourId}`);
+  const response = await fetch(`${API_URL}/tours/${tourId}`);
   const data = await response.json();
   if (!data.success) throw new Error('Failed to fetch tour details');
   return data.data.tour;
@@ -51,18 +53,14 @@ const Tour = () => {
   const handleBookNow = async () => {
     setLoadingPayment(true);
     try {
-      const res = await fetch(
-        'http://localhost:3000/api/bookings/create-checkout-session',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            
-          },
-          body: JSON.stringify({ tourId: id }),
-          credentials: 'include',
+      const res = await fetch(`${API_URL}/bookings/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({ tourId: id }),
+        credentials: 'include',
+      });
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
@@ -283,7 +281,6 @@ const Tour = () => {
   );
 };
 
-<TourReviews/>
-
+<TourReviews />;
 
 export default Tour;

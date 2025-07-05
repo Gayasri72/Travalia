@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FaStar, FaTrash, FaUser, FaSearch } from 'react-icons/fa';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AllReview = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const AllReview = () => {
     const fetchAllReviews = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:3000/api/reviews', {
+        const res = await fetch(`${API_URL}/reviews`, {
           credentials: 'include',
         });
         const data = await res.json();
@@ -32,7 +34,7 @@ const AllReview = () => {
     if (!window.confirm('Are you sure you want to delete this review?')) return;
     setDeletingId(id);
     try {
-      const res = await fetch(`http://localhost:3000/api/reviews/${id}`, {
+      const res = await fetch(`${API_URL}/reviews/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AddPackages = () => {
   const [tourData, setTourData] = useState({
     name: '',
@@ -134,7 +136,7 @@ const AddPackages = () => {
         ),
       );
       formData.set('guides', JSON.stringify(tourData.guides)); // <-- Add guides to formData
-      const response = await fetch('http://localhost:3000/api/tours', {
+      const response = await fetch(`${API_URL}/tours`, {
         method: 'POST',
         body: formData,
       });

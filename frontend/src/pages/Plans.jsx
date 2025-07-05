@@ -34,6 +34,8 @@ const getPlanShareText = (plan) => {
   return encodeURIComponent(text);
 };
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Plans() {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,7 +52,7 @@ function Plans() {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch('http://localhost:3000/api/itineraries/user', {
+        const res = await fetch(`${API_URL}/itineraries/user`, {
           credentials: 'include', // send cookies for auth
         });
         const data = await res.json();
@@ -71,7 +73,7 @@ function Plans() {
   // Delete plan function
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/itineraries/${id}`, {
+      const res = await fetch(`${API_URL}/itineraries/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -342,8 +344,11 @@ function Plans() {
                 >
                   <FaWhatsapp className="text-xl" /> Share
                 </button>
-                <Link to='/contact' className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full font-semibold shadow hover:from-blue-600 hover:to-blue-800 transition-all">
-                Contact Us
+                <Link
+                  to="/contact"
+                  className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full font-semibold shadow hover:from-blue-600 hover:to-blue-800 transition-all"
+                >
+                  Contact Us
                 </Link>
               </div>
             </div>

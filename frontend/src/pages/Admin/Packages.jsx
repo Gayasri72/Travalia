@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; // Importing jsPDF and autoTable for PDF generation
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const TourPackages = () => {
   const [tourPackages, setTourPackages] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -12,7 +14,7 @@ const TourPackages = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/tours/admin');
+        const response = await fetch(`${API_URL}/tours/admin`);
         const data = await response.json();
 
         if (Array.isArray(data.data.tours)) {
@@ -31,7 +33,7 @@ const TourPackages = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this package?')) {
       try {
-        const response = await fetch(`http://localhost:3000/api/tours/${id}`, {
+        const response = await fetch(`${API_URL}/tours/${id}`, {
           method: 'DELETE',
         });
 

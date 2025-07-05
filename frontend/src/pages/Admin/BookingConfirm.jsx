@@ -10,6 +10,8 @@ import {
   HiOutlineExclamationCircle,
 } from 'react-icons/hi';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function BookingConfirm() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ function BookingConfirm() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('http://localhost:3000/api/bookings/all', {
+        const res = await fetch(`${API_URL}/bookings/all`, {
           credentials: 'include',
         });
         const data = await res.json();
@@ -40,7 +42,7 @@ function BookingConfirm() {
 
   const handleConfirm = async (bookingId) => {
     try {
-      await fetch(`http://localhost:3000/api/bookings/confirm/${bookingId}`, {
+      await fetch(`${API_URL}/bookings/confirm/${bookingId}`, {
         method: 'PATCH',
         credentials: 'include',
       });
@@ -56,7 +58,7 @@ function BookingConfirm() {
 
   const handleDelete = async (bookingId) => {
     try {
-      await fetch(`http://localhost:3000/api/bookings/${bookingId}`, {
+      await fetch(`${API_URL}/bookings/${bookingId}`, {
         method: 'DELETE',
         credentials: 'include',
       });

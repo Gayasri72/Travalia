@@ -35,6 +35,8 @@ const INTERESTS = [
   { key: 'food', label: 'Food', icon: <FaUtensils /> },
 ];
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CreatePackage = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -528,23 +530,19 @@ const CreatePackage = () => {
                             itinerary: itinerary?.itinerary,
                           });
                           // Save itinerary to backend
-                          await axios.post(
-                            'http://localhost:3000/api/itineraries',
-                            {
-                              interests,
-                              startDate: startDate?.toISOString().slice(0, 10),
-                              endDate: endDate?.toISOString().slice(0, 10),
-                              numPeople,
-                              startingPoint: itinerary?.startingPoint,
-                              totalDays: itinerary?.totalDays,
-                              totalDistance: itinerary?.totalDistance,
-                              travelMode: itinerary?.travelMode,
-                              totalFuelCost: itinerary?.totalFuelCost,
-                              totalCost: itinerary?.totalCost,
-                              itinerary: itinerary?.itinerary,
-                            },
-                            { withCredentials: true },
-                          );
+                          await axios.post(`${API_URL}/itineraries`, {
+                            interests,
+                            startDate: startDate?.toISOString().slice(0, 10),
+                            endDate: endDate?.toISOString().slice(0, 10),
+                            numPeople,
+                            startingPoint: itinerary?.startingPoint,
+                            totalDays: itinerary?.totalDays,
+                            totalDistance: itinerary?.totalDistance,
+                            travelMode: itinerary?.travelMode,
+                            totalFuelCost: itinerary?.totalFuelCost,
+                            totalCost: itinerary?.totalCost,
+                            itinerary: itinerary?.itinerary,
+                          });
                           setConfirmedItinerary(itinerary);
                           setShowModal(false);
                           setIsEditing(false);

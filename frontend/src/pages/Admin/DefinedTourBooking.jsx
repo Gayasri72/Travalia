@@ -26,6 +26,8 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // Helper to filter bookings by date range
 const filterByDateRange = (bookings, range) => {
   const now = new Date();
@@ -79,7 +81,7 @@ function DefinedTourBooking() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('http://localhost:3000/api/bookings/all', {
+        const res = await fetch(`${API_URL}/bookings/all`, {
           credentials: 'include',
         });
         const data = await res.json();
@@ -110,7 +112,7 @@ function DefinedTourBooking() {
         Price: b.price,
         Status: b.status,
         ConfirmedOn: new Date(b.updatedAt).toLocaleString(),
-      }))
+      })),
     );
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, `tour-bookings-${range}.csv`);
@@ -123,7 +125,9 @@ function DefinedTourBooking() {
     doc.text(`Tour Bookings Report (${range})`, 14, 14);
     if (filtered.length > 0) {
       autoTable(doc, {
-        head: [['Username', 'Email', 'Tour', 'Price', 'Status', 'Confirmed On']],
+        head: [
+          ['Username', 'Email', 'Tour', 'Price', 'Status', 'Confirmed On'],
+        ],
         body: filtered.map((b) => [
           b.user?.username || '',
           b.user?.email || '',
@@ -199,7 +203,10 @@ function DefinedTourBooking() {
   return (
     <div className="max-w-6xl mx-auto p-6 min-h-screen bg-gradient-to-br from-blue-50 to-white font-sans">
       {/* Export Dialog */}
-      <Dialog open={exportDialogOpen} onClose={() => setExportDialogOpen(false)}>
+      <Dialog
+        open={exportDialogOpen}
+        onClose={() => setExportDialogOpen(false)}
+      >
         <DialogTitle>Export Bookings Report</DialogTitle>
         <DialogContent>
           <FormControl fullWidth sx={{ mt: 2 }}>
