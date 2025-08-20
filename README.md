@@ -105,15 +105,32 @@ Travalia/
 
 ## Contributors
 
-1.Authentication & Profile Management-IT22031266-Kavindu Theekshana
-2.Package Management-IT22892812-Janindu Jayasundara
-3.Booking managemnt & itinerary Generation-IT22031266-Gayasri pethum
-4.Hire management-IT22324238-Malitha Parikalpa
+1. Authentication & Profile Management-IT22031266-Kavindu Theekshana
+2. Package Management-IT22892812-Janindu Jayasundara
+3. Booking management & itinerary Generation-IT22031266-Gayasri pethum
+4.  Hire management-IT22324238-Malitha Parikalpa
 
 ## Contributing
+-Create project setup using Node.js, React and MongoDB
+-Implement the following pages
+         *home page
+         *Tours page
+         *Tour details page
+         *Itinerary generating page
+         *gallery page
+         *Admin side pages
 
+-Implement special function-generated itineraries based on user preferences
+-Implement CRUD operation for Tours
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
+
+## screenshots<img width="1275" height="853" alt="Screenshot 2025-08-20 164404" src="https://github.com/user-attachments/assets/0373cb68-16c4-4de9-9625-b2af6fe60351" />
+
+![Uploading Screenshot 2025-08-20 164348.png…]()
+
+
+
 
 This project is licensed under the MIT License.
